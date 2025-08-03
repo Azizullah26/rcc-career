@@ -1,0 +1,116 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button } from "../../components/ui/button";
+
+export const Careers = (): JSX.Element => {
+  // Navigation menu items
+  const navItems = [
+    { label: "HOME", href: "#" },
+    { label: "PROJECTS", href: "#" },
+    { label: "BLOGS", href: "#" },
+    { label: "CONTACTS", href: "#" },
+    { label: "CAREERS", href: "#", active: true },
+  ];
+
+  return (
+    <div className="bg-white flex-row justify-center w-full flex">
+      <div className="bg-white w-full max-w-[1280px] relative">
+        {/* Header/Navigation */}
+        <header className="h-[91px] w-full bg-white flex items-center justify-between px-[103px]">
+          <img
+            className="w-[150px] h-[68px]"
+            alt="EL RACE Logo"
+            src="/pre-comp-2-1.svg"
+          />
+
+          <div className="flex items-center justify-between gap-10">
+            <nav className="flex items-center gap-[34px]">
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.href}
+                  className={`[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18.7px] tracking-[0] leading-normal whitespace-nowrap transition-colors ${
+                    item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-[29px]">
+              <Button
+                variant="outline"
+                className="flex items-center gap-[5px] h-[39px] w-[104px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+              >
+                <img
+                  className="w-[23px] h-[23px]"
+                  alt="Log in"
+                  src="/log-in.svg"
+                />
+                <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[19.7px] hover:text-white transition-colors">
+                  Sign in
+                </span>
+              </Button>
+
+              <Button
+                variant="outline"
+                className="flex items-center gap-[5px] h-[39px] w-[104px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+              >
+                <img
+                  className="w-[21.69px] h-[21.69px]"
+                  alt="Language"
+                  src="/language.svg"
+                />
+                <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-normal whitespace-nowrap [direction:rtl] hover:text-white transition-colors">
+                  العربيــة
+                </span>
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        {/* Hero Section */}
+        <section className="relative h-60 w-full">
+          <div className="h-60 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
+            <div className="h-60 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
+              <h1 className="absolute top-[26px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[42.9px] tracking-[0] leading-normal">
+                <span>EL RACE</span>
+                <span className="text-[48.1px]">&nbsp;</span>
+                <span>CAREERS</span>
+              </h1>
+
+              <p className="absolute w-[1056px] top-[102px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[19.7px] text-justify tracking-[0] leading-normal">
+                EL RACE&nbsp;&nbsp;is a well-established local company with over
+                40 years of experience, known for delivering major government
+                projects with excellence and reliability. We take pride in our
+                talented and dedicated team, and we&apos;re always looking for
+                passionate individuals to join our growing family. At EL RACE ,
+                you&#39;ll find a supportive work environment, real
+                opportunities for growth, and a chance to be part of something
+                meaningful.
+              </p>
+            </div>
+            <div className="h-[17px] bottom-0 absolute w-full bg-[#9e3442]" />
+          </div>
+        </section>
+
+        {/* Call to Action Button */}
+        <div className="flex justify-center mt-[90px]">
+          <Link to="/search-careers">
+            <Button className="w-[286px] h-[54px] bg-[#151d61] rounded-[11px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[25.1px] text-justify tracking-[0] leading-normal hover:bg-[#1a2470] transition-colors">
+              Explore Opportunities
+            </Button>
+          </Link>
+        </div>
+
+        {/* Bottom Image */}
+        <img
+          className="w-full h-[539px] mt-[87px] object-cover"
+          alt="Construction site"
+          src="/image-2.png"
+        />
+      </div>
+    </div>
+  );
+};
