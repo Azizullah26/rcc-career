@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Next.js
+.next/
+out/
+
+# Remove old src files that might conflict
+src/index.css
+src/main.tsx
+src/App.tsx

@@ -9,7 +9,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@hookform/resolvers": "3.3.2",
     "@radix-ui/react-label": "latest",
     "@radix-ui/react-navigation-menu": "latest",
     "@radix-ui/react-select": "latest",
@@ -39,8 +38,7 @@
     "terser": "latest",
     "tsx": "latest",
     "vite": "latest",
-    "yaml": "latest",
-    "zod": "3.22.4"
+    "yaml": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

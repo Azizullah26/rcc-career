@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import "../src/index.css"
+import "./globals.css"
 
 export const metadata: Metadata = {
   title: "RCC Career Portal - EL RACE Careers",
