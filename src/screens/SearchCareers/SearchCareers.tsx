@@ -2,22 +2,10 @@
 
 import { SearchIcon, Menu, X } from "lucide-react"
 import React from "react"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 import { Button } from "../../components/ui/button"
-import { Separator } from "../../components/ui/separator" // Import Separator component
-
-// Card Component
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode
-}
-
-const Card: React.FC<CardProps> = ({ className = "", children, ...props }) => {
-  return (
-    <div className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`} {...props}>
-      {children}
-    </div>
-  )
-}
+import { Separator } from "../../components/ui/separator"
+import { Card } from "./Card" // Import Card component
 
 // Main Component
 export const SearchCareers = (): JSX.Element => {
@@ -48,7 +36,7 @@ export const SearchCareers = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className={`[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap ${
                       item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
                     } transition-colors`}
@@ -98,7 +86,7 @@ export const SearchCareers = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className={`py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18px] transition-colors ${
                       item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
                     }`}
@@ -198,7 +186,7 @@ export const SearchCareers = (): JSX.Element => {
                     Job title
                   </span>
                 </div>
-                <Separator orientation="horizontal" className="h-0.5 bg-[#6b6b6b]" /> // Use Separator component
+                <Separator orientation="horizontal" className="h-0.5 bg-[#6b6b6b]" />
                 <div className="flex flex-col px-[20px] py-[20px]">
                   <div className="flex items-center justify-between">
                     <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[16px] text-center">
@@ -212,7 +200,7 @@ export const SearchCareers = (): JSX.Element => {
                     City
                   </span>
                 </div>
-                <Link to="/explore-opportunities" className="w-full">
+                <Link href="/explore-opportunities" className="w-full">
                   <Button className="w-full h-[60px] rounded-none bg-[#e6e6e6] border-t-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors">
                     <SearchIcon className="w-[32px] h-[32px] text-black" />
                   </Button>
@@ -231,7 +219,7 @@ export const SearchCareers = (): JSX.Element => {
                     Job title
                   </span>
                 </div>
-                <Separator orientation="vertical" className="h-[62px] w-0.5 bg-[#6b6b6b]" /> // Use Separator component
+                <Separator orientation="vertical" className="h-[62px] w-0.5 bg-[#6b6b6b]" />
                 <div className="flex flex-col px-[35px] py-[35px] flex-1">
                   <div className="flex items-center justify-between">
                     <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] text-center">
@@ -247,7 +235,7 @@ export const SearchCareers = (): JSX.Element => {
                 </div>
               </div>
 
-              <Link to="/explore-opportunities" className="w-[156px] h-full">
+              <Link href="/explore-opportunities" className="w-[156px] h-full">
                 <Button className="w-full h-full rounded-[0px_9px_9px_0px] bg-[#e6e6e6] border-l-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors">
                   <SearchIcon className="w-[38px] h-[38px] text-black" />
                 </Button>
@@ -257,7 +245,7 @@ export const SearchCareers = (): JSX.Element => {
 
           {/* Navigation to Explore Opportunities */}
           <div className="flex justify-center mt-[40px] md:mt-[60px] mb-[40px] md:mb-[60px]">
-            <Link to="/explore-opportunities">
+            <Link href="/explore-opportunities">
               <Button className="bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
                 View All Opportunities
               </Button>
@@ -285,7 +273,7 @@ export const SearchCareers = (): JSX.Element => {
               <ul className="space-y-2">
                 <li>
                   <Link
-                    to="/"
+                    href="/"
                     className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Home

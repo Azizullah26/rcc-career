@@ -2,7 +2,8 @@
 
 import { LogInIcon, ArrowLeft, Menu, X } from "lucide-react"
 import React, { useState } from "react"
-import { useNavigate, useParams, Link } from "react-router-dom"
+import { useRouter, useParams } from "next/navigation"
+import Link from "next/link"
 import { cn } from "../../lib/utils"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -96,12 +97,12 @@ const ToggleGroupItem = React.forwardRef<
 ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName
 
 export const ExtendedApplicationQuestions = (): JSX.Element => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
 
   // State for form data
   const [previousWork, setPreviousWork] = useState("")
-  const [workDetails, setWorkDetails] = useState("") // Fixed undeclared variable
+  const [workDetails, setWorkDetails] = useState("")
   const [relativesOrFriends, setRelativesOrFriends] = useState("")
   const [names, setNames] = useState("")
   const [selectedRelationships, setSelectedRelationships] = useState<string[]>([])
@@ -134,7 +135,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
       selectedRelationships,
     }
     console.log("Extended application questions submitted:", formData)
-    navigate(`/add-experience/${jobId}`)
+    router.push(`/add-experience/${jobId}`)
   }
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -147,7 +148,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
           <div className="flex items-center">
             <img className="w-[120px] h-[54px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
               className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
             >
               <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
@@ -161,7 +162,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
               {navItems.map((item, index) => (
                 <Link
                   key={index}
-                  to={item.href}
+                  href={item.href}
                   className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
                 >
                   {item.name}
@@ -204,7 +205,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -345,7 +346,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
           <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-[90px] mt-[30px] md:mt-[40px]">
             <Button
               variant="outline"
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
               className="w-full md:w-[138px] h-[50px] md:h-[60px] bg-[#d9d9d9] rounded-[38.79px] [font-family:'Inter',Helvetica] font-medium text-black text-[24px] md:text-[32.2px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
             >
               Cancel

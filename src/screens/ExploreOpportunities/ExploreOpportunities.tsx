@@ -12,9 +12,11 @@ import {
   X,
 } from "lucide-react"
 import React, { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
+import { Separator } from "../../components/ui/separator" // Import Separator component
 
 // Card Component
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -54,54 +56,8 @@ const Input: React.FC<InputProps> = ({ className = "", ...props }) => {
   )
 }
 
-// Separator Component
-interface SeparatorProps {
-  orientation?: "horizontal" | "vertical"
-  className?: string
-}
-
-const Separator: React.FC<SeparatorProps> = ({ orientation = "horizontal", className = "" }) => {
-  return (
-    <div
-      className={`shrink-0 bg-border ${
-        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]"
-      } ${className}`}
-    />
-  )
-}
-
-// ToggleGroup Components
-interface ToggleGroupProps {
-  type: "single" | "multiple"
-  defaultValue?: string
-  className?: string
-  children: React.ReactNode
-}
-
-const ToggleGroup: React.FC<ToggleGroupProps> = ({ className = "", children, ...props }) => {
-  return (
-    <div className={`inline-flex ${className}`} {...props}>
-      {children}
-    </div>
-  )
-}
-
-interface ToggleGroupItemProps {
-  value: string
-  className?: string
-  children: React.ReactNode
-}
-
-const ToggleGroupItem: React.FC<ToggleGroupItemProps> = ({ className = "", children, ...props }) => {
-  return (
-    <button className={`inline-flex items-center justify-center ${className}`} {...props}>
-      {children}
-    </button>
-  )
-}
-
 export const ExploreOpportunities = (): JSX.Element => {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   // State for filters
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
@@ -210,7 +166,7 @@ export const ExploreOpportunities = (): JSX.Element => {
   ]
 
   const handleJobClick = (jobId: number) => {
-    navigate(`/job-details/${jobId}`)
+    router.push(`/job-details/${jobId}`)
   }
 
   // Filter and sort jobs based on current filters
@@ -262,7 +218,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#151d61] transition-colors"
                   >
                     {item.label}
@@ -310,7 +266,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -348,7 +304,7 @@ export const ExploreOpportunities = (): JSX.Element => {
             <div className="h-32 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
               <div className="absolute top-4 md:top-6 left-4 md:left-[103px]">
                 <Link
-                  to="/search-careers"
+                  href="/search-careers"
                   className="flex items-center gap-2 md:gap-3 text-white hover:text-gray-200 transition-colors"
                 >
                   <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
@@ -389,9 +345,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       placeholder="Job title, skill, keyword"
                     />
                   </div>
-
-                  <Separator orientation="horizontal" className="h-[1px]" />
-
+                  <Separator orientation="horizontal" className="h-[1px]" /> // Use Separator component
                   <div className="flex flex-col px-[20px] py-[20px]">
                     <div className="flex items-center justify-between">
                       <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
@@ -410,7 +364,6 @@ export const ExploreOpportunities = (): JSX.Element => {
                       </SelectContent>
                     </Select>
                   </div>
-
                   <Button
                     onClick={() => {
                       console.log("Search triggered with:", { searchTerm, selectedLocation })
@@ -436,9 +389,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                     placeholder="Job title, skill, keyword"
                   />
                 </div>
-
-                <Separator orientation="vertical" className="h-[62px] my-auto" />
-
+                <Separator orientation="vertical" className="h-[62px] my-auto" /> // Use Separator component
                 <div className="flex-1 flex flex-col justify-center px-[35px]">
                   <div className="flex items-center justify-between">
                     <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
@@ -457,7 +408,6 @@ export const ExploreOpportunities = (): JSX.Element => {
                     </SelectContent>
                   </Select>
                 </div>
-
                 <Button
                   onClick={() => {
                     console.log("Search triggered with:", { searchTerm, selectedLocation })
@@ -588,7 +538,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               <ul className="space-y-2">
                 <li>
                   <Link
-                    to="/"
+                    href="/"
                     className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Home

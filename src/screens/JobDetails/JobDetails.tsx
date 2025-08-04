@@ -2,14 +2,15 @@
 
 import { LogInIcon, ArrowLeft, Menu, X } from "lucide-react"
 import React from "react"
-import { Link, useParams, useNavigate } from "react-router-dom"
+import Link from "next/link"
+import { useParams, useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
-import { Card, CardContent } from "./components/Card" // Ensure Card and CardContent are imported
+import { Card, CardContent } from "../../components/ui/card"
 
 // JobDetails Component
 export const JobDetails = (): JSX.Element => {
   const { jobId } = useParams<{ jobId: string }>()
-  const navigate = useNavigate()
+  const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
   // Navigation menu items
@@ -148,7 +149,7 @@ export const JobDetails = (): JSX.Element => {
             <div className="flex items-center">
               <img className="w-[120px] h-[54px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => router.back()}
                 className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
@@ -162,7 +163,7 @@ export const JobDetails = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <li key={index} className="inline-flex items-center justify-center">
                     <Link
-                      to={item.href}
+                      href={item.href}
                       className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
                     >
                       {item.name}
@@ -211,7 +212,7 @@ export const JobDetails = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -246,7 +247,7 @@ export const JobDetails = (): JSX.Element => {
         {/* Back Button */}
         <div className="absolute top-[100px] left-4 md:left-[85px]">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => router.back()}
             className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
           >
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
@@ -302,7 +303,7 @@ export const JobDetails = (): JSX.Element => {
             {/* Apply Button */}
             <div className="flex justify-center mt-6 md:mt-8">
               <Button
-                onClick={() => navigate(`/job-application/${jobId}`)}
+                onClick={() => router.push(`/job-application/${jobId}`)}
                 className="w-[180px] md:w-[207px] h-[55px] md:h-[67px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[28px] md:text-[36.6px] hover:bg-[#1a2470] transition-colors"
               >
                 Apply

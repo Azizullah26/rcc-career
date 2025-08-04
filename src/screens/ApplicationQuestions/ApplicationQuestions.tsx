@@ -4,14 +4,14 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { useNavigate, useParams } from "react-router-dom"
+import { useRouter, useParams } from "next/navigation"
 import { ArrowLeft, LogInIcon, Menu, X } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Form, FormControl, FormField, FormItem } from "../../components/ui/form"
 import { Label } from "../../components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "../../components/ui/toggle-group"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 
 // Define the form schema
 const formSchema = z.object({
@@ -22,7 +22,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 export const ApplicationQuestions = (): JSX.Element => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
@@ -48,7 +48,7 @@ export const ApplicationQuestions = (): JSX.Element => {
   const onSubmit = (data: FormData) => {
     console.log("Application questions submitted:", data)
     // Navigate to extended application questions page
-    navigate(`/extended-application-questions/${jobId}`)
+    router.push(`/extended-application-questions/${jobId}`)
   }
 
   return (
@@ -61,7 +61,7 @@ export const ApplicationQuestions = (): JSX.Element => {
             <div className="flex items-center">
               <img className="w-[120px] h-[54px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => router.back()}
                 className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
@@ -75,7 +75,7 @@ export const ApplicationQuestions = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <li key={index} className="inline-flex items-center justify-center">
                     <Link
-                      to={item.href}
+                      href={item.href}
                       className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
                     >
                       {item.name}
@@ -124,7 +124,7 @@ export const ApplicationQuestions = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -161,7 +161,7 @@ export const ApplicationQuestions = (): JSX.Element => {
           {/* Back Button */}
           <div className="mb-6">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => router.back()}
               className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
             >
               <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
@@ -253,7 +253,7 @@ export const ApplicationQuestions = (): JSX.Element => {
               <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[90px] my-12 md:my-16">
                 <Button
                   type="button"
-                  onClick={() => navigate(-1)}
+                  onClick={() => router.back()}
                   variant="outline"
                   className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-black text-[24px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors border-[#d9d9d9] order-2 md:order-1"
                 >
