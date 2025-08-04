@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 import { Button } from "../../components/ui/button"
 import {
   NavigationMenu,
@@ -31,7 +31,7 @@ export const ApplicationSuccess = (): JSX.Element => {
         <header className="absolute w-full h-[91px] top-0 left-0 bg-white">
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
-            <Link to="/">
+            <Link href="/">
               <img
                 className="w-[120px] h-[54px] md:w-[150px] md:h-[68px] cursor-pointer hover:opacity-80 transition-opacity"
                 alt="Company logo"
@@ -161,7 +161,7 @@ export const ApplicationSuccess = (): JSX.Element => {
 
           {/* Return to Home Button */}
           <div className="mt-[30px] md:mt-[40px]">
-            <Link to="/">
+            <Link href="/">
               <Button className="w-[180px] md:w-[200px] h-[45px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
                 Return to Home
               </Button>

@@ -3,14 +3,15 @@
 import { LogInIcon, ArrowLeft, PlusIcon, Menu, X } from "lucide-react"
 import type React from "react"
 import { useState } from "react"
-import { useNavigate, useParams, Link } from "react-router-dom"
+import { useRouter, useParams } from "next/navigation"
+import Link from "next/link"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import type { JSX } from "react"
 
 export const AddExperience = (): JSX.Element => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
 
   // State for managing experience cards
@@ -69,7 +70,7 @@ export const AddExperience = (): JSX.Element => {
     if (uploadedFile) {
       console.log("CV file:", uploadedFile.name)
     }
-    navigate("/application-success")
+    router.push("/application-success")
   }
 
   return (
@@ -82,7 +83,7 @@ export const AddExperience = (): JSX.Element => {
             <div className="flex items-center">
               <img className="w-[120px] h-[54px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => router.back()}
                 className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
@@ -96,7 +97,7 @@ export const AddExperience = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <li key={index} className="inline-flex items-center justify-center">
                     <Link
-                      to={item.href}
+                      href={item.href}
                       className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
                     >
                       {item.name}
@@ -145,7 +146,7 @@ export const AddExperience = (): JSX.Element => {
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
