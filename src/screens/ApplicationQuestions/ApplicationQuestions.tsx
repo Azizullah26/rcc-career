@@ -8,7 +8,6 @@ import { Card, CardContent } from "../../components/ui/card"
 import { Label } from "../../components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "../../components/ui/toggle-group"
 import Link from "next/link"
-import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
 
 export const ApplicationQuestions = (): JSX.Element => {
   const router = useRouter()

@@ -21,7 +21,7 @@ import { Button } from "../../components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import { Separator } from "../../components/ui/separator"
 import { Label } from "../../components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "../../components/ui/textarea"
 
 // Card Component
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -429,7 +429,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       </div>
                       <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                     </div>
-                    <Select>
+                    <Select value={selectedLocation} onValueChange={setSelectedLocation}>
                       <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[16px] sm:text-[20px] tracking-[0] focus-visible:ring-0 bg-transparent">
                         <SelectValue placeholder="City" />
                       </SelectTrigger>
@@ -473,7 +473,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                     </div>
                     <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                   </div>
-                  <Select>
+                  <Select value={selectedLocation} onValueChange={setSelectedLocation}>
                     <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[22px] md:text-[25.9px] tracking-[0] focus-visible:ring-0 bg-transparent">
                       <SelectValue placeholder="City" />
                     </SelectTrigger>
