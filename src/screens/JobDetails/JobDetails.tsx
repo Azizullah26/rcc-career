@@ -152,36 +152,35 @@ export const JobDetails = (): JSX.Element => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center justify-between">
-              <ul className="flex items-center gap-[34px] mx-[29px] ml-[3px]">
+              <nav className="flex items-center gap-[20px] md:gap-[34px]">
                 {navItems.map((item, index) => (
-                  <li key={index} className="inline-flex items-center justify-center">
-                    <Link
-                      href={item.href}
-                      className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
+                  >
+                    {item.name}
+                  </Link>
                 ))}
-              </ul>
+              </nav>
 
               <div className="flex items-center gap-[29px] ml-[60px]">
                 <Button
                   variant="outline"
-                  className="h-[39px] w-[104px] rounded-[9px] border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
+                  className="h-[35px] md:h-[39px] w-[90px] md:w-[104px] rounded-[9px] border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
                 >
-                  <LogInIcon className="w-[23px] h-[23px] mr-[5px]" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[19.7px]">
+                  <LogInIcon className="w-[18px] md:w-[23px] h-[18px] md:h-[23px] mr-[3px] md:mr-[5px]" />
+                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[16px] md:text-[19.7px]">
                     Sign in
                   </span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="h-[39px] w-[104px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                  className="h-[35px] md:h-[39px] w-[90px] md:w-[104px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                 >
-                  <img className="w-[21.69px] h-[21.69px] mr-[5px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
+                  <img className="w-[18px] md:w-[21.69px] h-[18px] md:h-[21.69px] mr-[3px] md:mr-[5px]" alt="Language" src="/language.svg" />
+                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[14px] md:text-[16px] [direction:rtl]">
                     العربيــة
                   </span>
                 </Button>
