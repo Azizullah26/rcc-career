@@ -356,13 +356,14 @@ export const ExploreOpportunities = (): JSX.Element => {
                     />
                   </div>
                   <Separator orientation="horizontal" className="h-[1px]" />
+                  <div className="flex flex-col px-4 py-4">
                     <div className="flex items-center justify-between">
                       <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
                         NEAR LOCATIONS
                       </div>
                       <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                     </div>
-                    <Select>
+                    <Select value={selectedLocation} onValueChange={setSelectedLocation}>
                       <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] focus-visible:ring-0 bg-transparent">
                         <SelectValue placeholder="City" />
                       </SelectTrigger>
@@ -399,13 +400,14 @@ export const ExploreOpportunities = (): JSX.Element => {
                   />
                 </div>
                 <Separator orientation="vertical" className="h-[62px] my-auto" />
+                <div className="flex-1 flex flex-col justify-center px-[35px]">
                   <div className="flex items-center justify-between">
                     <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
                       NEAR LOCATIONS
                     </div>
                     <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                   </div>
-                  <Select>
+                  <Select value={selectedLocation} onValueChange={setSelectedLocation}>
                     <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[25.9px] tracking-[0] focus-visible:ring-0 bg-transparent">
                       <SelectValue placeholder="City" />
                     </SelectTrigger>
