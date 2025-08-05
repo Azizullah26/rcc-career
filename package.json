@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "latest",
     "@radix-ui/react-navigation-menu": "latest",
     "@radix-ui/react-select": "latest",

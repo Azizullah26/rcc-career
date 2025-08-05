@@ -569,20 +569,20 @@ export const ExploreOpportunities = (): JSX.Element => {
               mind for future opportunities.
             </p>
             
-            <Dialog open={isResumePopupOpen} onOpenChange={setIsResumePopupOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
+            <Button 
+              onClick={() => setIsResumePopupOpen(true)}
+              className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors"
+            >
+              Submit Your Resume
+            </Button>
+            
+            <Modal isOpen={isResumePopupOpen} onClose={() => setIsResumePopupOpen(false)}>
+              <div className="p-6 md:p-8">
+                <h2 className="text-[#151d61] text-[20px] md:text-[24px] font-bold text-center mb-6">
                   Submit Your Resume
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="text-[#151d61] text-[24px] font-bold text-center mb-4">
-                    Submit Your Resume
-                  </DialogTitle>
-                </DialogHeader>
+                </h2>
                 
-                <form onSubmit={handleResumeSubmit} className="space-y-6">
+                <form onSubmit={handleResumeSubmit} className="space-y-4 md:space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="fullName" className="text-[16px] font-semibold text-black">
@@ -593,7 +593,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         type="text"
                         value={resumeForm.fullName}
                         onChange={(e) => handleResumeFormChange("fullName", e.target.value)}
-                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        className="h-10 md:h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
                         placeholder="Enter your full name"
                         required
                       />
@@ -608,7 +608,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         type="email"
                         value={resumeForm.email}
                         onChange={(e) => handleResumeFormChange("email", e.target.value)}
-                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        className="h-10 md:h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
                         placeholder="Enter your email"
                         required
                       />
@@ -625,7 +625,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         type="tel"
                         value={resumeForm.phone}
                         onChange={(e) => handleResumeFormChange("phone", e.target.value)}
-                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        className="h-10 md:h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
                         placeholder="Enter your phone number"
                         required
                       />
@@ -640,7 +640,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         type="text"
                         value={resumeForm.position}
                         onChange={(e) => handleResumeFormChange("position", e.target.value)}
-                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        className="h-10 md:h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
                         placeholder="e.g., Civil Engineer, Project Manager"
                       />
                     </div>
@@ -651,7 +651,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       Years of Experience
                     </Label>
                     <Select onValueChange={(value) => handleResumeFormChange("experience", value)}>
-                      <SelectTrigger className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]">
+                      <SelectTrigger className="h-10 md:h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]">
                         <SelectValue placeholder="Select your experience level" />
                       </SelectTrigger>
                       <SelectContent>
@@ -699,7 +699,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         type="button"
                         onClick={() => document.getElementById("resume")?.click()}
                         variant="outline"
-                        className="w-full h-12 rounded-lg border-2 border-dashed border-gray-300 hover:border-[#151d61] flex items-center justify-center gap-2"
+                        className="w-full h-10 md:h-12 rounded-lg border-2 border-dashed border-gray-300 hover:border-[#151d61] flex items-center justify-center gap-2"
                       >
                         {resumeForm.resume ? (
                           <>
@@ -709,7 +709,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         ) : (
                           <>
                             <Upload className="w-5 h-5 text-gray-500" />
-                            <span className="text-gray-500">Click to upload your resume (PDF, DOC, DOCX)</span>
+                            <span className="text-gray-500 text-sm md:text-base">Click to upload your resume (PDF, DOC, DOCX)</span>
                           </>
                         )}
                       </Button>
@@ -721,20 +721,20 @@ export const ExploreOpportunities = (): JSX.Element => {
                       type="button"
                       variant="outline"
                       onClick={() => setIsResumePopupOpen(false)}
-                      className="flex-1 h-12 rounded-lg border-2 border-gray-300 hover:bg-gray-50"
+                      className="flex-1 h-10 md:h-12 rounded-lg border-2 border-gray-300 hover:bg-gray-50"
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
-                      className="flex-1 h-12 rounded-lg bg-[#151d61] hover:bg-[#1a2470] text-white font-semibold"
+                      className="flex-1 h-10 md:h-12 rounded-lg bg-[#151d61] hover:bg-[#1a2470] text-white font-semibold"
                     >
                       Submit Resume
                     </Button>
                   </div>
                 </form>
-              </DialogContent>
-            </Dialog>
+              </div>
+            </Modal>
           </div>
         </section>
 
