@@ -159,7 +159,7 @@ export const JobDetails = (): JSX.Element => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center justify-between">
-              <ul className="flex items-center gap-[34px] mr-[29px]">
+              <ul className="flex items-center gap-[34px] mx-[29px] ml-[3px]">
                 {navItems.map((item, index) => (
                   <li key={index} className="inline-flex items-center justify-center">
                     <Link
