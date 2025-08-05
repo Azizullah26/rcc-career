@@ -27,7 +27,7 @@ export const JobDetails = (): JSX.Element => {
   const jobData = {
     1: {
       title: "Senior Civil Engineer",
-      location: "Cairo, Egypt",
+      location: "Abu Dhabi, UAE",
       department: "Engineering",
       type: "Full-time",
       experience: "5+ years",
@@ -49,7 +49,7 @@ export const JobDetails = (): JSX.Element => {
     },
     2: {
       title: "Project Manager",
-      location: "Alexandria, Egypt",
+      location: "Dubai, UAE",
       department: "Operations",
       type: "Full-time",
       experience: "7+ years",
@@ -71,7 +71,7 @@ export const JobDetails = (): JSX.Element => {
     },
     3: {
       title: "Construction Supervisor",
-      location: "Giza, Egypt",
+      location: "Al Ain, UAE",
       department: "Construction",
       type: "Full-time",
       experience: "3+ years",
@@ -93,7 +93,7 @@ export const JobDetails = (): JSX.Element => {
     },
     4: {
       title: "Quality Control Engineer",
-      location: "Cairo, Egypt",
+      location: "Dubai, UAE",
       department: "Quality Assurance",
       type: "Full-time",
       experience: "4+ years",
@@ -115,7 +115,7 @@ export const JobDetails = (): JSX.Element => {
     },
     5: {
       title: "Safety Officer",
-      location: "Cairo, Egypt",
+      location: "Abu Dhabi, UAE",
       department: "Health & Safety",
       type: "Full-time",
       experience: "3+ years",
