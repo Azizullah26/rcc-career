@@ -77,12 +77,12 @@ export const Careers = (): JSX.Element => {
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-            <nav className="flex flex-col p-4">
+            <nav className="flex flex-wrap items-center justify-center gap-4 p-4">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className={`py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[16px] md:text-[18px] transition-colors ${
+                  className={`py-2 px-3 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[14px] md:text-[16px] transition-colors ${
                     item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -90,22 +90,22 @@ export const Careers = (): JSX.Element => {
                   {item.label}
                 </Link>
               ))}
-              <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
+              <div className="flex flex-wrap items-center justify-center gap-3 w-full mt-4 pt-4 border-t border-gray-200">
                 <Button
                   variant="outline"
-                  className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+                  className="flex items-center justify-center gap-2 h-[40px] px-4 rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                 >
-                  <img className="w-[20px] h-[20px]" alt="Log in" src="/log-in.svg" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
+                  <img className="w-[18px] h-[18px]" alt="Log in" src="/log-in.svg" />
+                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[14px]">
                     Sign in
                   </span>
                 </Button>
                 <Button
                   variant="outline"
-                  className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                  className="flex items-center justify-center gap-2 h-[40px] px-4 rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                 >
-                  <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
+                  <img className="w-[16px] h-[16px]" alt="Language" src="/language.svg" />
+                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[14px] [direction:rtl]">
                     العربيــة
                   </span>
                 </Button>
