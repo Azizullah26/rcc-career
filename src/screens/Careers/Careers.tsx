@@ -11,10 +11,10 @@ export const Careers = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { label: "HOME", href: "#" },
-    { label: "PROJECTS", href: "#" },
-    { label: "BLOGS", href: "#" },
-    { label: "CONTACTS", href: "#" },
+    { label: "HOME", href: "https://elrace.com/" },
+    { label: "PROJECTS", href: "https://elrace.com/projects" },
+    { label: "BLOGS", href: "https://elrace.com/blogs" },
+    { label: "CONTACTS", href: "https://elrace.com/contact" },
     { label: "CAREERS", href: "#", active: true },
   ]
 
@@ -43,6 +43,7 @@ export const Careers = (): JSX.Element => {
 
             <div className="flex items-center gap-[29px]">
               <Button
+                onClick={() => window.location.href = 'https://elrace.com/emplogin'}
                 variant="outline"
                 className="flex items-center gap-[5px] h-[39px] w-[104px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
               >
@@ -88,6 +89,7 @@ export const Careers = (): JSX.Element => {
               ))}
               <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                 <Button
+                  onClick={() => window.location.href = 'https://elrace.com/emplogin'}
                   variant="outline"
                   className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                 >

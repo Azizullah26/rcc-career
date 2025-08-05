@@ -21,10 +21,10 @@ export const ApplicationQuestions = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { name: "HOME", href: "/" },
-    { name: "PROJECTS", href: "#" },
-    { name: "BLOGS", href: "#" },
-    { name: "CONTACTS", href: "#" },
+    { name: "HOME", href: "https://elrace.com/" },
+    { name: "PROJECTS", href: "https://elrace.com/projects" },
+    { name: "BLOGS", href: "https://elrace.com/blogs" },
+    { name: "CONTACTS", href: "https://elrace.com/contact" },
     { name: "SEARCH CAREERS", href: "/search-careers" },
     { name: "CAREERS", href: "/" },
   ]

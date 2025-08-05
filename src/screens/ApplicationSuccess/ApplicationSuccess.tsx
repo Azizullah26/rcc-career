@@ -16,12 +16,12 @@ export const ApplicationSuccess = (): JSX.Element => {
 
   // Navigation menu items data
   const navItems = [
-    { label: "HOME", marginLeft: "ml-[-96.50px]" },
-    { label: "PROJECTS", marginLeft: "ml-[-12.50px]" },
-    { label: "BLOGS", marginLeft: "" },
-    { label: "CONTACTS", marginLeft: "", width: "w-[86px]" },
-    { label: "SEARCH CAREERS", marginLeft: "" },
-    { label: "CAREERS", marginLeft: "", marginRight: "mr-[-96.50px]" },
+    { label: "HOME", href: "https://elrace.com/", marginLeft: "ml-[-96.50px]" },
+    { label: "PROJECTS", href: "https://elrace.com/projects", marginLeft: "ml-[-12.50px]" },
+    { label: "BLOGS", href: "https://elrace.com/blogs", marginLeft: "" },
+    { label: "CONTACTS", href: "https://elrace.com/contact", marginLeft: "", width: "w-[86px]" },
+    { label: "SEARCH CAREERS", href: "/search-careers", marginLeft: "" },
+    { label: "CAREERS", href: "/", marginLeft: "", marginRight: "mr-[-96.50px]" },
   ]
 
   return (
@@ -49,6 +49,7 @@ export const ApplicationSuccess = (): JSX.Element => {
                       className={`inline-flex items-center justify-center gap-2.5 relative flex-[0_0_auto] ${item.marginLeft || ""} ${item.marginRight || ""}`}
                     >
                       <NavigationMenuLink
+                        href={item.href}
                         className={`relative ${item.width || "w-fit"} mt-[-1.00px] [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#151d61] transition-colors cursor-pointer`}
                       >
                         {item.label}
@@ -60,6 +61,7 @@ export const ApplicationSuccess = (): JSX.Element => {
 
               <div className="inline-flex items-center gap-[29px] relative flex-[0_0_auto] ml-[60px]">
                 <Button
+                  onClick={() => window.location.href = 'https://elrace.com/emplogin'}
                   variant="outline"
                   className="flex flex-col w-[104px] h-[39px] items-center justify-center gap-2.5 px-[5px] py-[3px] relative rounded-[9px] border border-solid border-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
                 >
@@ -100,17 +102,18 @@ export const ApplicationSuccess = (): JSX.Element => {
             <div className="lg:hidden absolute top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-50">
               <nav className="flex flex-col p-4">
                 {navItems.map((item, index) => (
-                  <a
+                  <Link
                     key={index}
-                    href="#"
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 ))}
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
+                    onClick={() => window.location.href = 'https://elrace.com/emplogin'}
                     variant="outline"
                     className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                   >

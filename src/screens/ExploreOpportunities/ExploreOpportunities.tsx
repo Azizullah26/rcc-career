@@ -68,10 +68,10 @@ export const ExploreOpportunities = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { label: "HOME", href: "/" },
-    { label: "PROJECTS", href: "#" },
-    { label: "BLOGS", href: "#" },
-    { label: "CONTACTS", href: "#" },
+    { label: "HOME", href: "https://elrace.com/" },
+    { label: "PROJECTS", href: "https://elrace.com/projects" },
+    { label: "BLOGS", href: "https://elrace.com/blogs" },
+    { label: "CONTACTS", href: "https://elrace.com/contact" },
     { label: "SEARCH CAREERS", href: "/search-careers" },
     { label: "CAREERS", href: "/" },
   ]
@@ -228,6 +228,7 @@ export const ExploreOpportunities = (): JSX.Element => {
 
               <div className="flex items-center gap-[29px] ml-[60px]">
                 <Button
+                  onClick={() => window.location.href = 'https://elrace.com/emplogin'}
                   variant="outline"
                   className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                 >
