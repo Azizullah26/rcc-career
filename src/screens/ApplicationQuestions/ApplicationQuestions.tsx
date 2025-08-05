@@ -160,7 +160,7 @@ export const ApplicationQuestions = (): JSX.Element => {
           {/* Page Title */}
           <Card className="w-full border-none shadow-none mb-6 md:mb-12">
             <CardContent className="p-0 text-center">
-              <h1 className="font-sans font-bold text-[18px] md:text-[33.6px] text-[#151d61] tracking-normal">
+              <h1 className="font-sans font-bold text-[14px] md:text-[33.6px] text-[#151d61] tracking-normal">
                 application questions
               </h1>
             </CardContent>

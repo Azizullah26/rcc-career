@@ -260,7 +260,7 @@ export const JobDetails = (): JSX.Element => {
         </div>
 
         {/* Job Title */}
-        <h1 className="absolute top-[110px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[16px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4 pt-[70px] md:pt-[91px]">
+        <h1 className="absolute top-[100px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[14px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4 pt-[70px] md:pt-[91px]">
           {job.title}
           <br />
           {job.location}

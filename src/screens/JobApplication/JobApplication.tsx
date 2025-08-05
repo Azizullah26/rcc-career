@@ -189,10 +189,10 @@ export const JobApplication = (): JSX.Element => {
           {/* Page Title */}
           <Card className="w-full border-none shadow-none mb-4 md:mb-8">
             <CardContent className="p-0 text-center">
-              <h1 className="font-sans font-bold text-[18px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight">
+              <h1 className="font-sans font-bold text-[14px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight">
                 Job Application – Personal Information
               </h1>
-              <p className="font-sans font-medium text-[12px] md:text-[24.6px] text-[#909090] underline mt-1">
+              <p className="font-sans font-medium text-[10px] md:text-[24.6px] text-[#909090] underline mt-1">
                 please enter your information
               </p>
             </CardContent>

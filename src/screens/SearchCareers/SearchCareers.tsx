@@ -131,10 +131,10 @@ export const SearchCareers = (): JSX.Element => {
             <div className="relative w-full h-[200px] md:h-[326.26px] bg-[url(/image.png)] bg-cover bg-center rounded-lg overflow-hidden">
               <div className="h-full bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] flex items-center justify-center">
                 <div className="text-center text-white px-4">
-                  <h1 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[24px] md:text-[42px] mb-4">
-                    <span className="font-bold tracking-wider">SEARCH CAREERS</span>
+                  <h1 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[18px] md:text-[42px] mb-2 md:mb-4">
+                    <span className="font-bold tracking-wider whitespace-nowrap">SEARCH CAREERS</span>
                   </h1>
-                  <p className="[font-family:'Tajawal',Helvetica] font-normal text-[12px] md:text-[18px] max-w-2xl">
+                  <p className="[font-family:'Tajawal',Helvetica] font-normal text-[10px] md:text-[18px] max-w-2xl">
                     Find your perfect career opportunity with EL RACE
                   </p>
                 </div>

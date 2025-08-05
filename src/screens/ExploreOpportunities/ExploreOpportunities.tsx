@@ -303,9 +303,9 @@ export const ExploreOpportunities = (): JSX.Element => {
         </header>
 
         {/* Page Header */}
-        <section className="relative h-32 md:h-48 w-full mt-[70px] md:mt-[91px]">
-          <div className="h-32 md:h-48 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
-            <div className="h-32 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
+        <section className="relative h-28 md:h-48 w-full mt-[70px] md:mt-[91px]">
+          <div className="h-28 md:h-48 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
+            <div className="h-28 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
               <div className="absolute top-4 md:top-6 left-4 md:left-[103px]">
                 <Link
                   href="/search-careers"
@@ -318,11 +318,11 @@ export const ExploreOpportunities = (): JSX.Element => {
                 </Link>
               </div>
 
-              <h1 className="absolute top-[45px] md:top-[60px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[20px] md:text-[36px] tracking-[0] leading-normal text-center px-4">
-                <span className="font-bold tracking-wider">EXPLORE OPPORTUNITIES</span>
+              <h1 className="absolute top-[35px] md:top-[60px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[16px] md:text-[36px] tracking-[0] leading-normal text-center px-4">
+                <span className="font-bold tracking-wider whitespace-nowrap">EXPLORE OPPORTUNITIES</span>
               </h1>
 
-              <p className="absolute w-[90%] md:w-[800px] top-[75px] md:top-[110px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[10px] md:text-[16px] text-center tracking-[0] leading-normal px-4">
+              <p className="absolute w-[90%] md:w-[800px] top-[55px] md:top-[110px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[8px] md:text-[16px] text-center tracking-[0] leading-normal px-4">
                 Join our team of dedicated professionals and be part of UAE's leading construction company
               </p>
             </div>

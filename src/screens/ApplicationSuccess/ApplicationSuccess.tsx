@@ -140,7 +140,7 @@ export const ApplicationSuccess = (): JSX.Element => {
 
         {/* Success Message Section */}
         <section className="absolute w-[90%] md:w-[1173px] h-auto top-[100px] md:top-[234px] left-1/2 transform -translate-x-1/2 flex flex-col items-center px-4 pt-[70px] md:pt-[91px]">
-          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[20px] md:text-[59.4px] text-center tracking-[0] leading-tight mb-3 md:mb-4">
+          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[16px] md:text-[59.4px] text-center tracking-[0] leading-tight mb-3 md:mb-4">
             <span className="font-bold">
               Your Application
               <br />

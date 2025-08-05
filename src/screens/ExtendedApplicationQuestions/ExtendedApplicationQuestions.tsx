@@ -243,7 +243,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
         {/* Main Content */}
         <main className="px-4 md:px-[100px] pt-[100px] md:pt-[137px] pb-[60px] md:pb-[100px]">
-          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[16px] md:text-[24.6px] mb-[30px] md:mb-[80px]">
+          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[12px] md:text-[24.6px] mb-[20px] md:mb-[80px]">
             APPLICATION QUESTIONS
           </h1>
 
