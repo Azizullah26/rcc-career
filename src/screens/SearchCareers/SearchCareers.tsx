@@ -3,13 +3,19 @@
 import { SearchIcon, Menu, X } from "lucide-react"
 import React from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Separator } from "../../components/ui/separator"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
+import { Input } from "../../components/ui/input"
 import { Card } from "./Card" // Import Card component
 
 // Main Component
 export const SearchCareers = (): JSX.Element => {
+  const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [jobSearch, setJobSearch] = React.useState("")
+  const [selectedCity, setSelectedCity] = React.useState("")
 
   // Navigation menu items
   const navItems = [
@@ -21,6 +27,38 @@ export const SearchCareers = (): JSX.Element => {
     { label: "CAREERS", href: "/" },
   ]
 
+  // Available cities for selection
+  const cities = [
+    { value: "abu-dhabi", label: "Abu Dhabi" },
+    { value: "dubai", label: "Dubai" },
+    { value: "sharjah", label: "Sharjah" },
+    { value: "ajman", label: "Ajman" },
+    { value: "ras-al-khaimah", label: "Ras Al Khaimah" },
+    { value: "fujairah", label: "Fujairah" },
+    { value: "umm-al-quwain", label: "Umm Al Quwain" },
+    { value: "al-ain", label: "Al Ain" },
+  ]
+
+  const handleSearch = () => {
+    // Create search parameters
+    const searchParams = new URLSearchParams()
+    if (jobSearch.trim()) {
+      searchParams.set('search', jobSearch.trim())
+    }
+    if (selectedCity) {
+      searchParams.set('city', selectedCity)
+    }
+    
+    // Navigate to explore opportunities with search parameters
+    const queryString = searchParams.toString()
+    router.push(`/explore-opportunities${queryString ? `?${queryString}` : ''}`)
+  }
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  }
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative">
@@ -186,9 +224,13 @@ export const SearchCareers = (): JSX.Element => {
                   <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[16px] text-center">
                     FIND JOBS
                   </span>
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[18px] text-center mt-2">
-                    Job title
-                  </span>
+                  <Input
+                    value={jobSearch}
+                    onChange={(e) => setJobSearch(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Job title, skill, keyword"
+                    className="mt-2 border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[18px] text-center placeholder:text-gray-400 focus-visible:ring-0"
+                  />
                 </div>
                 <Separator orientation="horizontal" className="h-0.5 bg-[#6b6b6b]" />
                 <div className="flex flex-col px-4 py-4">
@@ -200,15 +242,25 @@ export const SearchCareers = (): JSX.Element => {
                       <path d="M7 10l5 5 5-5z" />
                     </svg>
                   </div>
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[18px] text-center mt-2">
-                    City
-                  </span>
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger className="mt-2 border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[18px] text-center focus-visible:ring-0">
+                      <SelectValue placeholder="City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((city) => (
+                        <SelectItem key={city.value} value={city.value}>
+                          {city.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-                <Link href="/explore-opportunities" className="w-full">
-                  <Button className="w-full h-[50px] rounded-none bg-[#e6e6e6] border-t-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors">
-                    <SearchIcon className="w-[28px] h-[28px] text-black" />
-                  </Button>
-                </Link>
+                <Button 
+                  onClick={handleSearch}
+                  className="w-full h-[50px] rounded-none bg-[#e6e6e6] border-t-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors"
+                >
+                  <SearchIcon className="w-[28px] h-[28px] text-black" />
+                </Button>
               </div>
             </div>
 
@@ -219,9 +271,13 @@ export const SearchCareers = (): JSX.Element => {
                   <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] text-center">
                     FIND JOBS
                   </span>
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center mt-[12px]">
-                    Job title
-                  </span>
+                  <Input
+                    value={jobSearch}
+                    onChange={(e) => setJobSearch(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Job title, skill, keyword"
+                    className="mt-[12px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center placeholder:text-gray-400 focus-visible:ring-0"
+                  />
                 </div>
                 <Separator orientation="vertical" className="h-[62px] w-0.5 bg-[#6b6b6b]" />
                 <div className="flex flex-col px-[35px] py-[35px] flex-1">
@@ -233,17 +289,27 @@ export const SearchCareers = (): JSX.Element => {
                       <path d="M7 10l5 5 5-5z" />
                     </svg>
                   </div>
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center mt-[15px]">
-                    City
-                  </span>
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger className="mt-[15px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center focus-visible:ring-0">
+                      <SelectValue placeholder="City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((city) => (
+                        <SelectItem key={city.value} value={city.value}>
+                          {city.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
-              <Link href="/explore-opportunities" className="w-[156px] h-full">
-                <Button className="w-full h-full rounded-[0px_9px_9px_0px] bg-[#e6e6e6] border-l-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors">
-                  <SearchIcon className="w-[38px] h-[38px] text-black" />
-                </Button>
-              </Link>
+              <Button 
+                onClick={handleSearch}
+                className="w-[156px] h-full rounded-[0px_9px_9px_0px] bg-[#e6e6e6] border-l-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors"
+              >
+                <SearchIcon className="w-[38px] h-[38px] text-black" />
+              </Button>
             </div>
           </Card>
 
