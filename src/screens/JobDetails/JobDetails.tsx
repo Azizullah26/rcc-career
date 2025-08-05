@@ -253,14 +253,14 @@ export const JobDetails = (): JSX.Element => {
         </div>
 
         {/* Job Title */}
-        <h1 className="absolute top-[100px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[14px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4 pt-[70px] md:pt-[91px]">
+        <h1 className="absolute top-[100px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[14px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4">
           {job.title}
           <br />
           {job.location}
         </h1>
 
         {/* Job Description */}
-        <Card className="absolute w-[95%] md:w-[1084px] top-[180px] md:top-[248px] left-1/2 transform -translate-x-1/2 border-none shadow-none mt-[70px] md:mt-[91px]">
+        <Card className="absolute w-[95%] md:w-[1084px] top-[180px] md:top-[248px] left-1/2 transform -translate-x-1/2 border-none shadow-none">
           <CardContent className="p-4 md:p-0 [font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-[22.8px] text-justify tracking-[0] leading-normal">
             <h2 className="font-bold text-[14px] md:text-[22.8px] mb-3 md:mb-4">Job Description</h2>
 

@@ -303,7 +303,7 @@ export const ExploreOpportunities = (): JSX.Element => {
         </header>
 
         {/* Page Header */}
-        <section className="relative h-28 md:h-48 w-full mt-[70px] md:mt-[91px]">
+        <section className="relative h-28 md:h-48 w-full">
           <div className="h-28 md:h-48 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
             <div className="h-28 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
               <div className="absolute top-4 md:top-6 left-4 md:left-[103px]">

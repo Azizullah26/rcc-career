@@ -183,7 +183,7 @@ export const AddExperience = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[123px] pb-[60px] md:pb-[100px]">
+        <main className="pt-[20px] md:pt-[30px] px-4 md:px-[123px] pb-[60px] md:pb-[100px]">
           {/* Page Title */}
           <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[12px] md:text-[24.6px] mb-[15px] md:mb-[60px] leading-tight">
             Please provide details about your latest work experience

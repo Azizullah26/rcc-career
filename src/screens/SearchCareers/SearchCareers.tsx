@@ -163,7 +163,7 @@ export const SearchCareers = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="w-full max-w-[1052px] mx-auto mt-[90px] md:mt-[115px] px-4">
+        <main className="w-full max-w-[1052px] mx-auto px-4">
           {/* Banner Image Section */}
           <section className="flex flex-col w-full items-center gap-[13.66px] mb-[40px] md:mb-[60px]">
             <div className="relative w-full h-[200px] md:h-[326.26px] bg-[url(/image.png)] bg-cover bg-center rounded-lg overflow-hidden">

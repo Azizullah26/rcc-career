@@ -145,7 +145,7 @@ export const ApplicationQuestions = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[85px] pb-10">
+        <main className="pt-[20px] md:pt-[30px] px-4 md:px-[85px] pb-10">
           {/* Back Button */}
           <div className="mb-6">
             <button
