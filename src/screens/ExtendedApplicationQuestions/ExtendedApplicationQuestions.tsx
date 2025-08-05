@@ -239,13 +239,13 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
         {/* Main Content */}
         <main className="px-4 md:px-[100px] pt-[46px] pb-[100px]">
-          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[20px] md:text-[24.6px] mb-[60px] md:mb-[80px]">
+          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[16px] sm:text-[20px] md:text-[24.6px] mb-[60px] md:mb-[80px]">
             APPLICATION QUESTIONS
           </h1>
 
           {/* Previous Work Question */}
           <section className="mb-[60px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
+            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
               Have you previously worked with EL RACE
             </h2>
 
@@ -257,20 +257,20 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             >
               <ToggleGroupItem
                 value="yes"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] sm:w-[110px] md:w-[127px] h-[40px] sm:h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 yes
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="no"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] sm:w-[110px] md:w-[127px] h-[40px] sm:h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 No
               </ToggleGroupItem>
             </ToggleGroup>
 
             <div className="mt-[30px] md:mt-[40px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[8px] md:mb-[10px]">
+              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[22.4px] mb-[8px] md:mb-[10px]">
                 Please give details about your work with EL RACE
               </h2>
               <Input
@@ -283,7 +283,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
           {/* Relatives/Friends Question */}
           <section className="mb-[60px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
+            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
               Do you have any Relatives/Friends working with EL RACE
             </h2>
 
@@ -295,20 +295,20 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             >
               <ToggleGroupItem
                 value="yes"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] sm:w-[110px] md:w-[127px] h-[40px] sm:h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 yes
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="no"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] sm:w-[110px] md:w-[127px] h-[40px] sm:h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 No
               </ToggleGroupItem>
             </ToggleGroup>
 
             <div className="mt-[30px] md:mt-[40px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[8px] md:mb-[10px]">
+              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[22.4px] mb-[8px] md:mb-[10px]">
                 Please specify the names of Relatives/Friends
               </h2>
               <Input
@@ -321,7 +321,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
           {/* Relationship Section */}
           <section className="mb-[60px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
+            <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] sm:text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
               Relationship
             </h2>
 
@@ -332,7 +332,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                   variant="outline"
                   onClick={() => handleRelationshipToggle(option)}
                   className={cn(
-                    "h-[40px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[20px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-4 md:px-6",
+                    "h-[35px] sm:h-[40px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] sm:text-[20px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-3 sm:px-4 md:px-6",
                     selectedRelationships.includes(option) && "bg-[#151d61] text-white hover:bg-[#1a2470]",
                   )}
                 >
@@ -347,14 +347,14 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             <Button
               variant="outline"
               onClick={() => router.back()}
-              className="w-full md:w-[138px] h-[50px] md:h-[60px] bg-[#d9d9d9] rounded-[38.79px] [font-family:'Inter',Helvetica] font-medium text-black text-[24px] md:text-[32.2px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
+              className="w-full md:w-[138px] h-[40px] sm:h-[50px] md:h-[60px] bg-[#d9d9d9] rounded-[38.79px] [font-family:'Inter',Helvetica] font-medium text-black text-[18px] sm:text-[24px] md:text-[32.2px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
             >
               Cancel
             </Button>
             <Button
               variant="outline"
               onClick={handleSubmit}
-              className="w-full md:w-[138px] h-[50px] md:h-[60px] bg-[#151d61] rounded-[38.77px] [font-family:'Inter',Helvetica] font-medium text-white text-[24px] md:text-[32.2px] border-none hover:bg-[#1a2470] transition-colors order-1 md:order-2"
+              className="w-full md:w-[138px] h-[40px] sm:h-[50px] md:h-[60px] bg-[#151d61] rounded-[38.77px] [font-family:'Inter',Helvetica] font-medium text-white text-[18px] sm:text-[24px] md:text-[32.2px] border-none hover:bg-[#1a2470] transition-colors order-1 md:order-2"
             >
               Next
             </Button>

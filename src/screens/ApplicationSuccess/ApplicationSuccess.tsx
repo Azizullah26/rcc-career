@@ -136,7 +136,7 @@ export const ApplicationSuccess = (): JSX.Element => {
 
         {/* Success Message Section */}
         <section className="absolute w-[90%] md:w-[1173px] h-auto top-[150px] md:top-[234px] left-1/2 transform -translate-x-1/2 flex flex-col items-center px-4">
-          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[32px] md:text-[59.4px] text-center tracking-[0] leading-[normal] mb-4">
+          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[20px] sm:text-[32px] md:text-[59.4px] text-center tracking-[0] leading-[normal] mb-4">
             <span className="font-bold">
               Your Application
               <br />
@@ -145,10 +145,10 @@ export const ApplicationSuccess = (): JSX.Element => {
           </h1>
 
           {/* Success Check Mark */}
-          <div className="w-[150px] md:w-[188px] h-[150px] md:h-[188px] mt-[18px] flex items-center justify-center">
-            <div className="w-[150px] md:w-[188px] h-[150px] md:h-[188px] bg-green-500 rounded-full flex items-center justify-center">
+          <div className="w-[120px] sm:w-[150px] md:w-[188px] h-[120px] sm:h-[150px] md:h-[188px] mt-[18px] flex items-center justify-center">
+            <div className="w-[120px] sm:w-[150px] md:w-[188px] h-[120px] sm:h-[150px] md:h-[188px] bg-green-500 rounded-full flex items-center justify-center">
               <svg
-                className="w-[90px] md:w-[120px] h-[90px] md:h-[120px] text-white"
+                className="w-[70px] sm:w-[90px] md:w-[120px] h-[70px] sm:h-[90px] md:h-[120px] text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -162,7 +162,7 @@ export const ApplicationSuccess = (): JSX.Element => {
           {/* Return to Home Button */}
           <div className="mt-[30px] md:mt-[40px]">
             <Link href="/">
-              <Button className="w-[180px] md:w-[200px] h-[45px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
+              <Button className="w-[150px] sm:w-[180px] md:w-[200px] h-[40px] sm:h-[45px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[14px] sm:text-[16px] md:text-[18px] transition-colors">
                 Return to Home
               </Button>
             </Link>

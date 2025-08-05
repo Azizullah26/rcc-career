@@ -181,7 +181,7 @@ export const AddExperience = (): JSX.Element => {
         {/* Main Content */}
         <main className="pt-[120px] px-4 md:px-[123px] pb-[100px]">
           {/* Page Title */}
-          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[18px] md:text-[24.6px] mb-[40px] md:mb-[60px]">
+          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[14px] sm:text-[18px] md:text-[24.6px] mb-[40px] md:mb-[60px]">
             Please provide details about your latest work experience
           </h1>
 
@@ -196,7 +196,7 @@ export const AddExperience = (): JSX.Element => {
                 <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-4 md:gap-6">
                   {formFields.map((field, index) => (
                     <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
-                      <label className="mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] tracking-[0] leading-[normal]">
+                      <label className="mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[22.4px] tracking-[0] leading-[normal]">
                         {field.label}
                       </label>
                       <Input
@@ -235,9 +235,9 @@ export const AddExperience = (): JSX.Element => {
               <Button
                 onClick={triggerFileUpload}
                 variant="outline"
-                className="h-[48px] md:h-[54px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
+                className="h-[40px] sm:h-[48px] md:h-[54px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
               >
-                <span className="[font-family:'Inter',Helvetica] font-bold text-[18px] md:text-[23.7px] text-center">
+                <span className="[font-family:'Inter',Helvetica] font-bold text-[14px] sm:text-[18px] md:text-[23.7px] text-center">
                   {uploadedFile
                     ? `CV: ${uploadedFile.name.length > 15 ? uploadedFile.name.substring(0, 15) + "..." : uploadedFile.name}`
                     : "Upload Your CV"}
@@ -246,9 +246,9 @@ export const AddExperience = (): JSX.Element => {
 
               <Button
                 onClick={handleSubmit}
-                className="w-full max-w-[207px] h-[55px] md:h-[67px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
+                className="w-full max-w-[207px] h-[45px] sm:h-[55px] md:h-[67px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
               >
-                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[28px] md:text-[36.6px]">
+                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[20px] sm:text-[28px] md:text-[36.6px]">
                   Apply
                 </span>
               </Button>
