@@ -319,7 +319,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               </h1>
 
               <p className="absolute w-[90%] md:w-[800px] top-[80px] md:top-[110px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[12px] md:text-[16px] text-center tracking-[0] leading-normal px-4">
-                Join our team of dedicated professionals and be part of Egypt's leading construction company
+                Join our team of dedicated professionals and be part of UAE's leading construction company
               </p>
             </div>
             <div className="h-[17px] bottom-0 absolute w-full bg-[#9e3442]" />
