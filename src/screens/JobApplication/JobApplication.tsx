@@ -183,55 +183,55 @@ export const JobApplication = (): JSX.Element => {
           </div>
 
           {/* Page Title */}
-          <Card className="w-full border-none shadow-none mb-6 md:mb-8">
+          <Card className="w-full border-none shadow-none mb-4 md:mb-8">
             <CardContent className="p-0 text-center">
-              <h1 className="font-sans font-bold text-[24px] md:text-[33.6px] text-[#151d61] tracking-normal">
+              <h1 className="font-sans font-bold text-[20px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight">
                 Job Application – Personal Information
               </h1>
-              <p className="font-sans font-medium text-[18px] md:text-[24.6px] text-[#909090] underline mt-1">
+              <p className="font-sans font-medium text-[14px] md:text-[24.6px] text-[#909090] underline mt-1">
                 please enter your information
               </p>
             </CardContent>
           </Card>
 
           {/* Application Form */}
-          <div className="space-y-4 md:space-y-6">
-            <div className="flex flex-col w-full items-start gap-4 md:gap-[23px] relative">
+          <div className="space-y-3 md:space-y-6">
+            <div className="flex flex-col w-full items-start gap-3 md:gap-[23px] relative">
               {formFields.map((field) => (
-                <div key={field.id} className="flex flex-col items-center gap-2 md:gap-3 relative self-stretch w-full">
-                  <Label className="self-stretch h-auto [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                <div key={field.id} className="flex flex-col items-center gap-1 md:gap-3 relative self-stretch w-full">
+                  <Label className="self-stretch h-auto [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     {field.label}
                   </Label>
                   <Input
                     type={field.type}
                     value={formData[field.id as keyof typeof formData]}
                     onChange={(e) => handleInputChange(field.id, e.target.value)}
-                    className="self-stretch w-full h-12 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black"
+                    className="self-stretch w-full h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-sm md:text-base"
                   />
                 </div>
               ))}
 
-              <div className="flex flex-col w-full items-start gap-6 md:gap-[39px] relative">
+              <div className="flex flex-col w-full items-start gap-4 md:gap-[39px] relative">
                 {/* UAE Driving license toggle */}
-                <div className="flex flex-col items-start gap-4 md:gap-6 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                <div className="flex flex-col items-start gap-2 md:gap-6 relative self-stretch w-full">
+                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     UAE Driving License*
                   </Label>
                   <ToggleGroup
                     type="single"
                     value={formData.egyptDrivingLicense}
                     onValueChange={(value) => handleInputChange("egyptDrivingLicense", value)}
-                    className="flex w-full max-w-[274px] h-[50px] md:h-[55px] items-center gap-4 md:gap-5 relative"
+                    className="flex w-full max-w-[240px] md:max-w-[274px] h-[40px] md:h-[55px] items-center gap-3 md:gap-5 relative"
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -239,25 +239,25 @@ export const JobApplication = (): JSX.Element => {
                 </div>
 
                 {/* Relocation Possibility toggle */}
-                <div className="flex flex-col items-start gap-4 md:gap-6 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                <div className="flex flex-col items-start gap-2 md:gap-6 relative self-stretch w-full">
+                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     Relocation Possibility*
                   </Label>
                   <ToggleGroup
                     type="single"
                     value={formData.relocationPossibility}
                     onValueChange={(value) => handleInputChange("relocationPossibility", value)}
-                    className="flex w-full max-w-[274px] h-[50px] md:h-[55px] items-center gap-4 md:gap-5 relative"
+                    className="flex w-full max-w-[240px] md:max-w-[274px] h-[40px] md:h-[55px] items-center gap-3 md:gap-5 relative"
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -265,21 +265,21 @@ export const JobApplication = (): JSX.Element => {
                 </div>
 
                 {/* Languages section */}
-                <div className="flex flex-col items-start gap-3 md:gap-3.5 relative self-stretch w-full">
-                  <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                <div className="flex flex-col items-start gap-2 md:gap-3.5 relative self-stretch w-full">
+                  <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     Languages*
                   </Label>
-                  <div className="flex flex-col md:flex-row items-start gap-4 md:gap-10 relative self-stretch w-full">
+                  <div className="flex flex-col md:flex-row items-start gap-3 md:gap-10 relative self-stretch w-full">
                     {/* First Language */}
                     <div className="relative w-full md:w-[194px]">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 block">
+                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] md:text-lg tracking-[0] leading-[normal] mb-1 md:mb-2 block">
                         First Language
                       </Label>
                       <Select
                         value={formData.firstLanguage}
                         onValueChange={(value) => handleInputChange("firstLanguage", value)}
                       >
-                        <SelectTrigger className="w-full h-12 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black">
+                        <SelectTrigger className="w-full h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-sm md:text-base">
                           <SelectValue placeholder="Select language" />
                         </SelectTrigger>
                         <SelectContent>
@@ -293,14 +293,14 @@ export const JobApplication = (): JSX.Element => {
 
                     {/* Second Language */}
                     <div className="relative w-full md:w-[194px]">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 block">
+                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] md:text-lg tracking-[0] leading-[normal] mb-1 md:mb-2 block">
                         Second Language
                       </Label>
                       <Select
                         value={formData.secondLanguage}
                         onValueChange={(value) => handleInputChange("secondLanguage", value)}
                       >
-                        <SelectTrigger className="w-full h-12 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black">
+                        <SelectTrigger className="w-full h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-sm md:text-base">
                           <SelectValue placeholder="Select language" />
                         </SelectTrigger>
                         <SelectContent>
@@ -314,15 +314,15 @@ export const JobApplication = (): JSX.Element => {
 
                     {/* Add More Button */}
                     <div className="relative w-full md:w-[83px] flex flex-col items-center">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 text-center">
+                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] md:text-lg tracking-[0] leading-[normal] mb-1 md:mb-2 text-center">
                         ADD MORE
                       </Label>
                       <Button
                         type="button"
                         variant="outline"
-                        className="w-12 md:w-[54px] h-12 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black flex items-center justify-center hover:bg-[#c9c9c9]"
+                        className="w-10 md:w-[54px] h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black flex items-center justify-center hover:bg-[#c9c9c9]"
                       >
-                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[40px] md:text-[51px] tracking-[0] leading-[normal]">
+                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[32px] md:text-[51px] tracking-[0] leading-[normal]">
                           +
                         </span>
                       </Button>
@@ -333,12 +333,12 @@ export const JobApplication = (): JSX.Element => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[90px] my-8 md:my-10">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-[90px] my-6 md:my-10">
               <Button
                 type="button"
                 onClick={() => router.back()}
                 variant="outline"
-                className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-black text-[24px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
+                className="w-full md:w-[138px] h-[45px] md:h-[60px] rounded-[38px] text-black text-[20px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
               >
                 Cancel
               </Button>
@@ -346,7 +346,7 @@ export const JobApplication = (): JSX.Element => {
               <Button
                 onClick={onSubmit}
                 variant="outline"
-                className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-white text-[24px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
+                className="w-full md:w-[138px] h-[45px] md:h-[60px] rounded-[38px] text-white text-[20px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
               >
                 Next
               </Button>

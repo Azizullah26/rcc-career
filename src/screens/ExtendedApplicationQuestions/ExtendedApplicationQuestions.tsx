@@ -238,14 +238,14 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="px-4 md:px-[100px] pt-[46px] pb-[100px]">
-          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[20px] md:text-[24.6px] mb-[60px] md:mb-[80px]">
+        <main className="px-4 md:px-[100px] pt-[30px] md:pt-[46px] pb-[60px] md:pb-[100px]">
+          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[18px] md:text-[24.6px] mb-[40px] md:mb-[80px]">
             APPLICATION QUESTIONS
           </h1>
 
           {/* Previous Work Question */}
-          <section className="mb-[60px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
+          <section className="mb-[40px] md:mb-[80px]">
+            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
               Have you previously worked with EL RACE
             </h2>
 
@@ -253,37 +253,37 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
               type="single"
               value={previousWork}
               onValueChange={setPreviousWork}
-              className="flex gap-[15px] md:gap-[20px]"
+              className="flex gap-[12px] md:gap-[20px]"
             >
               <ToggleGroupItem
                 value="yes"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] md:w-[127px] h-[40px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 yes
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="no"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] md:w-[127px] h-[40px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 No
               </ToggleGroupItem>
             </ToggleGroup>
 
-            <div className="mt-[30px] md:mt-[40px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[8px] md:mb-[10px]">
+            <div className="mt-[20px] md:mt-[40px]">
+              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
                 Please give details about your work with EL RACE
               </h2>
               <Input
                 value={workDetails}
                 onChange={(e) => setWorkDetails(e.target.value)}
-                className="w-full h-[65px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9]"
+                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base"
               />
             </div>
           </section>
 
           {/* Relatives/Friends Question */}
-          <section className="mb-[60px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
+          <section className="mb-[40px] md:mb-[80px]">
+            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
               Do you have any Relatives/Friends working with EL RACE
             </h2>
 
@@ -291,48 +291,48 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
               type="single"
               value={relativesOrFriends}
               onValueChange={setRelativesOrFriends}
-              className="flex gap-[15px] md:gap-[20px]"
+              className="flex gap-[12px] md:gap-[20px]"
             >
               <ToggleGroupItem
                 value="yes"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] md:w-[127px] h-[40px] md:h-[55px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 yes
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="no"
-                className="w-[110px] md:w-[127px] h-[50px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[90px] md:w-[127px] h-[40px] md:h-[55px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 No
               </ToggleGroupItem>
             </ToggleGroup>
 
-            <div className="mt-[30px] md:mt-[40px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] mb-[8px] md:mb-[10px]">
+            <div className="mt-[20px] md:mt-[40px]">
+              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
                 Please specify the names of Relatives/Friends
               </h2>
               <Input
                 value={names}
                 onChange={(e) => setNames(e.target.value)}
-                className="w-full h-[65px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9]"
+                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base"
               />
             </div>
           </section>
 
           {/* Relationship Section */}
-          <section className="mb-[60px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[18px] md:text-[22.4px] mb-[15px] md:mb-[20px]">
+          <section className="mb-[40px] md:mb-[80px]">
+            <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
               Relationship
             </h2>
 
-            <div className="flex flex-wrap gap-[15px] md:gap-[20px]">
+            <div className="flex flex-wrap gap-[10px] md:gap-[20px]">
               {relationshipOptions.map((option, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   onClick={() => handleRelationshipToggle(option)}
                   className={cn(
-                    "h-[40px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[20px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-4 md:px-6",
+                    "h-[35px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-3 md:px-6",
                     selectedRelationships.includes(option) && "bg-[#151d61] text-white hover:bg-[#1a2470]",
                   )}
                 >
@@ -343,18 +343,18 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
           </section>
 
           {/* Action Buttons */}
-          <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-[90px] mt-[30px] md:mt-[40px]">
+          <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-[90px] mt-[20px] md:mt-[40px]">
             <Button
               variant="outline"
               onClick={() => router.back()}
-              className="w-full md:w-[138px] h-[50px] md:h-[60px] bg-[#d9d9d9] rounded-[38.79px] [font-family:'Inter',Helvetica] font-medium text-black text-[24px] md:text-[32.2px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
+              className="w-full md:w-[138px] h-[45px] md:h-[60px] bg-[#d9d9d9] rounded-[38.79px] [font-family:'Inter',Helvetica] font-medium text-black text-[20px] md:text-[32.2px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
             >
               Cancel
             </Button>
             <Button
               variant="outline"
               onClick={handleSubmit}
-              className="w-full md:w-[138px] h-[50px] md:h-[60px] bg-[#151d61] rounded-[38.77px] [font-family:'Inter',Helvetica] font-medium text-white text-[24px] md:text-[32.2px] border-none hover:bg-[#1a2470] transition-colors order-1 md:order-2"
+              className="w-full md:w-[138px] h-[45px] md:h-[60px] bg-[#151d61] rounded-[38.77px] [font-family:'Inter',Helvetica] font-medium text-white text-[20px] md:text-[32.2px] border-none hover:bg-[#1a2470] transition-colors order-1 md:order-2"
             >
               Next
             </Button>

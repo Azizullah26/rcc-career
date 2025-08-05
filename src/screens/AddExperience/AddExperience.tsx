@@ -179,30 +179,30 @@ export const AddExperience = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[120px] px-4 md:px-[123px] pb-[100px]">
+        <main className="pt-[120px] px-4 md:px-[123px] pb-[60px] md:pb-[100px]">
           {/* Page Title */}
-          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[18px] md:text-[24.6px] mb-[40px] md:mb-[60px]">
+          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[16px] md:text-[24.6px] mb-[30px] md:mb-[60px] leading-tight">
             Please provide details about your latest work experience
           </h1>
 
           {/* Experience Cards Container */}
-          <div className="flex flex-col w-full max-w-[1021px] mx-auto items-center gap-[20px] md:gap-[30px]">
+          <div className="flex flex-col w-full max-w-[1021px] mx-auto items-center gap-[15px] md:gap-[30px]">
             {/* Experience Cards */}
             {experienceCards.map((cardNumber) => (
               <Card
                 key={cardNumber}
-                className="flex flex-col h-auto items-center gap-2.5 px-4 md:px-[46px] py-6 md:py-[31px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black"
+                className="flex flex-col h-auto items-center gap-2.5 px-4 md:px-[46px] py-4 md:py-[31px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black shadow-sm"
               >
-                <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-4 md:gap-6">
+                <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-3 md:gap-6">
                   {formFields.map((field, index) => (
                     <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
-                      <label className="mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[22.4px] tracking-[0] leading-[normal]">
+                      <label className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] tracking-[0] leading-[normal]">
                         {field.label}
                       </label>
                       <Input
                         id={`${field.id}-${cardNumber}`}
                         type={field.type}
-                        className="w-full h-[65px] md:h-[78px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-base md:text-lg"
+                        className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-sm md:text-lg"
                       />
                     </div>
                   ))}
@@ -214,15 +214,15 @@ export const AddExperience = (): JSX.Element => {
             <Button
               onClick={addExperienceCard}
               variant="outline"
-              className="flex flex-col w-[80px] md:w-[108px] items-center p-0 border-none bg-transparent hover:bg-transparent"
+              className="flex flex-col w-[70px] md:w-[108px] items-center p-0 border-none bg-transparent hover:bg-transparent"
             >
-              <div className="w-[60px] md:w-[72px] h-[60px] md:h-[72px] bg-white rounded-full border border-solid border-black flex items-center justify-center hover:bg-gray-50 transition-colors">
-                <PlusIcon className="text-[#151d61] w-[35px] md:w-[44px] h-[35px] md:h-[44px]" />
+              <div className="w-[50px] md:w-[72px] h-[50px] md:h-[72px] bg-white rounded-full border border-solid border-black flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <PlusIcon className="text-[#151d61] w-[28px] md:w-[44px] h-[28px] md:h-[44px]" />
               </div>
             </Button>
 
             {/* Bottom Action Buttons */}
-            <div className="flex flex-col w-full max-w-[244px] items-center gap-[20px] md:gap-[27px] mt-[40px] md:mt-[60px]">
+            <div className="flex flex-col w-full max-w-[244px] items-center gap-[15px] md:gap-[27px] mt-[30px] md:mt-[60px]">
               {/* Hidden file input */}
               <input
                 id="cv-upload"
@@ -235,9 +235,9 @@ export const AddExperience = (): JSX.Element => {
               <Button
                 onClick={triggerFileUpload}
                 variant="outline"
-                className="h-[48px] md:h-[54px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
+                className="h-[45px] md:h-[54px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
               >
-                <span className="[font-family:'Inter',Helvetica] font-bold text-[18px] md:text-[23.7px] text-center">
+                <span className="[font-family:'Inter',Helvetica] font-bold text-[16px] md:text-[23.7px] text-center">
                   {uploadedFile
                     ? `CV: ${uploadedFile.name.length > 15 ? uploadedFile.name.substring(0, 15) + "..." : uploadedFile.name}`
                     : "Upload Your CV"}
@@ -246,9 +246,9 @@ export const AddExperience = (): JSX.Element => {
 
               <Button
                 onClick={handleSubmit}
-                className="w-full max-w-[207px] h-[55px] md:h-[67px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
+                className="w-full max-w-[207px] h-[50px] md:h-[67px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
               >
-                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[28px] md:text-[36.6px]">
+                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[24px] md:text-[36.6px]">
                   Apply
                 </span>
               </Button>

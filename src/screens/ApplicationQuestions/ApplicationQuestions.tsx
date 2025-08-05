@@ -154,37 +154,37 @@ export const ApplicationQuestions = (): JSX.Element => {
           </div>
 
           {/* Page Title */}
-          <Card className="w-full border-none shadow-none mb-8 md:mb-12">
+          <Card className="w-full border-none shadow-none mb-6 md:mb-12">
             <CardContent className="p-0 text-center">
-              <h1 className="font-sans font-bold text-[24px] md:text-[33.6px] text-[#151d61] tracking-normal">
+              <h1 className="font-sans font-bold text-[20px] md:text-[33.6px] text-[#151d61] tracking-normal">
                 application questions
               </h1>
             </CardContent>
           </Card>
 
           {/* Application Questions Form */}
-          <div className="space-y-8 md:space-y-12">
-            <div className="flex flex-col w-full items-start gap-8 md:gap-[60px] relative max-w-[800px] mx-auto">
+          <div className="space-y-6 md:space-y-12">
+            <div className="flex flex-col w-full items-start gap-6 md:gap-[60px] relative max-w-[800px] mx-auto">
               {/* Question 1: Previously worked with EL RACE */}
-              <div className="flex flex-col items-start gap-4 md:gap-8 relative self-stretch w-full">
-                <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[24px] tracking-[0] leading-[normal]">
+              <div className="flex flex-col items-start gap-3 md:gap-8 relative self-stretch w-full">
+                <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] tracking-[0] leading-[normal]">
                   Have you previously worked with EL RACE
                 </Label>
                 <ToggleGroup
                   type="single"
                   value={previouslyWorked}
                   onValueChange={setPreviouslyWorked}
-                  className="flex w-full items-center gap-4 md:gap-8 relative justify-start"
+                  className="flex w-full items-center gap-3 md:gap-8 relative justify-start"
                 >
                   <ToggleGroupItem
                     value="yes"
-                    className="w-[100px] md:w-[120px] h-[50px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[20px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
+                    className="w-[80px] md:w-[120px] h-[40px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
                   >
                     yes
                   </ToggleGroupItem>
                   <ToggleGroupItem
                     value="no"
-                    className="w-[100px] md:w-[120px] h-[50px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[20px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
+                    className="w-[80px] md:w-[120px] h-[40px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
                   >
                     No
                   </ToggleGroupItem>
@@ -192,25 +192,25 @@ export const ApplicationQuestions = (): JSX.Element => {
               </div>
 
               {/* Question 2: Relatives/Friends working with EL RACE */}
-              <div className="flex flex-col items-start gap-4 md:gap-8 relative self-stretch w-full">
-                <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[24px] tracking-[0] leading-[normal]">
+              <div className="flex flex-col items-start gap-3 md:gap-8 relative self-stretch w-full">
+                <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] tracking-[0] leading-[normal]">
                   Do you have any Relatives/Friends working with EL RACE
                 </Label>
                 <ToggleGroup
                   type="single"
                   value={relativesOrFriends}
                   onValueChange={setRelativesOrFriends}
-                  className="flex w-full items-center gap-4 md:gap-8 relative justify-start"
+                  className="flex w-full items-center gap-3 md:gap-8 relative justify-start"
                 >
                   <ToggleGroupItem
                     value="yes"
-                    className="w-[100px] md:w-[120px] h-[50px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[20px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
+                    className="w-[80px] md:w-[120px] h-[40px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
                   >
                     yes
                   </ToggleGroupItem>
                   <ToggleGroupItem
                     value="no"
-                    className="w-[100px] md:w-[120px] h-[50px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[20px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
+                    className="w-[80px] md:w-[120px] h-[40px] md:h-[60px] rounded-[30px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470] transition-colors"
                   >
                     No
                   </ToggleGroupItem>
@@ -219,12 +219,12 @@ export const ApplicationQuestions = (): JSX.Element => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[90px] my-12 md:my-16">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-[90px] my-8 md:my-16">
               <Button
                 type="button"
                 onClick={() => router.back()}
                 variant="outline"
-                className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-black text-[24px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors border-[#d9d9d9] order-2 md:order-1"
+                className="w-full md:w-[138px] h-[45px] md:h-[60px] rounded-[38px] text-black text-[20px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors border-[#d9d9d9] order-2 md:order-1"
               >
                 Cancel
               </Button>
@@ -232,7 +232,7 @@ export const ApplicationQuestions = (): JSX.Element => {
               <Button
                 onClick={handleSubmit}
                 variant="outline"
-                className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-white text-[24px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
+                className="w-full md:w-[138px] h-[45px] md:h-[60px] rounded-[38px] text-white text-[20px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
               >
                 Next
               </Button>

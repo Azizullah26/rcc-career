@@ -315,7 +315,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               </div>
 
               <h1 className="absolute top-[50px] md:top-[60px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[24px] md:text-[36px] tracking-[0] leading-normal text-center px-4">
-                EXPLORE OPPORTUNITIES
+                <span className="font-bold tracking-wider">EXPLORE OPPORTUNITIES</span>
               </h1>
 
               <p className="absolute w-[90%] md:w-[800px] top-[80px] md:top-[110px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[12px] md:text-[16px] text-center tracking-[0] leading-normal px-4">
@@ -330,23 +330,23 @@ export const ExploreOpportunities = (): JSX.Element => {
         <main className="w-full flex flex-col">
           {/* Search Filter Section */}
           <div className="w-full max-w-[819px] mx-auto mt-6 md:mt-8 px-4">
-            <Card className="rounded-[9px] border-2 border-[#6b6b6b] overflow-hidden">
+            <Card className="rounded-[9px] border-2 border-[#6b6b6b] overflow-hidden shadow-lg">
               {/* Mobile Layout */}
               <div className="md:hidden">
                 <div className="flex flex-col">
-                  <div className="flex flex-col px-[20px] py-[20px]">
+                  <div className="flex flex-col px-4 py-4">
                     <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
                       FIND JOBS
                     </div>
                     <Input
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[20px] tracking-[0] placeholder:text-black focus-visible:ring-0"
+                      className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] placeholder:text-black focus-visible:ring-0"
                       placeholder="Job title, skill, keyword"
                     />
                   </div>
                   <Separator orientation="horizontal" className="h-[1px]" /> // Use Separator component
-                  <div className="flex flex-col px-[20px] py-[20px]">
+                  <div className="flex flex-col px-4 py-4">
                     <div className="flex items-center justify-between">
                       <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
                         NEAR LOCATIONS
@@ -354,7 +354,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                     </div>
                     <Select>
-                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[20px] tracking-[0] focus-visible:ring-0 bg-transparent">
+                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] focus-visible:ring-0 bg-transparent">
                         <SelectValue placeholder="City" />
                       </SelectTrigger>
                       <SelectContent>
@@ -368,10 +368,10 @@ export const ExploreOpportunities = (): JSX.Element => {
                     onClick={() => {
                       console.log("Search triggered with:", { searchTerm, selectedLocation })
                     }}
-                    className="w-full h-[60px] rounded-none bg-[#e6e6e6] hover:bg-[#d9d9d9] border-t-2 border-[#6b6b6b]"
+                    className="w-full h-[50px] rounded-none bg-[#e6e6e6] hover:bg-[#d9d9d9] border-t-2 border-[#6b6b6b]"
                     variant="ghost"
                   >
-                    <SearchIcon className="w-[32px] h-[32px] text-black" />
+                    <SearchIcon className="w-[28px] h-[28px] text-black" />
                   </Button>
                 </div>
               </div>
@@ -465,27 +465,27 @@ export const ExploreOpportunities = (): JSX.Element => {
           </div>
 
           {/* Job Details Section */}
-          <section className="flex flex-col w-full max-w-[1056px] items-start gap-4 md:gap-7 mx-auto mt-6 md:mt-8 px-4 md:px-[103px]">
+          <section className="flex flex-col w-full max-w-[1056px] items-start gap-4 md:gap-7 mx-auto mt-6 md:mt-8 px-4">
             {filteredAndSortedJobs.length > 0 ? (
               filteredAndSortedJobs.map((job, index) => (
                 <button
                   key={index}
                   onClick={() => handleJobClick(job.id)}
-                  className="w-full min-h-[180px] md:h-[220px] bg-[#cfcfcf] border-none rounded-lg p-4 md:p-6 text-left hover:bg-[#c5c5c5] transition-colors cursor-pointer"
+                  className="w-full min-h-[160px] md:h-[220px] bg-[#cfcfcf] border-none rounded-lg p-4 md:p-6 text-left hover:bg-[#c5c5c5] transition-colors cursor-pointer shadow-sm"
                 >
                   <div className="w-full h-full">
                     <div className="w-full [font-family:'Arimo_Hebrew_Subset-Bold',Helvetica]">
-                      <h3 className="font-bold text-black text-[20px] md:text-[24.2px] mb-2">{job.title}</h3>
+                      <h3 className="font-bold text-black text-[18px] md:text-[24.2px] mb-2 leading-tight">{job.title}</h3>
 
-                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[14px] md:text-base mb-3">
+                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[12px] md:text-base mb-2 md:mb-3">
                         Location: {job.location}&nbsp;&nbsp;Posting Date: {job.postingDate}&nbsp;&nbsp;
                       </p>
 
-                      <h4 className="[font-family:'Arimo',Helvetica] font-bold text-black text-[13px] md:text-[15px] mt-3 md:mt-4 mb-2">
+                      <h4 className="[font-family:'Arimo',Helvetica] font-bold text-black text-[12px] md:text-[15px] mt-2 md:mt-4 mb-1 md:mb-2">
                         ABOUT THE JOB
                       </h4>
 
-                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-black text-[13px] md:text-[15px] line-clamp-3 md:line-clamp-none">
+                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-black text-[11px] md:text-[15px] line-clamp-3 md:line-clamp-none leading-relaxed">
                         {job.description}
                       </p>
                     </div>
@@ -494,7 +494,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               ))
             ) : (
               <div className="w-full text-center py-12 md:py-16">
-                <p className="[font-family:'Inter',Helvetica] font-normal text-[#4d4d4d] text-[16px] md:text-[18px]">
+                <p className="[font-family:'Inter',Helvetica] font-normal text-[#4d4d4d] text-[14px] md:text-[18px] px-4">
                   No jobs found matching your criteria. Try adjusting your search filters.
                 </p>
               </div>
@@ -503,43 +503,43 @@ export const ExploreOpportunities = (): JSX.Element => {
         </main>
 
         {/* Call to Action Section */}
-        <section className="bg-gray-50 px-4 md:px-[103px] py-12 md:py-16">
+        <section className="bg-gray-50 px-4 md:px-[103px] py-8 md:py-16">
           <div className="text-center">
-            <h2 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[#151d61] text-[24px] md:text-[32px] mb-4">
+            <h2 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[#151d61] text-[20px] md:text-[32px] mb-3 md:mb-4">
               Don't See the Right Position?
             </h2>
-            <p className="[font-family:'Tajawal',Helvetica] text-[#656565] text-[14px] md:text-[18px] mb-6 md:mb-8 max-w-2xl mx-auto">
+            <p className="[font-family:'Tajawal',Helvetica] text-[#656565] text-[12px] md:text-[18px] mb-4 md:mb-8 max-w-2xl mx-auto leading-relaxed">
               We're always looking for talented individuals to join our team. Send us your resume and we'll keep you in
               mind for future opportunities.
             </p>
-            <Button className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
+            <Button className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[40px] md:h-[50px] px-4 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] transition-colors w-full sm:w-auto max-w-xs">
               Submit Your Resume
             </Button>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="bg-[#151d61] text-white px-4 md:px-[103px] py-8 md:py-12">
+        <footer className="bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
               <img
-                className="w-[100px] h-[45px] md:w-[120px] md:h-[54px] mb-4 brightness-0 invert"
+                className="w-[80px] h-[36px] md:w-[120px] md:h-[54px] mb-3 md:mb-4 brightness-0 invert"
                 alt="EL RACE Logo"
                 src="/pre-comp-2-1.svg"
               />
-              <p className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 leading-relaxed">
+              <p className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 leading-relaxed">
                 Building UAE's future with over 40 years of excellence in construction and infrastructure development.
               </p>
             </div>
             <div>
-              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] mb-4">
+              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">
                 Quick Links
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1 md:space-y-2">
                 <li>
                   <Link
                     href="/"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Home
                   </Link>
@@ -547,7 +547,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 <li>
                   <a
                     href="#"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Projects
                   </a>
@@ -555,7 +555,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 <li>
                   <a
                     href="#"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     About Us
                   </a>
@@ -563,7 +563,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 <li>
                   <a
                     href="#"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Contact
                   </a>
@@ -571,18 +571,18 @@ export const ExploreOpportunities = (): JSX.Element => {
               </ul>
             </div>
             <div>
-              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] mb-4">
+              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">
                 Contact Info
               </h3>
-              <div className="space-y-2 text-[12px] md:text-[14px] text-gray-300">
+              <div className="space-y-1 md:space-y-2 text-[11px] md:text-[14px] text-gray-300">
                 <p className="[font-family:'Tajawal',Helvetica]">EL RACE UAE</p>
                 <p className="[font-family:'Tajawal',Helvetica]">+20 2 1234 5678</p>
                 <p className="[font-family:'Tajawal',Helvetica]">careers@elrace.com</p>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-600 mt-6 md:mt-8 pt-6 md:pt-8 text-center">
-            <p className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300">
+          <div className="border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
+            <p className="[font-family:'Tajawal',Helvetica] text-[10px] md:text-[14px] text-gray-300">
               © 2024 EL RACE. All rights reserved.
             </p>
           </div>

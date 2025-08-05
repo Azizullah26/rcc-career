@@ -128,7 +128,7 @@ export const SearchCareers = (): JSX.Element => {
               <div className="h-full bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] flex items-center justify-center">
                 <div className="text-center text-white px-4">
                   <h1 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[28px] md:text-[42px] mb-4">
-                    SEARCH CAREERS
+                    <span className="font-bold tracking-wider">SEARCH CAREERS</span>
                   </h1>
                   <p className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px] max-w-2xl">
                     Find your perfect career opportunity with EL RACE
@@ -174,20 +174,20 @@ export const SearchCareers = (): JSX.Element => {
           </section>
 
           {/* Job Search Section */}
-          <Card className="w-full max-w-[813px] mx-auto rounded-[9px] border-2 border-solid border-[#6b6b6b] overflow-hidden">
+          <Card className="w-full max-w-[813px] mx-auto rounded-[9px] border-2 border-solid border-[#6b6b6b] overflow-hidden shadow-lg">
             {/* Mobile Layout */}
             <div className="md:hidden">
               <div className="flex flex-col">
-                <div className="flex flex-col px-[20px] py-[20px]">
+                <div className="flex flex-col px-4 py-4">
                   <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[16px] text-center">
                     FIND JOBS
                   </span>
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[20px] text-center mt-[8px]">
+                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[18px] text-center mt-2">
                     Job title
                   </span>
                 </div>
                 <Separator orientation="horizontal" className="h-0.5 bg-[#6b6b6b]" />
-                <div className="flex flex-col px-[20px] py-[20px]">
+                <div className="flex flex-col px-4 py-4">
                   <div className="flex items-center justify-between">
                     <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[16px] text-center">
                       NEAR LOCATIONS
@@ -196,13 +196,13 @@ export const SearchCareers = (): JSX.Element => {
                       <path d="M7 10l5 5 5-5z" />
                     </svg>
                   </div>
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[20px] text-center mt-[8px]">
+                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[18px] text-center mt-2">
                     City
                   </span>
                 </div>
                 <Link href="/explore-opportunities" className="w-full">
-                  <Button className="w-full h-[60px] rounded-none bg-[#e6e6e6] border-t-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors">
-                    <SearchIcon className="w-[32px] h-[32px] text-black" />
+                  <Button className="w-full h-[50px] rounded-none bg-[#e6e6e6] border-t-2 border-solid border-[#6b6b6b] flex items-center justify-center hover:bg-[#d6d6d6] transition-colors">
+                    <SearchIcon className="w-[28px] h-[28px] text-black" />
                   </Button>
                 </Link>
               </div>
@@ -244,9 +244,9 @@ export const SearchCareers = (): JSX.Element => {
           </Card>
 
           {/* Navigation to Explore Opportunities */}
-          <div className="flex justify-center mt-[40px] md:mt-[60px] mb-[40px] md:mb-[60px]">
+          <div className="flex justify-center mt-8 md:mt-[60px] mb-8 md:mb-[60px] px-4">
             <Link href="/explore-opportunities">
-              <Button className="bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
+              <Button className="bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors w-full sm:w-auto">
                 View All Opportunities
               </Button>
             </Link>
@@ -254,27 +254,27 @@ export const SearchCareers = (): JSX.Element => {
         </main>
 
         {/* Footer */}
-        <footer className="bg-[#151d61] text-white px-4 md:px-[103px] py-8 md:py-12">
+        <footer className="bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
               <img
-                className="w-[100px] h-[45px] md:w-[120px] md:h-[54px] mb-4 brightness-0 invert"
+                className="w-[80px] h-[36px] md:w-[120px] md:h-[54px] mb-3 md:mb-4 brightness-0 invert"
                 alt="EL RACE Logo"
                 src="/pre-comp-2-1.svg"
               />
-              <p className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 leading-relaxed">
+              <p className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 leading-relaxed">
                 Building UAE's future with over 40 years of excellence in construction and infrastructure development.
               </p>
             </div>
             <div>
-              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] mb-4">
+              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">
                 Quick Links
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1 md:space-y-2">
                 <li>
                   <Link
                     href="/"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Home
                   </Link>
@@ -282,7 +282,7 @@ export const SearchCareers = (): JSX.Element => {
                 <li>
                   <a
                     href="#"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Projects
                   </a>
@@ -290,7 +290,7 @@ export const SearchCareers = (): JSX.Element => {
                 <li>
                   <a
                     href="#"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     About Us
                   </a>
@@ -298,7 +298,7 @@ export const SearchCareers = (): JSX.Element => {
                 <li>
                   <a
                     href="#"
-                    className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                    className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Contact
                   </a>
@@ -306,18 +306,18 @@ export const SearchCareers = (): JSX.Element => {
               </ul>
             </div>
             <div>
-              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] mb-4">
+              <h3 className="[font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">
                 Contact Info
               </h3>
-              <div className="space-y-2 text-[12px] md:text-[14px] text-gray-300">
+              <div className="space-y-1 md:space-y-2 text-[11px] md:text-[14px] text-gray-300">
                 <p className="[font-family:'Tajawal',Helvetica]">EL RACE UAE</p>
                 <p className="[font-family:'Tajawal',Helvetica]">+20 2 1234 5678</p>
                 <p className="[font-family:'Tajawal',Helvetica]">careers@elrace.com</p>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-600 mt-6 md:mt-8 pt-6 md:pt-8 text-center">
-            <p className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300">
+          <div className="border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
+            <p className="[font-family:'Tajawal',Helvetica] text-[10px] md:text-[14px] text-gray-300">
               © 2024 EL RACE. All rights reserved.
             </p>
           </div>
