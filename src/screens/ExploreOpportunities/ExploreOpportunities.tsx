@@ -319,7 +319,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               </h1>
 
               <p className="absolute w-[90%] md:w-[800px] top-[80px] md:top-[110px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[12px] md:text-[16px] text-center tracking-[0] leading-normal px-4">
-                Join our team of dedicated professionals and be part of Egypt's leading construction company
+                Join our team of dedicated professionals and be part of UAE's leading construction company
               </p>
             </div>
             <div className="h-[17px] bottom-0 absolute w-full bg-[#9e3442]" />
@@ -345,7 +345,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       placeholder="Job title, skill, keyword"
                     />
                   </div>
-                  <Separator orientation="horizontal" className="h-[1px]" /> // Use Separator component
+                  <Separator orientation="horizontal" className="h-[1px]" />
                   <div className="flex flex-col px-[20px] py-[20px]">
                     <div className="flex items-center justify-between">
                       <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
@@ -389,7 +389,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                     placeholder="Job title, skill, keyword"
                   />
                 </div>
-                <Separator orientation="vertical" className="h-[62px] my-auto" /> // Use Separator component
+                <Separator orientation="vertical" className="h-[62px] my-auto" />
                 <div className="flex-1 flex flex-col justify-center px-[35px]">
                   <div className="flex items-center justify-between">
                     <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
@@ -512,7 +512,26 @@ export const ExploreOpportunities = (): JSX.Element => {
               We're always looking for talented individuals to join our team. Send us your resume and we'll keep you in
               mind for future opportunities.
             </p>
-            <Button className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
+            <input
+              type="file"
+              id="resume-upload"
+              accept=".pdf,.doc,.docx"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const formData = new FormData();
+                  formData.append('resume', file);
+                  // Here you would typically send to your backend
+                  console.log('Resume uploaded:', file.name);
+                  alert(`Resume "${file.name}" uploaded successfully! We'll review it and contact you if there's a suitable position.`);
+                }
+              }}
+            />
+            <Button 
+              onClick={() => document.getElementById('resume-upload')?.click()}
+              className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors"
+            >
               Submit Your Resume
             </Button>
           </div>

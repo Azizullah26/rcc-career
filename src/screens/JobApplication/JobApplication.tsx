@@ -185,10 +185,10 @@ export const JobApplication = (): JSX.Element => {
           {/* Page Title */}
           <Card className="w-full border-none shadow-none mb-6 md:mb-8">
             <CardContent className="p-0 text-center">
-              <h1 className="font-sans font-bold text-[24px] md:text-[33.6px] text-[#151d61] tracking-normal">
+              <h1 className="font-sans font-bold text-[18px] sm:text-[24px] md:text-[33.6px] text-[#151d61] tracking-normal">
                 Job Application – Personal Information
               </h1>
-              <p className="font-sans font-medium text-[18px] md:text-[24.6px] text-[#909090] underline mt-1">
+              <p className="font-sans font-medium text-[14px] sm:text-[18px] md:text-[24.6px] text-[#909090] underline mt-1">
                 please enter your information
               </p>
             </CardContent>
@@ -199,7 +199,7 @@ export const JobApplication = (): JSX.Element => {
             <div className="flex flex-col w-full items-start gap-4 md:gap-[23px] relative">
               {formFields.map((field) => (
                 <div key={field.id} className="flex flex-col items-center gap-2 md:gap-3 relative self-stretch w-full">
-                  <Label className="self-stretch h-auto [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                  <Label className="self-stretch h-auto [font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     {field.label}
                   </Label>
                   <Input
@@ -214,7 +214,7 @@ export const JobApplication = (): JSX.Element => {
               <div className="flex flex-col w-full items-start gap-6 md:gap-[39px] relative">
                 {/* UAE Driving license toggle */}
                 <div className="flex flex-col items-start gap-4 md:gap-6 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     UAE Driving License*
                   </Label>
                   <ToggleGroup
@@ -225,13 +225,13 @@ export const JobApplication = (): JSX.Element => {
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] sm:h-[50px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] sm:h-[50px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -240,7 +240,7 @@ export const JobApplication = (): JSX.Element => {
 
                 {/* Relocation Possibility toggle */}
                 <div className="flex flex-col items-start gap-4 md:gap-6 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     Relocation Possibility*
                   </Label>
                   <ToggleGroup
@@ -251,13 +251,13 @@ export const JobApplication = (): JSX.Element => {
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] sm:h-[50px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[50px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[40px] sm:h-[50px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] sm:text-[24px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -266,13 +266,13 @@ export const JobApplication = (): JSX.Element => {
 
                 {/* Languages section */}
                 <div className="flex flex-col items-start gap-3 md:gap-3.5 relative self-stretch w-full">
-                  <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
+                  <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[14px] sm:text-[18px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     Languages*
                   </Label>
                   <div className="flex flex-col md:flex-row items-start gap-4 md:gap-10 relative self-stretch w-full">
                     {/* First Language */}
                     <div className="relative w-full md:w-[194px]">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 block">
+                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] sm:text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 block">
                         First Language
                       </Label>
                       <Select
@@ -293,7 +293,7 @@ export const JobApplication = (): JSX.Element => {
 
                     {/* Second Language */}
                     <div className="relative w-full md:w-[194px]">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 block">
+                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] sm:text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 block">
                         Second Language
                       </Label>
                       <Select
@@ -314,7 +314,7 @@ export const JobApplication = (): JSX.Element => {
 
                     {/* Add More Button */}
                     <div className="relative w-full md:w-[83px] flex flex-col items-center">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 text-center">
+                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] sm:text-[16px] md:text-lg tracking-[0] leading-[normal] mb-2 text-center">
                         ADD MORE
                       </Label>
                       <Button
@@ -322,7 +322,7 @@ export const JobApplication = (): JSX.Element => {
                         variant="outline"
                         className="w-12 md:w-[54px] h-12 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black flex items-center justify-center hover:bg-[#c9c9c9]"
                       >
-                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[40px] md:text-[51px] tracking-[0] leading-[normal]">
+                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[30px] sm:text-[40px] md:text-[51px] tracking-[0] leading-[normal]">
                           +
                         </span>
                       </Button>
@@ -338,7 +338,7 @@ export const JobApplication = (): JSX.Element => {
                 type="button"
                 onClick={() => router.back()}
                 variant="outline"
-                className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-black text-[24px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
+                className="w-full md:w-[138px] h-[40px] sm:h-[50px] md:h-[60px] rounded-[38px] text-black text-[18px] sm:text-[24px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
               >
                 Cancel
               </Button>
@@ -346,7 +346,7 @@ export const JobApplication = (): JSX.Element => {
               <Button
                 onClick={onSubmit}
                 variant="outline"
-                className="w-full md:w-[138px] h-[50px] md:h-[60px] rounded-[38px] text-white text-[24px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
+                className="w-full md:w-[138px] h-[40px] sm:h-[50px] md:h-[60px] rounded-[38px] text-white text-[18px] sm:text-[24px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
               >
                 Next
               </Button>
