@@ -144,15 +144,15 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
     <div className="bg-transparent flex flex-row justify-center w-full">
       <div className="bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_100%)] w-[1280px] relative">
         {/* Header/Navigation Bar */}
-        <header className="w-full h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px]">
+        <header className="fixed w-full h-[70px] md:h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px] top-0 left-0 z-50">
           <div className="flex items-center">
-            <img className="w-[120px] h-[54px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
+            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
             <button
               onClick={() => router.back()}
               className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
             >
               <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="[font-family:'Tajawal',Helvetica] font-normal text-[16px] md:text-[18px]">Back</span>
+              <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
             </button>
           </div>
 
@@ -194,19 +194,23 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="lg:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button 
+            className="lg:hidden p-2 z-50 relative" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
             {isMobileMenuOpen ? <X className="w-6 h-6 text-[#151d61]" /> : <Menu className="w-6 h-6 text-[#151d61]" />}
           </button>
 
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden absolute top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-50">
+            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -215,7 +219,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                   >
                     <LogInIcon className="w-[20px] h-[20px]" />
                     <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
@@ -224,7 +228,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                   >
                     <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
                     <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
@@ -238,8 +242,8 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="px-4 md:px-[100px] pt-[30px] md:pt-[46px] pb-[60px] md:pb-[100px]">
-          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[18px] md:text-[24.6px] mb-[40px] md:mb-[80px]">
+        <main className="px-4 md:px-[100px] pt-[100px] md:pt-[137px] pb-[60px] md:pb-[100px]">
+          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[16px] md:text-[24.6px] mb-[30px] md:mb-[80px]">
             APPLICATION QUESTIONS
           </h1>
 

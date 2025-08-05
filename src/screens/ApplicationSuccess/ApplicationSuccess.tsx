@@ -28,12 +28,12 @@ export const ApplicationSuccess = (): JSX.Element => {
     <div className="bg-transparent flex flex-row justify-center w-full">
       <div className="bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_100%)] w-full max-w-[1280px] h-auto min-h-[848px] relative">
         {/* Header/Navigation Bar */}
-        <header className="absolute w-full h-[91px] top-0 left-0 bg-white">
+        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-white z-50">
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
             <Link href="/">
               <img
-                className="w-[120px] h-[54px] md:w-[150px] md:h-[68px] cursor-pointer hover:opacity-80 transition-opacity"
+                className="w-[100px] h-[45px] md:w-[150px] md:h-[68px] cursor-pointer hover:opacity-80 transition-opacity"
                 alt="Company logo"
                 src="/pre-comp-2-1.svg"
               />
@@ -86,7 +86,11 @@ export const ApplicationSuccess = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="lg:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <button 
+              className="lg:hidden p-2 z-50 relative" 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-[#151d61]" />
               ) : (
@@ -97,13 +101,13 @@ export const ApplicationSuccess = (): JSX.Element => {
 
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden absolute top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-50">
+            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <a
                     key={index}
                     href="#"
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -112,7 +116,7 @@ export const ApplicationSuccess = (): JSX.Element => {
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                   >
                     <LogInIcon className="w-[20px] h-[20px]" />
                     <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
@@ -121,7 +125,7 @@ export const ApplicationSuccess = (): JSX.Element => {
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                   >
                     <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
                     <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
@@ -135,8 +139,8 @@ export const ApplicationSuccess = (): JSX.Element => {
         </header>
 
         {/* Success Message Section */}
-        <section className="absolute w-[90%] md:w-[1173px] h-auto top-[120px] md:top-[234px] left-1/2 transform -translate-x-1/2 flex flex-col items-center px-4">
-          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[24px] md:text-[59.4px] text-center tracking-[0] leading-tight mb-3 md:mb-4">
+        <section className="absolute w-[90%] md:w-[1173px] h-auto top-[100px] md:top-[234px] left-1/2 transform -translate-x-1/2 flex flex-col items-center px-4 pt-[70px] md:pt-[91px]">
+          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[20px] md:text-[59.4px] text-center tracking-[0] leading-tight mb-3 md:mb-4">
             <span className="font-bold">
               Your Application
               <br />
@@ -145,10 +149,10 @@ export const ApplicationSuccess = (): JSX.Element => {
           </h1>
 
           {/* Success Check Mark */}
-          <div className="w-[120px] md:w-[188px] h-[120px] md:h-[188px] mt-[12px] md:mt-[18px] flex items-center justify-center">
-            <div className="w-[120px] md:w-[188px] h-[120px] md:h-[188px] bg-green-500 rounded-full flex items-center justify-center">
+          <div className="w-[100px] md:w-[188px] h-[100px] md:h-[188px] mt-[12px] md:mt-[18px] flex items-center justify-center">
+            <div className="w-[100px] md:w-[188px] h-[100px] md:h-[188px] bg-green-500 rounded-full flex items-center justify-center">
               <svg
-                className="w-[70px] md:w-[120px] h-[70px] md:h-[120px] text-white"
+                className="w-[60px] md:w-[120px] h-[60px] md:h-[120px] text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -162,7 +166,7 @@ export const ApplicationSuccess = (): JSX.Element => {
           {/* Return to Home Button */}
           <div className="mt-[20px] md:mt-[40px]">
             <Link href="/">
-              <Button className="w-[160px] md:w-[200px] h-[40px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] transition-colors">
+              <Button className="w-[140px] md:w-[200px] h-[40px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[12px] md:text-[18px] transition-colors">
                 Return to Home
               </Button>
             </Link>

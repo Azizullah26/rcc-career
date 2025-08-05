@@ -143,17 +143,17 @@ export const JobDetails = (): JSX.Element => {
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1282px] relative min-h-[973px]">
         {/* Header/Navigation */}
-        <header className="absolute w-full h-[91px] top-0 left-0 bg-[#ebebeb]">
+        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-[#ebebeb] z-50">
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
             {/* Logo and Back Button */}
             <div className="flex items-center">
-              <img className="w-[120px] h-[54px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
+              <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
               <button
                 onClick={() => router.back()}
                 className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-                <span className="[font-family:'Tajawal',Helvetica] font-normal text-[16px] md:text-[18px]">Back</span>
+                <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
               </button>
             </div>
 
@@ -196,7 +196,11 @@ export const JobDetails = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="lg:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <button 
+              className="lg:hidden p-2 z-50 relative" 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-[#151d61]" />
               ) : (
@@ -207,13 +211,13 @@ export const JobDetails = (): JSX.Element => {
 
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden absolute top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-50">
+            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -222,7 +226,7 @@ export const JobDetails = (): JSX.Element => {
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                   >
                     <LogInIcon className="w-[20px] h-[20px]" />
                     <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
@@ -231,7 +235,7 @@ export const JobDetails = (): JSX.Element => {
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                   >
                     <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
                     <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
@@ -245,44 +249,44 @@ export const JobDetails = (): JSX.Element => {
         </header>
 
         {/* Back Button */}
-        <div className="absolute top-[100px] left-4 md:left-[85px]">
+        <div className="absolute top-[80px] md:top-[100px] left-4 md:left-[85px] z-10">
           <button
             onClick={() => router.back()}
             className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
           >
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-            <span className="[font-family:'Tajawal',Helvetica] font-normal text-[16px] md:text-[18px]">Back</span>
+            <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
           </button>
         </div>
 
         {/* Job Title */}
-        <h1 className="absolute top-[130px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[18px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4">
+        <h1 className="absolute top-[110px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[16px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4 pt-[70px] md:pt-[91px]">
           {job.title}
           <br />
           {job.location}
         </h1>
 
         {/* Job Description */}
-        <Card className="absolute w-[95%] md:w-[1084px] top-[200px] md:top-[248px] left-1/2 transform -translate-x-1/2 border-none shadow-none">
+        <Card className="absolute w-[95%] md:w-[1084px] top-[180px] md:top-[248px] left-1/2 transform -translate-x-1/2 border-none shadow-none mt-[70px] md:mt-[91px]">
           <CardContent className="p-4 md:p-0 [font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-[22.8px] text-justify tracking-[0] leading-normal">
-            <h2 className="font-bold text-[16px] md:text-[22.8px] mb-3 md:mb-4">Job Description</h2>
+            <h2 className="font-bold text-[14px] md:text-[22.8px] mb-3 md:mb-4">Job Description</h2>
 
-            <p className="font-light mb-3 md:mb-6 text-[12px] md:text-[22.8px] leading-relaxed">
+            <p className="font-light mb-3 md:mb-6 text-[11px] md:text-[22.8px] leading-relaxed">
               <strong>ABOUT THE POSITION</strong>
               <br />
               {job.description}
             </p>
 
             <div className="mb-3 md:mb-6">
-              <p className="font-light text-[12px] md:text-[22.8px]">
+              <p className="font-light text-[11px] md:text-[22.8px]">
                 <strong>Department:</strong> {job.department} | <strong>Type:</strong> {job.type} |{" "}
                 <strong>Experience:</strong> {job.experience}
               </p>
             </div>
 
-            <h2 className="font-bold mt-3 md:mt-4 text-[14px] md:text-[22.8px]">WHAT YOU WILL NEED TO SUCCEED</h2>
+            <h2 className="font-bold mt-3 md:mt-4 text-[12px] md:text-[22.8px]">WHAT YOU WILL NEED TO SUCCEED</h2>
 
-            <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[12px] md:text-[22.8px] space-y-1">
+            <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[11px] md:text-[22.8px] space-y-1">
               {job.requirements.map((requirement, index) => (
                 <li key={index} className="mb-1">
                   {requirement}
@@ -290,9 +294,9 @@ export const JobDetails = (): JSX.Element => {
               ))}
             </ul>
 
-            <h2 className="font-bold mt-3 md:mt-4 text-[14px] md:text-[22.8px]">KEY RESPONSIBILITIES</h2>
+            <h2 className="font-bold mt-3 md:mt-4 text-[12px] md:text-[22.8px]">KEY RESPONSIBILITIES</h2>
 
-            <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[12px] md:text-[22.8px] space-y-1">
+            <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[11px] md:text-[22.8px] space-y-1">
               {job.responsibilities.map((responsibility, index) => (
                 <li key={index} className="mb-1">
                   {responsibility}
@@ -304,7 +308,7 @@ export const JobDetails = (): JSX.Element => {
             <div className="flex justify-center mt-4 md:mt-8">
               <Button
                 onClick={() => router.push(`/job-application/${jobId}`)}
-                className="w-[160px] md:w-[207px] h-[50px] md:h-[67px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[24px] md:text-[36.6px] hover:bg-[#1a2470] transition-colors"
+                className="w-[140px] md:w-[207px] h-[45px] md:h-[67px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[20px] md:text-[36.6px] hover:bg-[#1a2470] transition-colors"
               >
                 Apply
               </Button>
