@@ -261,25 +261,25 @@ export const JobDetails = (): JSX.Element => {
 
         {/* Job Description */}
         <Card className="absolute w-[95%] md:w-[1084px] top-[180px] md:top-[248px] left-1/2 transform -translate-x-1/2 border-none shadow-none">
-          <CardContent className="p-4 md:p-0 [font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-[22.8px] text-justify tracking-[0] leading-normal">
-            <h2 className="font-bold text-[14px] md:text-[22.8px] mb-3 md:mb-4">Job Description</h2>
+          <CardContent className="p-4 md:p-0 [font-family:'Inter',Helvetica] font-normal text-black text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] text-justify tracking-[0] leading-normal">
+            <h2 className="font-bold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] mb-3 md:mb-4">Job Description</h2>
 
-            <p className="font-light mb-3 md:mb-6 text-[11px] md:text-[22.8px] leading-relaxed">
+            <p className="font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] leading-relaxed">
               <strong>ABOUT THE POSITION</strong>
               <br />
               {job.description}
             </p>
 
             <div className="mb-3 md:mb-6">
-              <p className="font-light text-[11px] md:text-[22.8px]">
+              <p className="font-light text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px]">
                 <strong>Department:</strong> {job.department} | <strong>Type:</strong> {job.type} |{" "}
                 <strong>Experience:</strong> {job.experience}
               </p>
             </div>
 
-            <h2 className="font-bold mt-3 md:mt-4 text-[12px] md:text-[22.8px]">WHAT YOU WILL NEED TO SUCCEED</h2>
+            <h2 className="font-bold mt-3 md:mt-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px]">WHAT YOU WILL NEED TO SUCCEED</h2>
 
-            <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[11px] md:text-[22.8px] space-y-1">
+            <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
               {job.requirements.map((requirement, index) => (
                 <li key={index} className="mb-1">
                   {requirement}
@@ -287,9 +287,9 @@ export const JobDetails = (): JSX.Element => {
               ))}
             </ul>
 
-            <h2 className="font-bold mt-3 md:mt-4 text-[12px] md:text-[22.8px]">KEY RESPONSIBILITIES</h2>
+            <h2 className="font-bold mt-3 md:mt-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px]">KEY RESPONSIBILITIES</h2>
 
-            <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[11px] md:text-[22.8px] space-y-1">
+            <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
               {job.responsibilities.map((responsibility, index) => (
                 <li key={index} className="mb-1">
                   {responsibility}
