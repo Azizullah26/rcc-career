@@ -10,13 +10,19 @@ import {
   SearchIcon,
   Menu,
   X,
+  CalendarIcon,
+  Upload,
+  FileText,
 } from "lucide-react"
 import React, { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
-import { Separator } from "../../components/ui/separator" // Import Separator component
+import { Separator } from "../../components/ui/separator"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
+import { Label } from "../../components/ui/label"
+import { Textarea } from "../../components/ui/textarea"
 
 // Card Component
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -65,6 +71,16 @@ export const ExploreOpportunities = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLocation, setSelectedLocation] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isResumePopupOpen, setIsResumePopupOpen] = useState(false)
+  const [resumeForm, setResumeForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    position: "",
+    experience: "",
+    coverLetter: "",
+    resume: null as File | null,
+  })
 
   // Navigation menu items
   const navItems = [
@@ -201,6 +217,38 @@ export const ExploreOpportunities = (): JSX.Element => {
 
   const handleSortToggle = () => {
     setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+  }
+
+  const handleResumeFormChange = (field: string, value: string | File) => {
+    setResumeForm((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleResumeSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Validate required fields
+    if (!resumeForm.fullName || !resumeForm.email || !resumeForm.phone || !resumeForm.resume) {
+      alert("Please fill in all required fields and upload your resume.")
+      return
+    }
+
+    // Here you would typically send the data to your backend
+    console.log("Resume submission:", resumeForm)
+    
+    // Show success message
+    alert(`Thank you ${resumeForm.fullName}! Your resume has been submitted successfully. We'll review it and contact you if there's a suitable position.`)
+    
+    // Reset form and close popup
+    setResumeForm({
+      fullName: "",
+      email: "",
+      phone: "",
+      position: "",
+      experience: "",
+      coverLetter: "",
+      resume: null,
+    })
+    setIsResumePopupOpen(false)
   }
 
   return (
@@ -478,8 +526,15 @@ export const ExploreOpportunities = (): JSX.Element => {
                     <div className="w-full [font-family:'Arimo_Hebrew_Subset-Bold',Helvetica]">
                       <h3 className="font-bold text-black text-[20px] md:text-[24.2px] mb-2">{job.title}</h3>
 
-                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[14px] md:text-base mb-3">
-                        Location: {job.location}&nbsp;&nbsp;Posting Date: {job.postingDate}&nbsp;&nbsp;
+                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[14px] md:text-base mb-3 flex flex-wrap items-center gap-4">
+                        <span className="flex items-center gap-1">
+                          <MapPinIcon className="w-4 h-4 text-[#2d2d2d]" />
+                          {job.location}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <CalendarIcon className="w-4 h-4 text-[#2d2d2d]" />
+                          {job.postingDate}
+                        </span>
                       </p>
 
                       <h4 className="[font-family:'Arimo',Helvetica] font-bold text-black text-[13px] md:text-[15px] mt-3 md:mt-4 mb-2">
@@ -513,28 +568,173 @@ export const ExploreOpportunities = (): JSX.Element => {
               We're always looking for talented individuals to join our team. Send us your resume and we'll keep you in
               mind for future opportunities.
             </p>
-            <input
-              type="file"
-              id="resume-upload"
-              accept=".pdf,.doc,.docx"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const formData = new FormData();
-                  formData.append('resume', file);
-                  // Here you would typically send to your backend
-                  console.log('Resume uploaded:', file.name);
-                  alert(`Resume "${file.name}" uploaded successfully! We'll review it and contact you if there's a suitable position.`);
-                }
-              }}
-            />
-            <Button 
-              onClick={() => document.getElementById('resume-upload')?.click()}
-              className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors"
-            >
-              Submit Your Resume
-            </Button>
+            
+            <Dialog open={isResumePopupOpen} onOpenChange={setIsResumePopupOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[50px] px-6 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[16px] md:text-[18px] transition-colors">
+                  Submit Your Resume
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="text-[#151d61] text-[24px] font-bold text-center mb-4">
+                    Submit Your Resume
+                  </DialogTitle>
+                </DialogHeader>
+                
+                <form onSubmit={handleResumeSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="fullName" className="text-[16px] font-semibold text-black">
+                        Full Name *
+                      </Label>
+                      <Input
+                        id="fullName"
+                        type="text"
+                        value={resumeForm.fullName}
+                        onChange={(e) => handleResumeFormChange("fullName", e.target.value)}
+                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-[16px] font-semibold text-black">
+                        Email Address *
+                      </Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={resumeForm.email}
+                        onChange={(e) => handleResumeFormChange("email", e.target.value)}
+                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        placeholder="Enter your email"
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone" className="text-[16px] font-semibold text-black">
+                        Phone Number *
+                      </Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={resumeForm.phone}
+                        onChange={(e) => handleResumeFormChange("phone", e.target.value)}
+                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        placeholder="Enter your phone number"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="position" className="text-[16px] font-semibold text-black">
+                        Desired Position
+                      </Label>
+                      <Input
+                        id="position"
+                        type="text"
+                        value={resumeForm.position}
+                        onChange={(e) => handleResumeFormChange("position", e.target.value)}
+                        className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]"
+                        placeholder="e.g., Civil Engineer, Project Manager"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="experience" className="text-[16px] font-semibold text-black">
+                      Years of Experience
+                    </Label>
+                    <Select onValueChange={(value) => handleResumeFormChange("experience", value)}>
+                      <SelectTrigger className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#151d61]">
+                        <SelectValue placeholder="Select your experience level" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="0-1">0-1 years</SelectItem>
+                        <SelectItem value="2-3">2-3 years</SelectItem>
+                        <SelectItem value="4-5">4-5 years</SelectItem>
+                        <SelectItem value="6-10">6-10 years</SelectItem>
+                        <SelectItem value="10+">10+ years</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="coverLetter" className="text-[16px] font-semibold text-black">
+                      Cover Letter / Message
+                    </Label>
+                    <Textarea
+                      id="coverLetter"
+                      value={resumeForm.coverLetter}
+                      onChange={(e) => handleResumeFormChange("coverLetter", e.target.value)}
+                      className="min-h-[100px] rounded-lg border-2 border-gray-300 focus:border-[#151d61] resize-none"
+                      placeholder="Tell us why you'd be a great fit for EL RACE..."
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="resume" className="text-[16px] font-semibold text-black">
+                      Upload Resume *
+                    </Label>
+                    <div className="relative">
+                      <input
+                        id="resume"
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            handleResumeFormChange("resume", file)
+                          }
+                        }}
+                        className="hidden"
+                        required
+                      />
+                      <Button
+                        type="button"
+                        onClick={() => document.getElementById("resume")?.click()}
+                        variant="outline"
+                        className="w-full h-12 rounded-lg border-2 border-dashed border-gray-300 hover:border-[#151d61] flex items-center justify-center gap-2"
+                      >
+                        {resumeForm.resume ? (
+                          <>
+                            <FileText className="w-5 h-5 text-[#151d61]" />
+                            <span className="text-[#151d61]">{resumeForm.resume.name}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-5 h-5 text-gray-500" />
+                            <span className="text-gray-500">Click to upload your resume (PDF, DOC, DOCX)</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setIsResumePopupOpen(false)}
+                      className="flex-1 h-12 rounded-lg border-2 border-gray-300 hover:bg-gray-50"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="flex-1 h-12 rounded-lg bg-[#151d61] hover:bg-[#1a2470] text-white font-semibold"
+                    >
+                      Submit Resume
+                    </Button>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
           </div>
         </section>
 
