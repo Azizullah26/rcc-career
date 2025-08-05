@@ -135,7 +135,7 @@ export const Careers = (): JSX.Element => {
         </section>
 
         {/* Call to Action Button */}
-        <div className="flex justify-center mt-[60px] md:mt-[90px] px-4">
+        <div className="flex justify-center mt-[80px] md:mt-[120px] px-4">
           <Link href="/search-careers">
             <Button className="w-[220px] md:w-[286px] h-[45px] md:h-[54px] bg-[#151d61] rounded-[11px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[18px] md:text-[25.1px] text-center tracking-[0] leading-normal hover:bg-[#1a2470] transition-colors">
               Explore Opportunities
