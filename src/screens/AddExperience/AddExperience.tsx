@@ -155,6 +155,7 @@ export const AddExperience = (): JSX.Element => {
                 ))}
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
+                    onClick={() => window.location.href = 'https://elrace.com/emplogin'}
                     variant="outline"
                     className="flex items-center justify-center gap-2 h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                   >

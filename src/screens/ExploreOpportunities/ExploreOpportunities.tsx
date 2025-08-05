@@ -557,16 +557,16 @@ export const ExploreOpportunities = (): JSX.Element => {
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <Link
-                    href="/"
+                  <a
+                    href="https://elrace.com/"
                     className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Home
-                  </Link>
+                  </a>
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="https://elrace.com/projects"
                     className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Projects
@@ -574,7 +574,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="https://elrace.com/about"
                     className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     About Us
@@ -582,7 +582,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="https://elrace.com/contact"
                     className="[font-family:'Tajawal',Helvetica] text-[12px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
                     Contact
