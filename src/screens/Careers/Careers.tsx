@@ -119,10 +119,10 @@ export const Careers = (): JSX.Element => {
           <div className="h-48 md:h-60 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
             <div className="h-auto min-h-48 md:h-60 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full pb-4 md:pb-0">
               <h1 className="absolute top-6 md:top-[26px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[24px] md:text-[42.9px] tracking-[0] leading-normal text-center px-4">
-                <span className="text-[16px] md:text-[48.1px] font-bold tracking-wider whitespace-nowrap mb-4 md:mb-6 block">EL RACE CAREERS</span>
+                <span className="text-[16px] md:text-[48.1px] font-bold tracking-wider whitespace-nowrap mb-6 md:mb-10 block">EL RACE CAREERS</span>
               </h1>
 
-              <p className="absolute w-[80%] md:w-[800px] top-[45px] md:top-[85px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[9px] md:text-[16px] text-center tracking-[0] leading-tight px-4 max-h-none">
+              <p className="absolute w-[80%] md:w-[800px] top-[55px] md:top-[105px] left-1/2 transform -translate-x-1/2 [font-family:'Tajawal',Helvetica] font-normal text-white text-[9px] md:text-[16px] text-center tracking-[0] leading-normal px-4 max-h-none">
                 EL RACE&nbsp;&nbsp;is a well-established local company with over 40 years of experience, known for
                 delivering major government projects with excellence and reliability. We take pride in our talented and
                 dedicated team, and we&apos;re always looking for passionate individuals to join our growing family. At
