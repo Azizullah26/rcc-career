@@ -8,16 +8,19 @@ import Link from "next/link"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
+import { useJobApplication } from "../../hooks/useJobApplication"
 import type { JSX } from "react"
 
 export const AddExperience = (): JSX.Element => {
   const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
+  const { submitApplication, isSubmitting, submitError } = useJobApplication()
 
   // State for managing experience cards
   const [experienceCards, setExperienceCards] = useState([1, 2])
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [experienceData, setExperienceData] = useState<Record<string, string>>({})
 
   // Navigation menu items
   const navItems = [
@@ -65,12 +68,39 @@ export const AddExperience = (): JSX.Element => {
     fileInput?.click()
   }
 
-  const handleSubmit = () => {
-    console.log("Application submitted successfully!")
-    if (uploadedFile) {
-      console.log("CV file:", uploadedFile.name)
+  const handleSubmit = async () => {
+    if (!jobId) {
+      alert("Job ID is missing")
+      return
     }
-    router.push("/application-success")
+
+    // Get form data from localStorage (stored from previous steps)
+    const personalInfo = JSON.parse(localStorage.getItem('personalInfo') || '{}')
+    const applicationQuestions = JSON.parse(localStorage.getItem('applicationQuestions') || '{}')
+    const extendedQuestions = JSON.parse(localStorage.getItem('extendedQuestions') || '{}')
+
+    const formData = {
+      ...personalInfo,
+      ...applicationQuestions,
+      ...extendedQuestions,
+      experienceData
+    }
+
+    const result = await submitApplication(jobId, formData, uploadedFile)
+    
+    if (result.success) {
+      // Clear stored data
+      localStorage.removeItem('personalInfo')
+      localStorage.removeItem('applicationQuestions')
+      localStorage.removeItem('extendedQuestions')
+      router.push("/application-success")
+    } else {
+      alert(`Application submission failed: ${result.error}`)
+    }
+  }
+
+  const handleExperienceChange = (field: string, value: string) => {
+    setExperienceData(prev => ({ ...prev, [field]: value }))
   }
 
   return (
@@ -206,6 +236,8 @@ export const AddExperience = (): JSX.Element => {
                       <Input
                         id={`${field.id}-${cardNumber}`}
                         type={field.type}
+                        value={experienceData[`${field.id}-${cardNumber}`] || ''}
+                        onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
                         className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-sm md:text-lg"
                       />
                     </div>
@@ -250,12 +282,19 @@ export const AddExperience = (): JSX.Element => {
 
               <Button
                 onClick={handleSubmit}
+                disabled={isSubmitting}
                 className="w-full max-w-[207px] h-[50px] md:h-[67px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
               >
                 <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[24px] md:text-[36.6px]">
-                  Apply
+                  {isSubmitting ? "Submitting..." : "Apply"}
                 </span>
               </Button>
+              
+              {submitError && (
+                <div className="text-red-600 text-sm mt-2 text-center">
+                  {submitError}
+                </div>
+              )}
             </div>
           </div>
         </main>

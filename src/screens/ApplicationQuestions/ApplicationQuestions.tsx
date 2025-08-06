@@ -30,6 +30,8 @@ export const ApplicationQuestions = (): JSX.Element => {
   ]
 
   const handleSubmit = () => {
+    // Store application questions in localStorage
+    localStorage.setItem('applicationQuestions', JSON.stringify({ previouslyWorked, relativesOrFriends }))
     console.log("Application questions submitted:", { previouslyWorked, relativesOrFriends })
     // Navigate to extended application questions page
     router.push(`/extended-application-questions/${jobId}`)

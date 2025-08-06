@@ -134,6 +134,8 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
       names,
       selectedRelationships,
     }
+    // Store extended questions in localStorage
+    localStorage.setItem('extendedQuestions', JSON.stringify(formData))
     console.log("Extended application questions submitted:", formData)
     router.push(`/add-experience/${jobId}`)
   }
