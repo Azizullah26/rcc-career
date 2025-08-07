@@ -122,7 +122,7 @@ export const JobApplication = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
             {/* Logo */}
             <div className="flex items-center">
-              <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
+              <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
             </div>
 
             {/* Desktop Navigation */}

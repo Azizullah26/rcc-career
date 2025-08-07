@@ -66,7 +66,7 @@ export const SearchCareers = (): JSX.Element => {
         <header className="w-full h-[70px] md:h-[91px] bg-white relative z-50">
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
-            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
+            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center justify-between">

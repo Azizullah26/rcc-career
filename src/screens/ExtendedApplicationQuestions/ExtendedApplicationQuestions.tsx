@@ -61,7 +61,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
         {/* Header/Navigation Bar */}
         <header className="fixed w-full h-[70px] md:h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px] top-0 left-0 z-50">
           <div className="flex items-center">
-            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
+            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
           </div>
 
           {/* Desktop Navigation */}

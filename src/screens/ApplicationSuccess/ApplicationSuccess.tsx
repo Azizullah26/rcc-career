@@ -35,7 +35,7 @@ export const ApplicationSuccess = (): JSX.Element => {
               <img
                 className="w-[100px] h-[45px] md:w-[150px] md:h-[68px] cursor-pointer hover:opacity-80 transition-opacity"
                 alt="Company logo"
-                src="/pre-comp-2-1.svg"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
               />
             </Link>
 
