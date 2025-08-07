@@ -268,10 +268,10 @@ class OdooService {
 
 // Environment configuration
 const odooConfig: OdooConfig = {
-  url: import.meta.env.VITE_ODOO_URL || 'https://your-odoo-instance.odoo.com',
-  database: import.meta.env.VITE_ODOO_DATABASE || 'your-database-name',
-  username: import.meta.env.VITE_ODOO_USERNAME || 'api-user',
-  password: import.meta.env.VITE_ODOO_PASSWORD || 'api-password',
+  url: process.env.NEXT_PUBLIC_ODOO_URL || 'https://your-odoo-instance.odoo.com',
+  database: process.env.NEXT_PUBLIC_ODOO_DATABASE || 'your-database-name',
+  username: process.env.NEXT_PUBLIC_ODOO_USERNAME || 'api-user',
+  password: process.env.NEXT_PUBLIC_ODOO_PASSWORD || 'api-password',
 };
 
 export const odooService = new OdooService(odooConfig);
