@@ -13,16 +13,15 @@ export interface ApplicationFormData {
   
   // Experience
   totalExperience: string;
-  egyptExperience: string;
+  uaeExperience: string;
   currentLocation: string;
   expectedSalary: string;
   joiningPossibility: string;
   
   // Additional Info
-  egyptDrivingLicense: string;
+  uaeDrivingLicense: string;
   relocationPossibility: string;
-  firstLanguage: string;
-  secondLanguage: string;
+  languages: Array<{ id: number; language: string; proficiency: string }>;
   
   // Application Questions
   previouslyWorked: string;
@@ -30,6 +29,9 @@ export interface ApplicationFormData {
   relativesOrFriends: string;
   names: string;
   selectedRelationships: string[];
+  
+  // Experience Data
+  experienceData: Record<string, string>;
 }
 
 export const useJobApplication = () => {
@@ -63,18 +65,15 @@ export const useJobApplication = () => {
         
         // Experience
         total_experience: formData.totalExperience,
-        uae_experience: formData.egyptExperience,
+        uae_experience: formData.uaeExperience,
         current_location: formData.currentLocation,
         expected_salary: formData.expectedSalary,
         joining_possibility: formData.joiningPossibility,
         
         // Additional Info
-        uae_driving_license: formData.egyptDrivingLicense === 'yes',
+        uae_driving_license: formData.uaeDrivingLicense === 'yes',
         relocation_possibility: formData.relocationPossibility === 'yes',
-        languages: JSON.stringify({
-          first: formData.firstLanguage,
-          second: formData.secondLanguage
-        }),
+        languages: JSON.stringify(formData.languages),
         
         // Application Questions
         previously_worked: formData.previouslyWorked === 'yes',
@@ -82,6 +81,9 @@ export const useJobApplication = () => {
         relatives_friends: formData.relativesOrFriends === 'yes',
         relative_names: formData.names,
         relationships: JSON.stringify(formData.selectedRelationships),
+        
+        // Experience Data
+        experience_data: JSON.stringify(formData.experienceData),
         
         // System fields
         stage_id: 1, // Initial stage - to be configured in Odoo

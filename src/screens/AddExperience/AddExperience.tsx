@@ -76,22 +76,47 @@ export const AddExperience = (): JSX.Element => {
 
     // Get form data from localStorage (stored from previous steps)
     const personalInfo = JSON.parse(localStorage.getItem('personalInfo') || '{}')
-    const applicationQuestions = JSON.parse(localStorage.getItem('applicationQuestions') || '{}')
     const extendedQuestions = JSON.parse(localStorage.getItem('extendedQuestions') || '{}')
 
-    const formData = {
-      ...personalInfo,
-      ...applicationQuestions,
-      ...extendedQuestions,
-      experienceData
+    // Combine all form data
+    const combinedFormData = {
+      // Personal Information
+      fullName: personalInfo.fullName || '',
+      email: personalInfo.email || '',
+      phone: personalInfo.phone || '',
+      dob: personalInfo.dob || '',
+      nationality: personalInfo.nationality || '',
+      gender: personalInfo.gender || '',
+      maritalStatus: personalInfo.maritalStatus || '',
+      
+      // Experience
+      totalExperience: personalInfo.totalExperience || '',
+      uaeExperience: personalInfo.egyptExperience || '', // Note: mapping egyptExperience to uaeExperience
+      currentLocation: personalInfo.currentLocation || '',
+      expectedSalary: personalInfo.expectedSalary || '',
+      joiningPossibility: personalInfo.joiningPossibility || '',
+      
+      // Additional Info
+      uaeDrivingLicense: personalInfo.egyptDrivingLicense || 'no', // Note: mapping egyptDrivingLicense to uaeDrivingLicense
+      relocationPossibility: personalInfo.relocationPossibility || 'no',
+      languages: personalInfo.languages || [],
+      
+      // Application Questions
+      previouslyWorked: extendedQuestions.previousWork || 'no',
+      workDetails: extendedQuestions.workDetails || '',
+      relativesOrFriends: extendedQuestions.relativesOrFriends || 'no',
+      names: extendedQuestions.names || '',
+      selectedRelationships: extendedQuestions.selectedRelationships || [],
+      
+      // Experience Data
+      experienceData: experienceData
     }
 
-    const result = await submitApplication(jobId, formData, uploadedFile)
+    const result = await submitApplication(jobId, combinedFormData, uploadedFile)
     
     if (result.success) {
       // Clear stored data
       localStorage.removeItem('personalInfo')
-      localStorage.removeItem('applicationQuestions')
       localStorage.removeItem('extendedQuestions')
       router.push("/application-success")
     } else {
