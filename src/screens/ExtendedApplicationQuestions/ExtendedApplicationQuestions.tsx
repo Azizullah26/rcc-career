@@ -275,16 +275,6 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
               </ToggleGroupItem>
             </ToggleGroup>
 
-            <div className="mt-[20px] md:mt-[40px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
-                Please give details about your work with EL RACE
-              </h2>
-              <Input
-                value={workDetails}
-                onChange={(e) => setWorkDetails(e.target.value)}
-                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base"
-              />
-            </div>
           </section>
 
           {/* Conditional Work Details Section */}
