@@ -405,7 +405,6 @@ export const ExploreOpportunities = (): JSX.Element => {
                     <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
                       NEAR LOCATIONS
                     </div>
-                    <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                   </div>
                   <Select value={selectedLocation} onValueChange={setSelectedLocation}>
                     <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[25.9px] tracking-[0] focus-visible:ring-0 bg-transparent">
