@@ -30,7 +30,6 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "latest",
-    "react-router-dom": "latest",
     "sass": "latest",
     "sass-embedded": "latest",
     "stylus": "latest",
