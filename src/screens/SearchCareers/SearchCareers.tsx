@@ -381,8 +381,8 @@ export const SearchCareers = (): JSX.Element => {
               </h3>
               <div className="space-y-1 md:space-y-2 text-[11px] md:text-[14px] text-gray-300">
                 <p className="[font-family:'Tajawal',Helvetica]">EL RACE UAE</p>
-                <p className="[font-family:'Tajawal',Helvetica]">+20 2 1234 5678</p>
-                <p className="[font-family:'Tajawal',Helvetica]">careers@elrace.com</p>
+                <p className="[font-family:'Tajawal',Helvetica]">600500722</p>
+                <p className="[font-family:'Tajawal',Helvetica]">info@elrace.com</p>
               </div>
             </div>
           </div>

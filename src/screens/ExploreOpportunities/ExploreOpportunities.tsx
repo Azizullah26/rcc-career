@@ -540,8 +540,8 @@ export const ExploreOpportunities = (): JSX.Element => {
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="font-semibold text-[#151d61] mb-3">Contact Information</h3>
                     <div className="space-y-2 text-sm">
-                      <p><strong>Email:</strong> careers@elrace.com</p>
-                      <p><strong>Phone:</strong> +971 2 1234 5678</p>
+                      <p><strong>Email:</strong> info@elrace.com</p>
+                      <p><strong>Phone:</strong> 600500722</p>
                       <p><strong>Address:</strong> EL RACE UAE, Abu Dhabi</p>
                     </div>
                   </div>
@@ -721,8 +721,8 @@ export const ExploreOpportunities = (): JSX.Element => {
               </h3>
               <div className="space-y-1 md:space-y-2 text-[11px] md:text-[14px] text-gray-300">
                 <p className="[font-family:'Tajawal',Helvetica]">EL RACE UAE</p>
-                <p className="[font-family:'Tajawal',Helvetica]">+20 2 1234 5678</p>
-                <p className="[font-family:'Tajawal',Helvetica]">careers@elrace.com</p>
+                <p className="[font-family:'Tajawal',Helvetica]">600500722</p>
+                <p className="[font-family:'Tajawal',Helvetica]">info@elrace.com</p>
               </div>
             </div>
           </div>
