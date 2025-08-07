@@ -290,21 +290,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
               />
             </section>
           )}
-          </section>
 
-          {/* Conditional Work Details Section */}
-          {previousWork === "yes" && (
-            <section className="mb-[40px] md:mb-[80px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
-                Please give details about your work with EL RACE
-              </h2>
-              <Input
-                value={workDetails}
-                onChange={(e) => setWorkDetails(e.target.value)}
-                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base px-4 md:px-6"
-                placeholder="Describe your previous work experience with EL RACE..."
-              />
-            </section>
           {/* Relatives/Friends Question */}
           <section className="mb-[30px] md:mb-[60px]">
             <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
