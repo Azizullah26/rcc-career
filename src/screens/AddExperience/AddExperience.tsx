@@ -112,13 +112,6 @@ export const AddExperience = (): JSX.Element => {
             {/* Logo and Back Button */}
             <div className="flex items-center">
               <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="/pre-comp-2-1.svg" />
-              <button
-                onClick={() => router.back()}
-                className="ml-2 md:ml-4 flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-                <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
-              </button>
             </div>
 
             {/* Desktop Navigation */}
@@ -213,7 +206,18 @@ export const AddExperience = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[20px] md:pt-[30px] px-4 md:px-[123px] pb-[60px] md:pb-[100px]">
+        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[123px] pb-[60px] md:pb-[100px]">
+          {/* Back Button */}
+          <div className="mb-6">
+            <button
+              onClick={() => router.back()}
+              className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
+            </button>
+          </div>
+
           {/* Page Title */}
           <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[12px] md:text-[24.6px] mb-[15px] md:mb-[60px] leading-tight">
             Please provide details about your latest work experience
