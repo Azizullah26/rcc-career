@@ -245,12 +245,12 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
         {/* Main Content */}
         <main className="px-4 md:px-[100px] pt-[30px] md:pt-[47px] pb-[60px] md:pb-[100px]">
-          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[12px] md:text-[24.6px] mb-[20px] md:mb-[80px]">
+          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[12px] md:text-[24.6px] mb-[20px] md:mb-[60px]">
             APPLICATION QUESTIONS
           </h1>
 
           {/* Previous Work Question */}
-          <section className="mb-[40px] md:mb-[80px]">
+          <section className="mb-[30px] md:mb-[60px]">
             <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
               Have you previously worked with EL RACE
             </h2>
@@ -274,7 +274,22 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                 No
               </ToggleGroupItem>
             </ToggleGroup>
+          </section>
 
+          {/* Conditional Work Details Section */}
+          {previousWork === "yes" && (
+            <section className="mb-[30px] md:mb-[60px]">
+              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
+                Please give details about your work with EL RACE
+              </h2>
+              <Input
+                value={workDetails}
+                onChange={(e) => setWorkDetails(e.target.value)}
+                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base px-4 md:px-6"
+                placeholder="Describe your previous work experience with EL RACE..."
+              />
+            </section>
+          )}
           </section>
 
           {/* Conditional Work Details Section */}
@@ -290,10 +305,8 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                 placeholder="Describe your previous work experience with EL RACE..."
               />
             </section>
-          )}
-
           {/* Relatives/Friends Question */}
-          <section className="mb-[40px] md:mb-[80px]">
+          <section className="mb-[30px] md:mb-[60px]">
             <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
               Do you have any Relatives/Friends working with EL RACE
             </h2>

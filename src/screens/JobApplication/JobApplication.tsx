@@ -110,8 +110,8 @@ export const JobApplication = (): JSX.Element => {
     // Store personal information in localStorage for later use
     localStorage.setItem('personalInfo', JSON.stringify(formData))
     console.log("Form submitted:", formData)
-    // Navigate to application questions page
-    router.push(`/application-questions/${jobId}`)
+    // Navigate directly to extended application questions page
+    router.push(`/extended-application-questions/${jobId}`)
   }
 
   return (
