@@ -285,9 +285,6 @@ export const SearchCareers = (): JSX.Element => {
                     <span className="[font-family:'Tajawal',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] text-center">
                       NEAR LOCATIONS
                     </span>
-                    <svg className="w-[12.99px] h-[11.25px]" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M7 10l5 5 5-5z" />
-                    </svg>
                   </div>
                   <Select value={selectedCity} onValueChange={setSelectedCity}>
                     <SelectTrigger className="mt-[15px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center focus-visible:ring-0">
