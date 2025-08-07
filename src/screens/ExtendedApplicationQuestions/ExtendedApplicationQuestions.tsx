@@ -287,6 +287,21 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             </div>
           </section>
 
+          {/* Conditional Work Details Section */}
+          {previousWork === "yes" && (
+            <section className="mb-[40px] md:mb-[80px]">
+              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
+                Please give details about your work with EL RACE
+              </h2>
+              <Input
+                value={workDetails}
+                onChange={(e) => setWorkDetails(e.target.value)}
+                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base px-4 md:px-6"
+                placeholder="Describe your previous work experience with EL RACE..."
+              />
+            </section>
+          )}
+
           {/* Relatives/Friends Question */}
           <section className="mb-[40px] md:mb-[80px]">
             <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
@@ -313,39 +328,43 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
               </ToggleGroupItem>
             </ToggleGroup>
 
-            <div className="mt-[20px] md:mt-[40px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
-                Please specify the names of Relatives/Friends
-              </h2>
-              <Input
-                value={names}
-                onChange={(e) => setNames(e.target.value)}
-                className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base"
-              />
-            </div>
-          </section>
+            {/* Conditional Names and Relationship Section */}
+            {relativesOrFriends === "yes" && (
+              <div className="mt-[20px] md:mt-[40px]">
+                <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] mb-[6px] md:mb-[10px]">
+                  Please specify the names of Relatives/Friends
+                </h2>
+                <Input
+                  value={names}
+                  onChange={(e) => setNames(e.target.value)}
+                  className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base px-4 md:px-6"
+                  placeholder="Enter names of relatives/friends..."
+                />
 
-          {/* Relationship Section */}
-          <section className="mb-[40px] md:mb-[80px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
-              Relationship
-            </h2>
+                {/* Relationship Section */}
+                <div className="mt-[20px] md:mt-[40px]">
+                  <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[16px] md:text-[22.4px] mb-[12px] md:mb-[20px]">
+                    Relationship
+                  </h2>
 
-            <div className="flex flex-wrap gap-[10px] md:gap-[20px]">
-              {relationshipOptions.map((option, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  onClick={() => handleRelationshipToggle(option)}
-                  className={cn(
-                    "h-[35px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-3 md:px-6",
-                    selectedRelationships.includes(option) && "bg-[#151d61] text-white hover:bg-[#1a2470]",
-                  )}
-                >
-                  {option}
-                </Button>
-              ))}
-            </div>
+                  <div className="flex flex-wrap gap-[10px] md:gap-[20px]">
+                    {relationshipOptions.map((option, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        onClick={() => handleRelationshipToggle(option)}
+                        className={cn(
+                          "h-[35px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-3 md:px-6",
+                          selectedRelationships.includes(option) && "bg-[#151d61] text-white hover:bg-[#1a2470]",
+                        )}
+                      >
+                        {option}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* Action Buttons */}
