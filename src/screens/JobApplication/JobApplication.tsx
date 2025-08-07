@@ -32,9 +32,23 @@ export const JobApplication = (): JSX.Element => {
     joiningPossibility: "",
     egyptDrivingLicense: "yes",
     relocationPossibility: "yes",
-    firstLanguage: "arabic",
-    secondLanguage: "english",
+    languages: [
+      { id: 1, language: "arabic", proficiency: "native" },
+      { id: 2, language: "english", proficiency: "fluent" }
+    ],
   })
+
+  // Available languages
+  const availableLanguages = [
+    "Arabic", "English", "French", "German", "Spanish", "Italian", 
+    "Portuguese", "Russian", "Chinese", "Japanese", "Korean", "Hindi", 
+    "Urdu", "Turkish", "Dutch", "Swedish", "Norwegian", "Danish"
+  ]
+
+  // Proficiency levels
+  const proficiencyLevels = [
+    "Native", "Fluent", "Advanced", "Intermediate", "Basic"
+  ]
 
   // Navigation menu items
   const navItems = [
@@ -64,6 +78,32 @@ export const JobApplication = (): JSX.Element => {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleLanguageChange = (id: number, field: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      languages: prev.languages.map((lang) =>
+        lang.id === id ? { ...lang, [field]: value } : lang
+      ),
+    }))
+  }
+
+  const addLanguage = () => {
+    const newId = Math.max(...formData.languages.map(l => l.id)) + 1
+    setFormData((prev) => ({
+      ...prev,
+      languages: [...prev.languages, { id: newId, language: "", proficiency: "basic" }],
+    }))
+  }
+
+  const removeLanguage = (id: number) => {
+    if (formData.languages.length > 1) {
+      setFormData((prev) => ({
+        ...prev,
+        languages: prev.languages.filter((lang) => lang.id !== id),
+      }))
+    }
   }
 
   const onSubmit = () => {
@@ -275,61 +315,80 @@ export const JobApplication = (): JSX.Element => {
                   <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
                     Languages*
                   </Label>
-                  <div className="flex flex-col md:flex-row items-start gap-3 md:gap-10 relative self-stretch w-full">
-                    {/* First Language */}
-                    <div className="relative w-full md:w-[194px]">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] md:text-lg tracking-[0] leading-[normal] mb-1 md:mb-2 block">
-                        First Language
-                      </Label>
-                      <Select
-                        value={formData.firstLanguage}
-                        onValueChange={(value) => handleInputChange("firstLanguage", value)}
-                      >
-                        <SelectTrigger className="w-full h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-sm md:text-base">
-                          <SelectValue placeholder="Select language" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="arabic">ARABIC</SelectItem>
-                          <SelectItem value="english">English</SelectItem>
-                          <SelectItem value="french">French</SelectItem>
-                          <SelectItem value="german">German</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  
+                  {/* Dynamic Languages */}
+                  <div className="flex flex-col gap-4 w-full">
+                    {formData.languages.map((lang, index) => (
+                      <div key={lang.id} className="flex flex-col md:flex-row items-start gap-3 md:gap-4 p-4 bg-gray-50 rounded-lg border">
+                        <div className="flex-1 min-w-0">
+                          <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] md:text-[14px] tracking-[0] leading-[normal] mb-1 block">
+                            Language {index + 1}
+                          </Label>
+                          <Select
+                            value={lang.language}
+                            onValueChange={(value) => handleLanguageChange(lang.id, "language", value)}
+                          >
+                            <SelectTrigger className="w-full h-10 md:h-12 bg-white rounded-[47px] border border-solid border-gray-300 text-sm">
+                              <SelectValue placeholder="Select language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {availableLanguages.map((language) => (
+                                <SelectItem key={language.toLowerCase()} value={language.toLowerCase()}>
+                                  {language}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                    {/* Second Language */}
-                    <div className="relative w-full md:w-[194px]">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] md:text-lg tracking-[0] leading-[normal] mb-1 md:mb-2 block">
-                        Second Language
-                      </Label>
-                      <Select
-                        value={formData.secondLanguage}
-                        onValueChange={(value) => handleInputChange("secondLanguage", value)}
-                      >
-                        <SelectTrigger className="w-full h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-sm md:text-base">
-                          <SelectValue placeholder="Select language" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="arabic">ARABIC</SelectItem>
-                          <SelectItem value="english">English</SelectItem>
-                          <SelectItem value="french">French</SelectItem>
-                          <SelectItem value="german">German</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                        <div className="flex-1 min-w-0">
+                          <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] md:text-[14px] tracking-[0] leading-[normal] mb-1 block">
+                            Proficiency Level
+                          </Label>
+                          <Select
+                            value={lang.proficiency}
+                            onValueChange={(value) => handleLanguageChange(lang.id, "proficiency", value)}
+                          >
+                            <SelectTrigger className="w-full h-10 md:h-12 bg-white rounded-[47px] border border-solid border-gray-300 text-sm">
+                              <SelectValue placeholder="Select proficiency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {proficiencyLevels.map((level) => (
+                                <SelectItem key={level.toLowerCase()} value={level.toLowerCase()}>
+                                  {level}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                    {/* Add More Button */}
-                    <div className="relative w-full md:w-[83px] flex flex-col items-center">
-                      <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[14px] md:text-lg tracking-[0] leading-[normal] mb-1 md:mb-2 text-center">
-                        ADD MORE
-                      </Label>
+                        {/* Remove Language Button */}
+                        {formData.languages.length > 1 && (
+                          <div className="flex flex-col justify-end">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => removeLanguage(lang.id)}
+                              className="w-10 h-10 md:w-12 md:h-12 bg-red-100 hover:bg-red-200 rounded-full border border-red-300 flex items-center justify-center mt-5"
+                            >
+                              <span className="text-red-600 text-lg font-bold">×</span>
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    {/* Add More Languages Button */}
+                    <div className="flex justify-center mt-2">
                       <Button
                         type="button"
                         variant="outline"
-                        className="w-10 md:w-[54px] h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black flex items-center justify-center hover:bg-[#c9c9c9]"
+                        onClick={addLanguage}
+                        className="flex items-center gap-2 h-10 md:h-12 px-4 md:px-6 bg-[#d9d9d9] hover:bg-[#c9c9c9] rounded-[47px] border border-solid border-black transition-colors"
                       >
-                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[32px] md:text-[51px] tracking-[0] leading-[normal]">
-                          +
+                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[20px] md:text-[24px]">+</span>
+                        <span className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] md:text-[14px]">
+                          Add Language
                         </span>
                       </Button>
                     </div>
