@@ -1,5 +1,5 @@
-import { ExploreOpportunities } from "../../src/screens/ExploreOpportunities"
+import { ExploreOpportunities } from "../../src/screens/ExploreOpportunities/ExploreOpportunities"
 
-export default function Page() {
+export default function ExploreOpportunitiesPage() {
   return <ExploreOpportunities />
 }

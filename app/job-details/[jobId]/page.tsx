@@ -1,4 +1,4 @@
-import { JobDetails } from "../../../src/screens/JobDetails"
+import { JobDetails } from "../../../src/screens/JobDetails/JobDetails"
 
 export async function generateStaticParams() {
   return [
@@ -10,6 +10,6 @@ export async function generateStaticParams() {
   ]
 }
 
-export default function Page() {
-  return <JobDetails />
+export default function JobDetailsPage({ params }: { params: { jobId: string } }) {
+  return <JobDetails jobId={params.jobId} />
 }

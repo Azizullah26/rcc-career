@@ -122,7 +122,7 @@ export const JobApplication = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
             {/* Logo */}
             <div className="flex items-center">
-              <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+              <img className="w-[100px] h-[45px] md:h-24 md:w-40" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
             </div>
 
             {/* Desktop Navigation */}
@@ -231,7 +231,7 @@ export const JobApplication = (): JSX.Element => {
           {/* Page Title */}
           <Card className="w-full border-none shadow-none mb-4 md:mb-8">
             <CardContent className="p-0 text-center">
-              <h1 className="font-sans font-bold text-[14px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight">
+              <h1 className="font-sans font-bold text-[14px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight my-0 px-0 py-2.5">
                 Job Application – Personal Information
               </h1>
               <p className="font-sans font-medium text-[10px] md:text-[24.6px] text-[#909090] underline mt-1">

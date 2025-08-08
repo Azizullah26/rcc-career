@@ -1,1 +1,1 @@
-export { ApplicationSuccess } from "./ApplicationSuccess";
+export { ApplicationSuccess } from './ApplicationSuccess'

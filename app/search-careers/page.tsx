@@ -1,5 +1,5 @@
-import { SearchCareers } from "../../src/screens/SearchCareers"
+import { SearchCareers } from "../../src/screens/SearchCareers/SearchCareers"
 
-export default function Page() {
+export default function SearchCareersPage() {
   return <SearchCareers />
 }

@@ -1,4 +1,4 @@
-import { AddExperience } from "../../../src/screens/AddExperience"
+import { AddExperience } from "../../../src/screens/AddExperience/AddExperience"
 
 export async function generateStaticParams() {
   return [
@@ -10,6 +10,6 @@ export async function generateStaticParams() {
   ]
 }
 
-export default function Page() {
-  return <AddExperience />
+export default function AddExperiencePage({ params }: { params: { jobId: string } }) {
+  return <AddExperience jobId={params.jobId} />
 }

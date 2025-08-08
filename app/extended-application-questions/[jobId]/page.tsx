@@ -1,4 +1,4 @@
-import { ExtendedApplicationQuestions } from "../../../src/screens/ExtendedApplicationQuestions"
+import { ExtendedApplicationQuestions } from "../../../src/screens/ExtendedApplicationQuestions/ExtendedApplicationQuestions"
 
 export async function generateStaticParams() {
   return [
@@ -10,6 +10,6 @@ export async function generateStaticParams() {
   ]
 }
 
-export default function Page() {
-  return <ExtendedApplicationQuestions />
+export default function ExtendedApplicationQuestionsPage({ params }: { params: { jobId: string } }) {
+  return <ExtendedApplicationQuestions jobId={params.jobId} />
 }

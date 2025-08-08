@@ -1,5 +1,5 @@
-import { ApplicationSuccess } from "../../src/screens/ApplicationSuccess"
+import { ApplicationSuccess } from "../../src/screens/ApplicationSuccess/ApplicationSuccess"
 
-export default function Page() {
+export default function ApplicationSuccessPage() {
   return <ApplicationSuccess />
 }

@@ -56,7 +56,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <div className="bg-transparent flex flex-row justify-center w-full">
+    <div className="flex flex-row justify-center w-full bg-white">
       <div className="bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_100%)] w-[1280px] relative">
         {/* Header/Navigation Bar */}
         <header className="fixed w-full h-[70px] md:h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px] top-0 left-0 z-50">

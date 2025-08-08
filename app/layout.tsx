@@ -1,10 +1,9 @@
-import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "RCC Career Portal - EL RACE Careers",
-  description: "Join EL RACE team - Explore career opportunities in construction and infrastructure development",
+  title: "EL RACE Careers",
+  description: "Join our team at EL RACE - A well-established company with over 40 years of experience",
     generator: 'v0.dev'
 }
 
@@ -15,10 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link href="https://fonts.googleapis.com/css?family=Tajawal:400,700" rel="stylesheet" />
-      </head>
-      <body>{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+      </body>
     </html>
   )
 }

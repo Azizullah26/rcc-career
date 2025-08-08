@@ -1,4 +1,4 @@
-import { ApplicationQuestions } from "../../../src/screens/ApplicationQuestions"
+import { ApplicationQuestions } from "../../../src/screens/ApplicationQuestions/ApplicationQuestions"
 
 export async function generateStaticParams() {
   return [
@@ -10,6 +10,6 @@ export async function generateStaticParams() {
   ]
 }
 
-export default function Page() {
-  return <ApplicationQuestions />
+export default function ApplicationQuestionsPage({ params }: { params: { jobId: string } }) {
+  return <ApplicationQuestions jobId={params.jobId} />
 }

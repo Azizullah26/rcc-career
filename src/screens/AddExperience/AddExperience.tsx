@@ -1,6 +1,6 @@
 "use client"
 
-import { LogInIcon, ArrowLeft, PlusIcon, Menu, X } from "lucide-react"
+import { LogInIcon, ArrowLeft, PlusIcon, Menu, X } from 'lucide-react'
 import type React from "react"
 import { useState } from "react"
 import { useRouter, useParams } from "next/navigation"
@@ -74,9 +74,16 @@ export const AddExperience = (): JSX.Element => {
       return
     }
 
+    console.log("Starting application submission...")
+
     // Get form data from localStorage (stored from previous steps)
     const personalInfo = JSON.parse(localStorage.getItem('personalInfo') || '{}')
     const extendedQuestions = JSON.parse(localStorage.getItem('extendedQuestions') || '{}')
+
+    console.log("Personal Info:", personalInfo)
+    console.log("Extended Questions:", extendedQuestions)
+    console.log("Experience Data:", experienceData)
+    console.log("Uploaded File:", uploadedFile)
 
     // Combine all form data
     const combinedFormData = {
@@ -112,14 +119,18 @@ export const AddExperience = (): JSX.Element => {
       experienceData: experienceData
     }
 
+    console.log("Combined Form Data:", combinedFormData)
+
     const result = await submitApplication(jobId, combinedFormData, uploadedFile)
     
     if (result.success) {
+      console.log("Application submitted successfully!")
       // Clear stored data
       localStorage.removeItem('personalInfo')
       localStorage.removeItem('extendedQuestions')
       router.push("/application-success")
     } else {
+      console.error("Application submission failed:", result.error)
       alert(`Application submission failed: ${result.error}`)
     }
   }
@@ -231,7 +242,7 @@ export const AddExperience = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[123px] pb-[60px] md:pb-[100px]">
+        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[123px] pb-[60px] md:pb-[100px] ml-[10px]">
           {/* Back Button */}
           <div className="mb-6">
             <button

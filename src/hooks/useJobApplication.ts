@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { odooService, JobApplicationData, OdooResponse } from '../services/odooService';
 
 export interface ApplicationFormData {
-  // Personal Information
   fullName: string;
   email: string;
   phone: string;
@@ -10,27 +8,19 @@ export interface ApplicationFormData {
   nationality: string;
   gender: string;
   maritalStatus: string;
-  
-  // Experience
   totalExperience: string;
   uaeExperience: string;
   currentLocation: string;
   expectedSalary: string;
   joiningPossibility: string;
-  
-  // Additional Info
   uaeDrivingLicense: string;
   relocationPossibility: string;
   languages: Array<{ id: number; language: string; proficiency: string }>;
-  
-  // Application Questions
   previouslyWorked: string;
   workDetails: string;
   relativesOrFriends: string;
   names: string;
   selectedRelationships: string[];
-  
-  // Experience Data
   experienceData: Record<string, string>;
 }
 
@@ -47,72 +37,30 @@ export const useJobApplication = () => {
     setSubmitError(null);
 
     try {
-      // Map form data to Odoo format
-      const odooData: JobApplicationData = {
-        // Personal Information
-        partner_name: formData.fullName,
-        email_from: formData.email,
-        partner_phone: formData.phone,
-        date_of_birth: formData.dob,
-        nationality: formData.nationality,
-        gender: formData.gender,
-        marital_status: formData.maritalStatus,
-        
-        // Job Related
-        job_id: parseInt(jobId),
-        name: `Application for Job ID: ${jobId} - ${formData.fullName}`,
-        description: `Application submitted through career portal`,
-        
-        // Experience
-        total_experience: formData.totalExperience,
-        uae_experience: formData.uaeExperience,
-        current_location: formData.currentLocation,
-        expected_salary: formData.expectedSalary,
-        joining_possibility: formData.joiningPossibility,
-        
-        // Additional Info
-        uae_driving_license: formData.uaeDrivingLicense === 'yes',
-        relocation_possibility: formData.relocationPossibility === 'yes',
-        languages: JSON.stringify(formData.languages),
-        
-        // Application Questions
-        previously_worked: formData.previouslyWorked === 'yes',
-        work_details: formData.workDetails,
-        relatives_friends: formData.relativesOrFriends === 'yes',
-        relative_names: formData.names,
-        relationships: JSON.stringify(formData.selectedRelationships),
-        
-        // Experience Data
-        experience_data: JSON.stringify(formData.experienceData),
-        
-        // System fields
-        stage_id: 1, // Initial stage - to be configured in Odoo
-        source_id: 1, // Website source - to be configured in Odoo
-      };
-
-      // Create job application
-      const applicationResult = await odooService.createJobApplication(odooData);
-      
-      if (!applicationResult.success) {
-        throw new Error(applicationResult.error || 'Failed to create application');
+      // Build multipart form-data for server endpoint
+      const form = new FormData();
+      form.append('data', JSON.stringify({ jobId, formData }));
+      if (cvFile) {
+        form.append('cv', cvFile, cvFile.name);
       }
 
-      // Upload CV if provided
-      if (cvFile && applicationResult.applicant_id) {
-        const cvResult = await odooService.uploadCV(applicationResult.applicant_id, cvFile);
-        
-        if (!cvResult.success) {
-          console.warn('CV upload failed:', cvResult.error);
-          // Don't fail the entire application if CV upload fails
-        }
+      const res = await fetch('/api/odoo/apply', {
+        method: 'POST',
+        body: form,
+      });
+
+      const json = await res.json();
+
+      if (!res.ok || !json?.success) {
+        throw new Error(json?.error || 'Failed to submit application');
       }
 
       return { success: true };
-      
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      setSubmitError(errorMessage);
-      return { success: false, error: errorMessage };
+      const message = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('Application submission failed:', error);
+      setSubmitError(message);
+      return { success: false, error: message };
     } finally {
       setIsSubmitting(false);
     }

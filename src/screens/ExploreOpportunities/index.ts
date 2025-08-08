@@ -1,1 +1,1 @@
-export { ExploreOpportunities } from "./ExploreOpportunities";
+export { ExploreOpportunities } from './ExploreOpportunities'

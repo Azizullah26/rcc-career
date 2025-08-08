@@ -1,6 +1,6 @@
 "use client"
 
-import { SearchIcon, Menu, X } from "lucide-react"
+import { SearchIcon, Menu, X } from 'lucide-react'
 import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -276,7 +276,7 @@ export const SearchCareers = (): JSX.Element => {
                     onChange={(e) => setJobSearch(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Job title, skill, keyword"
-                    className="mt-[12px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center placeholder:text-gray-400 focus-visible:ring-0"
+                    className="mt-[12px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-white text-[25.9px] text-center placeholder:text-gray-400 focus-visible:ring-0"
                   />
                 </div>
                 <Separator orientation="vertical" className="h-[62px] w-0.5 bg-[#6b6b6b]" />
@@ -287,7 +287,7 @@ export const SearchCareers = (): JSX.Element => {
                     </span>
                   </div>
                   <Select value={selectedCity} onValueChange={setSelectedCity}>
-                    <SelectTrigger className="mt-[15px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-black text-[25.9px] text-center focus-visible:ring-0">
+                    <SelectTrigger className="mt-[15px] border-none bg-transparent p-0 h-auto shadow-none [font-family:'Tajawal',Helvetica] font-normal text-white text-[25.9px] text-center focus-visible:ring-0">
                       <SelectValue placeholder="City" />
                     </SelectTrigger>
                     <SelectContent>

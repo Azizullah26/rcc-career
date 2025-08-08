@@ -1,4 +1,4 @@
-import { JobApplication } from "../../../src/screens/JobApplication"
+import { JobApplication } from "../../../src/screens/JobApplication/JobApplication"
 
 export async function generateStaticParams() {
   return [
@@ -10,6 +10,6 @@ export async function generateStaticParams() {
   ]
 }
 
-export default function Page() {
-  return <JobApplication />
+export default function JobApplicationPage({ params }: { params: { jobId: string } }) {
+  return <JobApplication jobId={params.jobId} />
 }
