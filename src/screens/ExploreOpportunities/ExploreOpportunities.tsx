@@ -15,7 +15,7 @@ import React, { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
-import { Card, CardContent } from "../../components/ui/card"
+import { Card } from "../../components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
@@ -37,7 +37,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     fullName: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   })
 
   // Navigation menu items
@@ -182,8 +182,8 @@ export const ExploreOpportunities = (): JSX.Element => {
     if (file) {
       const allowedTypes = [
         "application/pdf",
-        "application/msword", 
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ]
       if (allowedTypes.includes(file.type)) {
         setResumeFile(file)
@@ -199,10 +199,10 @@ export const ExploreOpportunities = (): JSX.Element => {
       alert("Please fill in all required fields and upload your CV.")
       return
     }
-    
+
     console.log("Resume submitted:", { ...resumeFormData, file: resumeFile.name })
     alert("Thank you! Your resume has been submitted successfully. We will contact you soon.")
-    
+
     // Reset form
     setResumeFormData({ fullName: "", email: "", phone: "", message: "" })
     setResumeFile(null)
@@ -216,7 +216,11 @@ export const ExploreOpportunities = (): JSX.Element => {
         <header className="w-full h-[70px] md:h-[91px] bg-white relative z-50">
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
-            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+            <img
+              className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+              alt="EL RACE Logo"
+              src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+            />
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center justify-between">
@@ -256,8 +260,8 @@ export const ExploreOpportunities = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -351,7 +355,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                     <Input
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] placeholder:text-black focus-visible:ring-0"
+                      className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] placeholder:text-black focus-visible:ring-0"
                       placeholder="Job title, skill, keyword"
                     />
                   </div>
@@ -364,7 +368,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                     </div>
                     <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] focus-visible:ring-0 bg-transparent">
+                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[14px] tracking-[0] focus-visible:ring-0 bg-transparent">
                         <SelectValue placeholder="City" />
                       </SelectTrigger>
                       <SelectContent>
@@ -395,7 +399,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                   <Input
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[25.9px] tracking-[0] placeholder:text-black focus-visible:ring-0"
+                    className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[25.9px] tracking-[0] placeholder:text-black focus-visible:ring-0"
                     placeholder="Job title, skill, keyword"
                   />
                 </div>
@@ -407,7 +411,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                     </div>
                   </div>
                   <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                    <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[25.9px] tracking-[0] focus-visible:ring-0 bg-transparent">
+                    <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[20px] tracking-[0] focus-visible:ring-0 bg-transparent">
                       <SelectValue placeholder="City" />
                     </SelectTrigger>
                     <SelectContent>
@@ -484,7 +488,9 @@ export const ExploreOpportunities = (): JSX.Element => {
                 >
                   <div className="w-full h-full">
                     <div className="w-full [font-family:'Arimo_Hebrew_Subset-Bold',Helvetica]">
-                      <h3 className="font-bold text-black text-[18px] md:text-[24.2px] mb-2 leading-tight">{job.title}</h3>
+                      <h3 className="font-bold text-black text-[18px] md:text-[24.2px] mb-2 leading-tight">
+                        {job.title}
+                      </h3>
 
                       <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[12px] md:text-base mb-2 md:mb-3">
                         Location: {job.location}&nbsp;&nbsp;Posting Date: {job.postingDate}&nbsp;&nbsp;
@@ -533,15 +539,21 @@ export const ExploreOpportunities = (): JSX.Element => {
                     Submit Your Resume
                   </DialogTitle>
                 </DialogHeader>
-                
+
                 <div className="space-y-4">
                   {/* Contact Details Section */}
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="font-semibold text-[#151d61] mb-3">Contact Information</h3>
                     <div className="space-y-2 text-sm">
-                      <p><strong>Email:</strong> info@elrace.com</p>
-                      <p><strong>Phone:</strong> 600500722</p>
-                      <p><strong>Address:</strong> EL RACE UAE, Abu Dhabi</p>
+                      <p>
+                        <strong>Email:</strong> info@elrace.com
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> 600500722
+                      </p>
+                      <p>
+                        <strong>Address:</strong> EL RACE UAE, Abu Dhabi
+                      </p>
                     </div>
                   </div>
 
@@ -555,7 +567,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         id="fullName"
                         type="text"
                         value={resumeFormData.fullName}
-                        onChange={(e) => setResumeFormData(prev => ({ ...prev, fullName: e.target.value }))}
+                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, fullName: e.target.value }))}
                         className="mt-1"
                         placeholder="Enter your full name"
                         required
@@ -570,7 +582,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         id="email"
                         type="email"
                         value={resumeFormData.email}
-                        onChange={(e) => setResumeFormData(prev => ({ ...prev, email: e.target.value }))}
+                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, email: e.target.value }))}
                         className="mt-1"
                         placeholder="Enter your email address"
                         required
@@ -585,7 +597,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         id="phone"
                         type="tel"
                         value={resumeFormData.phone}
-                        onChange={(e) => setResumeFormData(prev => ({ ...prev, phone: e.target.value }))}
+                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, phone: e.target.value }))}
                         className="mt-1"
                         placeholder="Enter your phone number"
                         required
@@ -599,7 +611,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       <textarea
                         id="message"
                         value={resumeFormData.message}
-                        onChange={(e) => setResumeFormData(prev => ({ ...prev, message: e.target.value }))}
+                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, message: e.target.value }))}
                         className="mt-1 w-full min-h-[80px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#151d61] focus:border-transparent resize-vertical"
                         placeholder="Tell us about yourself or the position you're interested in..."
                       />
@@ -621,17 +633,13 @@ export const ExploreOpportunities = (): JSX.Element => {
                         <Button
                           type="button"
                           variant="outline"
-                          onClick={() => document.getElementById('cvUpload')?.click()}
+                          onClick={() => document.getElementById("cvUpload")?.click()}
                           className="w-full h-12 border-2 border-dashed border-gray-300 hover:border-[#151d61] transition-colors"
                         >
                           {resumeFile ? (
-                            <span className="text-green-600">
-                              ✓ {resumeFile.name}
-                            </span>
+                            <span className="text-green-600">✓ {resumeFile.name}</span>
                           ) : (
-                            <span className="text-gray-500">
-                              Click to upload CV (PDF, DOC, DOCX)
-                            </span>
+                            <span className="text-gray-500">Click to upload CV (PDF, DOC, DOCX)</span>
                           )}
                         </Button>
                       </div>

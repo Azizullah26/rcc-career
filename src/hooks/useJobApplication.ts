@@ -1,74 +1,114 @@
-import { useState } from 'react';
+"use client"
 
-export interface ApplicationFormData {
-  fullName: string;
-  email: string;
-  phone: string;
-  dob: string;
-  nationality: string;
-  gender: string;
-  maritalStatus: string;
-  totalExperience: string;
-  uaeExperience: string;
-  currentLocation: string;
-  expectedSalary: string;
-  joiningPossibility: string;
-  uaeDrivingLicense: string;
-  relocationPossibility: string;
-  languages: Array<{ id: number; language: string; proficiency: string }>;
-  previouslyWorked: string;
-  workDetails: string;
-  relativesOrFriends: string;
-  names: string;
-  selectedRelationships: string[];
-  experienceData: Record<string, string>;
+import { useState } from "react"
+
+export interface JobApplicationData {
+  // Personal Information
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  dateOfBirth: string
+  nationality: string
+  gender: string
+  maritalStatus: string
+
+  // Experience Information
+  totalExperience: string
+  uaeExperience: string
+  currentLocation: string
+  expectedSalary: string
+  joiningPossibility: string
+
+  // Additional Information
+  uaeDrivingLicense: boolean
+  relocationPossibility: boolean
+  languages: Array<{
+    language: string
+    proficiency: string
+  }>
+
+  // Application Questions
+  previouslyWorked: boolean
+  workDetails: string
+  relativesOrFriends: boolean
+  relativeNames: string
+  relationships: Array<{
+    name: string
+    relationship: string
+    department: string
+  }>
+
+  // Experience Data
+  experienceData: Array<{
+    company: string
+    position: string
+    duration: string
+    responsibilities: string
+  }>
 }
 
 export const useJobApplication = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const submitApplication = async (
     jobId: string,
-    formData: ApplicationFormData,
-    cvFile: File | null
+    formData: JobApplicationData,
+    cvFile?: File | null,
   ): Promise<{ success: boolean; error?: string }> => {
-    setIsSubmitting(true);
-    setSubmitError(null);
+    setIsSubmitting(true)
+    setError(null)
 
     try {
-      // Build multipart form-data for server endpoint
-      const form = new FormData();
-      form.append('data', JSON.stringify({ jobId, formData }));
+      console.log("Submitting application for job:", jobId)
+      console.log("Form data:", formData)
+      console.log("CV file:", cvFile)
+
+      // Create FormData for multipart upload
+      const submitFormData = new FormData()
+
+      // Add application data as JSON string
+      submitFormData.append(
+        "data",
+        JSON.stringify({
+          jobId,
+          formData,
+        }),
+      )
+
+      // Add CV file if provided
       if (cvFile) {
-        form.append('cv', cvFile, cvFile.name);
+        submitFormData.append("cv", cvFile)
       }
 
-      const res = await fetch('/api/odoo/apply', {
-        method: 'POST',
-        body: form,
-      });
+      // Submit to our API route
+      const response = await fetch("/api/odoo/apply", {
+        method: "POST",
+        body: submitFormData,
+      })
 
-      const json = await res.json();
+      const result = await response.json()
 
-      if (!res.ok || !json?.success) {
-        throw new Error(json?.error || 'Failed to submit application');
+      if (!response.ok) {
+        throw new Error(result.details || result.error || "Failed to submit application")
       }
 
-      return { success: true };
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error occurred';
-      console.error('Application submission failed:', error);
-      setSubmitError(message);
-      return { success: false, error: message };
+      console.log("Application submitted successfully:", result)
+      return result
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Failed to submit application"
+      console.error("Error submitting application:", err)
+      setError(errorMessage)
+      return { success: false, error: errorMessage }
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return {
     submitApplication,
     isSubmitting,
-    submitError,
-  };
-};
+    error,
+  }
+}
