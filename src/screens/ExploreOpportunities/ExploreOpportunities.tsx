@@ -16,9 +16,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Card } from "../../components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
 import { Input } from "../../components/ui/input"
-import { Label } from "../../components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import { Separator } from "../../components/ui/separator" // Import Separator component
 
@@ -31,14 +29,6 @@ export const ExploreOpportunities = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLocation, setSelectedLocation] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isResumeDialogOpen, setIsResumeDialogOpen] = useState(false)
-  const [resumeFile, setResumeFile] = useState<File | null>(null)
-  const [resumeFormData, setResumeFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    message: "",
-  })
 
   // Navigation menu items
   const navItems = [
@@ -175,38 +165,6 @@ export const ExploreOpportunities = (): JSX.Element => {
 
   const handleSortToggle = () => {
     setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-  }
-
-  const handleResumeFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const allowedTypes = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ]
-      if (allowedTypes.includes(file.type)) {
-        setResumeFile(file)
-      } else {
-        alert("Please upload a PDF, DOC, or DOCX file.")
-        event.target.value = ""
-      }
-    }
-  }
-
-  const handleResumeSubmit = () => {
-    if (!resumeFormData.fullName || !resumeFormData.email || !resumeFormData.phone || !resumeFile) {
-      alert("Please fill in all required fields and upload your CV.")
-      return
-    }
-
-    console.log("Resume submitted:", { ...resumeFormData, file: resumeFile.name })
-    alert("Thank you! Your resume has been submitted successfully. We will contact you soon.")
-
-    // Reset form
-    setResumeFormData({ fullName: "", email: "", phone: "", message: "" })
-    setResumeFile(null)
-    setIsResumeDialogOpen(false)
   }
 
   return (
@@ -516,159 +474,6 @@ export const ExploreOpportunities = (): JSX.Element => {
             )}
           </section>
         </main>
-
-        {/* Call to Action Section */}
-        <section className="bg-gray-50 px-4 md:px-[103px] py-8 md:py-16">
-          <div className="text-center">
-            <h2 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[#151d61] text-[20px] md:text-[32px] mb-3 md:mb-4">
-              Don't See the Right Position?
-            </h2>
-            <p className="[font-family:'Tajawal',Helvetica] text-[#656565] text-[12px] md:text-[18px] mb-4 md:mb-8 max-w-2xl mx-auto leading-relaxed">
-              We're always looking for talented individuals to join our team. Send us your resume and we'll keep you in
-              mind for future opportunities.
-            </p>
-            <Dialog open={isResumeDialogOpen} onOpenChange={setIsResumeDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[40px] md:h-[50px] px-4 md:px-8 [font-family:'Tajawal',Helvetica] font-semibold text-[14px] md:text-[18px] transition-colors w-full sm:w-auto max-w-xs">
-                  Submit Your Resume
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="text-[#151d61] text-xl md:text-2xl font-bold text-center mb-4">
-                    Submit Your Resume
-                  </DialogTitle>
-                </DialogHeader>
-
-                <div className="space-y-4">
-                  {/* Contact Details Section */}
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-semibold text-[#151d61] mb-3">Contact Information</h3>
-                    <div className="space-y-2 text-sm">
-                      <p>
-                        <strong>Email:</strong> info@elrace.com
-                      </p>
-                      <p>
-                        <strong>Phone:</strong> 600500722
-                      </p>
-                      <p>
-                        <strong>Address:</strong> EL RACE UAE, Abu Dhabi
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Form Fields */}
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="fullName" className="text-sm font-medium">
-                        Full Name *
-                      </Label>
-                      <Input
-                        id="fullName"
-                        type="text"
-                        value={resumeFormData.fullName}
-                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, fullName: e.target.value }))}
-                        className="mt-1"
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="email" className="text-sm font-medium">
-                        Email Address *
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={resumeFormData.email}
-                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, email: e.target.value }))}
-                        className="mt-1"
-                        placeholder="Enter your email address"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="phone" className="text-sm font-medium">
-                        Phone Number *
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={resumeFormData.phone}
-                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, phone: e.target.value }))}
-                        className="mt-1"
-                        placeholder="Enter your phone number"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="message" className="text-sm font-medium">
-                        Message (Optional)
-                      </Label>
-                      <textarea
-                        id="message"
-                        value={resumeFormData.message}
-                        onChange={(e) => setResumeFormData((prev) => ({ ...prev, message: e.target.value }))}
-                        className="mt-1 w-full min-h-[80px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#151d61] focus:border-transparent resize-vertical"
-                        placeholder="Tell us about yourself or the position you're interested in..."
-                      />
-                    </div>
-
-                    {/* File Upload */}
-                    <div>
-                      <Label htmlFor="cvUpload" className="text-sm font-medium">
-                        Upload CV/Resume *
-                      </Label>
-                      <div className="mt-1">
-                        <input
-                          id="cvUpload"
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          onChange={handleResumeFileChange}
-                          className="hidden"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => document.getElementById("cvUpload")?.click()}
-                          className="w-full h-12 border-2 border-dashed border-gray-300 hover:border-[#151d61] transition-colors"
-                        >
-                          {resumeFile ? (
-                            <span className="text-green-600">✓ {resumeFile.name}</span>
-                          ) : (
-                            <span className="text-gray-500">Click to upload CV (PDF, DOC, DOCX)</span>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="flex gap-3 pt-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setIsResumeDialogOpen(false)}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={handleResumeSubmit}
-                      className="flex-1 bg-[#151d61] hover:bg-[#1a2470] text-white"
-                    >
-                      Submit Resume
-                    </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </section>
 
         {/* Footer */}
         <footer className="bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12">
