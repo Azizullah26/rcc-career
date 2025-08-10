@@ -436,7 +436,7 @@ export const ExploreOpportunities = (): JSX.Element => {
           </div>
 
           {/* Job Details Section */}
-          <section className="flex flex-col w-full max-w-[1056px] items-start gap-4 md:gap-7 mx-auto mt-6 md:mt-8 px-4">
+          <section className="flex flex-col w-full max-w-[1056px] items-start gap-4 md:gap-7 mx-auto mt-6 md:mt-8 px-4 mb-12 md:mb-16">
             {filteredAndSortedJobs.length > 0 ? (
               filteredAndSortedJobs.map((job, index) => (
                 <button
