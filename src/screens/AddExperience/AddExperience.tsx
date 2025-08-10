@@ -1,6 +1,6 @@
 "use client"
 
-import { LogInIcon, ArrowLeft, PlusIcon, Menu, X } from 'lucide-react'
+import { LogInIcon, ArrowLeft, PlusIcon, Menu, X } from "lucide-react"
 import type React from "react"
 import { useState } from "react"
 import { useRouter, useParams } from "next/navigation"
@@ -77,8 +77,8 @@ export const AddExperience = (): JSX.Element => {
     console.log("Starting application submission...")
 
     // Get form data from localStorage (stored from previous steps)
-    const personalInfo = JSON.parse(localStorage.getItem('personalInfo') || '{}')
-    const extendedQuestions = JSON.parse(localStorage.getItem('extendedQuestions') || '{}')
+    const personalInfo = JSON.parse(localStorage.getItem("personalInfo") || "{}")
+    const extendedQuestions = JSON.parse(localStorage.getItem("extendedQuestions") || "{}")
 
     console.log("Personal Info:", personalInfo)
     console.log("Extended Questions:", extendedQuestions)
@@ -88,46 +88,46 @@ export const AddExperience = (): JSX.Element => {
     // Combine all form data
     const combinedFormData = {
       // Personal Information
-      fullName: personalInfo.fullName || '',
-      email: personalInfo.email || '',
-      phone: personalInfo.phone || '',
-      dob: personalInfo.dob || '',
-      nationality: personalInfo.nationality || '',
-      gender: personalInfo.gender || '',
-      maritalStatus: personalInfo.maritalStatus || '',
-      
+      fullName: personalInfo.fullName || "",
+      email: personalInfo.email || "",
+      phone: personalInfo.phone || "",
+      dob: personalInfo.dob || "",
+      nationality: personalInfo.nationality || "",
+      gender: personalInfo.gender || "",
+      maritalStatus: personalInfo.maritalStatus || "",
+
       // Experience
-      totalExperience: personalInfo.totalExperience || '',
-      uaeExperience: personalInfo.egyptExperience || '', // Note: mapping egyptExperience to uaeExperience
-      currentLocation: personalInfo.currentLocation || '',
-      expectedSalary: personalInfo.expectedSalary || '',
-      joiningPossibility: personalInfo.joiningPossibility || '',
-      
+      totalExperience: personalInfo.totalExperience || "",
+      uaeExperience: personalInfo.egyptExperience || "", // Note: mapping egyptExperience to uaeExperience
+      currentLocation: personalInfo.currentLocation || "",
+      expectedSalary: personalInfo.expectedSalary || "",
+      joiningPossibility: personalInfo.joiningPossibility || "",
+
       // Additional Info
-      uaeDrivingLicense: personalInfo.egyptDrivingLicense || 'no', // Note: mapping egyptDrivingLicense to uaeDrivingLicense
-      relocationPossibility: personalInfo.relocationPossibility || 'no',
+      uaeDrivingLicense: personalInfo.egyptDrivingLicense || "no", // Note: mapping egyptDrivingLicense to uaeDrivingLicense
+      relocationPossibility: personalInfo.relocationPossibility || "no",
       languages: personalInfo.languages || [],
-      
+
       // Application Questions
-      previouslyWorked: extendedQuestions.previousWork || 'no',
-      workDetails: extendedQuestions.workDetails || '',
-      relativesOrFriends: extendedQuestions.relativesOrFriends || 'no',
-      names: extendedQuestions.names || '',
+      previouslyWorked: extendedQuestions.previousWork || "no",
+      workDetails: extendedQuestions.workDetails || "",
+      relativesOrFriends: extendedQuestions.relativesOrFriends || "no",
+      names: extendedQuestions.names || "",
       selectedRelationships: extendedQuestions.selectedRelationships || [],
-      
+
       // Experience Data
-      experienceData: experienceData
+      experienceData: experienceData,
     }
 
     console.log("Combined Form Data:", combinedFormData)
 
     const result = await submitApplication(jobId, combinedFormData, uploadedFile)
-    
+
     if (result.success) {
       console.log("Application submitted successfully!")
       // Clear stored data
-      localStorage.removeItem('personalInfo')
-      localStorage.removeItem('extendedQuestions')
+      localStorage.removeItem("personalInfo")
+      localStorage.removeItem("extendedQuestions")
       router.push("/application-success")
     } else {
       console.error("Application submission failed:", result.error)
@@ -136,7 +136,7 @@ export const AddExperience = (): JSX.Element => {
   }
 
   const handleExperienceChange = (field: string, value: string) => {
-    setExperienceData(prev => ({ ...prev, [field]: value }))
+    setExperienceData((prev) => ({ ...prev, [field]: value }))
   }
 
   return (
@@ -147,7 +147,11 @@ export const AddExperience = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
             {/* Logo and Back Button */}
             <div className="flex items-center">
-              <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+              <img
+                className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+                alt="EL RACE Logo"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+              />
             </div>
 
             {/* Desktop Navigation */}
@@ -189,8 +193,8 @@ export const AddExperience = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -263,27 +267,33 @@ export const AddExperience = (): JSX.Element => {
           <div className="flex flex-col w-full max-w-[1021px] mx-auto items-center gap-[15px] md:gap-[30px]">
             {/* Experience Cards */}
             {experienceCards.map((cardNumber) => (
-              <Card
-                key={cardNumber}
-                className="flex flex-col h-auto items-center gap-2.5 px-4 md:px-[46px] py-4 md:py-[31px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black shadow-sm"
-              >
-                <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-3 md:gap-6">
-                  {formFields.map((field, index) => (
-                    <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
-                      <label className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] tracking-[0] leading-[normal]">
-                        {field.label}
-                      </label>
-                      <Input
-                        id={`${field.id}-${cardNumber}`}
-                        type={field.type}
-                        value={experienceData[`${field.id}-${cardNumber}`] || ''}
-                        onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
-                        className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-sm md:text-lg"
-                      />
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
+              <div key={cardNumber} className="w-full">
+                {/* Previous Experience Label for each card */}
+                <div className="mb-2 md:mb-3">
+                  <h3 className="text-left [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[18px] leading-normal">
+                    Previous Experience
+                  </h3>
+                </div>
+
+                <Card className="flex flex-col h-auto items-center gap-2.5 px-4 md:px-[46px] py-4 md:py-[31px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black shadow-sm">
+                  <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-3 md:gap-6">
+                    {formFields.map((field, index) => (
+                      <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
+                        <label className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] tracking-[0] leading-[normal]">
+                          {field.label}
+                        </label>
+                        <Input
+                          id={`${field.id}-${cardNumber}`}
+                          type={field.type}
+                          value={experienceData[`${field.id}-${cardNumber}`] || ""}
+                          onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
+                          className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-sm md:text-lg"
+                        />
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
             ))}
 
             {/* Add More Button */}
@@ -329,12 +339,8 @@ export const AddExperience = (): JSX.Element => {
                   {isSubmitting ? "Submitting..." : "Apply"}
                 </span>
               </Button>
-              
-              {submitError && (
-                <div className="text-red-600 text-sm mt-2 text-center">
-                  {submitError}
-                </div>
-              )}
+
+              {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
             </div>
           </div>
         </main>
