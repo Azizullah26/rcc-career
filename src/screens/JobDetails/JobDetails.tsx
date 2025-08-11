@@ -314,7 +314,7 @@ export const JobDetails = (): JSX.Element => {
             <div className="flex justify-center mt-4 md:mt-8">
               <Button
                 onClick={() => router.push(`/job-application/${jobId}`)}
-                className="w-[140px] md:w-[207px] h-[45px] md:h-[67px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[20px] md:text-[36.6px] hover:bg-[#1a2470] transition-colors"
+                className="w-[110px] md:w-[160px] h-[35px] md:h-[50px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[16px] md:text-[28px] hover:bg-[#1a2470] transition-colors"
               >
                 Apply
               </Button>
