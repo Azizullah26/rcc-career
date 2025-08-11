@@ -10,6 +10,230 @@ import { Label } from "../../components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "../../components/ui/toggle-group"
 import Link from "next/link"
+import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
+
+// Countries list for nationality dropdown
+const countries = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Argentina",
+  "Armenia",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia and Herzegovina",
+  "Botswana",
+  "Brazil",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Cape Verde",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Comoros",
+  "Congo",
+  "Costa Rica",
+  "Croatia",
+  "Cuba",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Ethiopia",
+  "Fiji",
+  "Finland",
+  "France",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Greece",
+  "Grenada",
+  "Guatemala",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Micronesia",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "North Korea",
+  "North Macedonia",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Palestine",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Qatar",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "Sao Tome and Principe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Korea",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "Sudan",
+  "Suriname",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Timor-Leste",
+  "Togo",
+  "Tonga",
+  "Trinidad and Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Tuvalu",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Vatican City",
+  "Venezuela",
+  "Vietnam",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+]
+
+// Available languages
+const availableLanguages = [
+  "Arabic",
+  "English",
+  "French",
+  "German",
+  "Spanish",
+  "Italian",
+  "Portuguese",
+  "Russian",
+  "Chinese",
+  "Japanese",
+  "Korean",
+  "Hindi",
+  "Urdu",
+  "Turkish",
+  "Dutch",
+  "Swedish",
+  "Norwegian",
+  "Danish",
+]
+
+// Proficiency levels
+const proficiencyLevels = ["Native", "Fluent", "Advanced", "Intermediate", "Basic"]
+
+const textRedAsterisk = "*"
 
 export const JobApplication = (): JSX.Element => {
   const router = useRouter()
@@ -34,21 +258,9 @@ export const JobApplication = (): JSX.Element => {
     relocationPossibility: "yes",
     languages: [
       { id: 1, language: "arabic", proficiency: "native" },
-      { id: 2, language: "english", proficiency: "fluent" }
+      { id: 2, language: "english", proficiency: "fluent" },
     ],
   })
-
-  // Available languages
-  const availableLanguages = [
-    "Arabic", "English", "French", "German", "Spanish", "Italian", 
-    "Portuguese", "Russian", "Chinese", "Japanese", "Korean", "Hindi", 
-    "Urdu", "Turkish", "Dutch", "Swedish", "Norwegian", "Danish"
-  ]
-
-  // Proficiency levels
-  const proficiencyLevels = [
-    "Native", "Fluent", "Advanced", "Intermediate", "Basic"
-  ]
 
   // Navigation menu items
   const navItems = [
@@ -62,18 +274,18 @@ export const JobApplication = (): JSX.Element => {
 
   // Form fields data
   const formFields = [
-    { id: "fullName", label: "Full Name*", type: "text" },
-    { id: "email", label: "Email Address*", type: "email" },
-    { id: "phone", label: "Phone Number*", type: "tel" },
-    { id: "dob", label: "Date of Birth*", type: "date" },
-    { id: "nationality", label: "Nationality*", type: "text" },
-    { id: "gender", label: "Gender*", type: "text" },
-    { id: "maritalStatus", label: "Marital Status*", type: "text" },
-    { id: "totalExperience", label: "Total Experience*", type: "text" },
-    { id: "egyptExperience", label: "UAE Experience*", type: "text" },
-    { id: "currentLocation", label: "Current Location*", type: "text" },
-    { id: "expectedSalary", label: "Expected Salary*", type: "text" },
-    { id: "joiningPossibility", label: "Joining Possibility*", type: "text" },
+    { id: "fullName", label: "Full Name", type: "text", required: true },
+    { id: "email", label: "Email Address", type: "email", required: true },
+    { id: "phone", label: "Phone Number", type: "tel", required: true },
+    { id: "dob", label: "Date of Birth", type: "date", required: true },
+    { id: "nationality", label: "Nationality", type: "text", required: true },
+    { id: "gender", label: "Gender", type: "text", required: true },
+    { id: "maritalStatus", label: "Marital Status", type: "text", required: true },
+    { id: "totalExperience", label: "Total Experience", type: "text", required: true },
+    { id: "egyptExperience", label: "UAE Experience", type: "text", required: true },
+    { id: "currentLocation", label: "Current Location", type: "text", required: true },
+    { id: "expectedSalary", label: "Expected Salary", type: "text", required: true },
+    { id: "joiningPossibility", label: "Joining Possibility", type: "text", required: true },
   ]
 
   const handleInputChange = (field: string, value: string) => {
@@ -83,14 +295,12 @@ export const JobApplication = (): JSX.Element => {
   const handleLanguageChange = (id: number, field: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
-      languages: prev.languages.map((lang) =>
-        lang.id === id ? { ...lang, [field]: value } : lang
-      ),
+      languages: prev.languages.map((lang) => (lang.id === id ? { ...lang, [field]: value } : lang)),
     }))
   }
 
   const addLanguage = () => {
-    const newId = Math.max(...formData.languages.map(l => l.id)) + 1
+    const newId = Math.max(...formData.languages.map((l) => l.id)) + 1
     setFormData((prev) => ({
       ...prev,
       languages: [...prev.languages, { id: newId, language: "", proficiency: "basic" }],
@@ -108,7 +318,7 @@ export const JobApplication = (): JSX.Element => {
 
   const onSubmit = () => {
     // Store personal information in localStorage for later use
-    localStorage.setItem('personalInfo', JSON.stringify(formData))
+    localStorage.setItem("personalInfo", JSON.stringify(formData))
     console.log("Form submitted:", formData)
     // Navigate directly to extended application questions page
     router.push(`/extended-application-questions/${jobId}`)
@@ -122,7 +332,11 @@ export const JobApplication = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
             {/* Logo */}
             <div className="flex items-center">
-              <img className="w-[100px] h-[45px] md:h-24 md:w-40" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+              <img
+                className="w-[100px] h-[45px] md:h-24 md:w-40"
+                alt="EL RACE Logo"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+              />
             </div>
 
             {/* Desktop Navigation */}
@@ -163,8 +377,8 @@ export const JobApplication = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -192,22 +406,18 @@ export const JobApplication = (): JSX.Element => {
                 ))}
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
+                    type="button"
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[35px] md:h-[45px] rounded-[38px] text-black text-[16px] md:text-[24px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
                   >
-                    <img className="w-[20px] h-[20px]" alt="Log in" src="/log-in.svg" />
-                    <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
-                      Sign in
-                    </span>
+                    Cancel
                   </Button>
+
                   <Button
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 h-[35px] md:h-[45px] rounded-[38px] text-white text-[16px] md:text-[24px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
                   >
-                    <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                    <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
-                      العربيــة
-                    </span>
+                    Next
                   </Button>
                 </div>
               </nav>
@@ -216,7 +426,7 @@ export const JobApplication = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[20px] md:pt-[30px] px-4 md:px-[85px] pb-10">
+        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[85px] pb-10">
           {/* Back Button */}
           <div className="mb-6">
             <button
@@ -241,43 +451,104 @@ export const JobApplication = (): JSX.Element => {
           </Card>
 
           {/* Application Form */}
-          <div className="space-y-3 md:space-y-6">
-            <div className="flex flex-col w-full items-start gap-3 md:gap-[23px] relative">
-              {formFields.map((field) => (
-                <div key={field.id} className="flex flex-col items-center gap-1 md:gap-3 relative self-stretch w-full">
-                  <Label className="self-stretch h-auto [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
-                    {field.label}
-                  </Label>
-                  <Input
-                    type={field.type}
-                    value={formData[field.id as keyof typeof formData]}
-                    onChange={(e) => handleInputChange(field.id, e.target.value)}
-                    className="self-stretch w-full h-10 md:h-14 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-sm md:text-base"
-                  />
-                </div>
-              ))}
+          <div className="space-y-2 md:space-y-4">
+            <div className="flex flex-col w-full items-start gap-2 md:gap-[15px] relative">
+              {formFields.map((field) => {
+                if (field.id === "nationality") {
+                  return (
+                    <div
+                      key={field.id}
+                      className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
+                    >
+                      <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                        {field.label}
+                        {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
+                      </Label>
+                      <Select
+                        value={formData.nationality}
+                        onValueChange={(value) => handleInputChange("nationality", value)}
+                      >
+                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
+                          <SelectValue placeholder="Select nationality" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {countries.map((country) => (
+                            <SelectItem key={country} value={country} className="form-input-font">
+                              {country}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )
+                } else if (field.id === "gender") {
+                  return (
+                    <div
+                      key={field.id}
+                      className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
+                    >
+                      <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                        {field.label}
+                        {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
+                      </Label>
+                      <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
+                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
+                          <SelectValue placeholder="Choose option" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Male" className="form-input-font">
+                            Male
+                          </SelectItem>
+                          <SelectItem value="Female" className="form-input-font">
+                            Female
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div
+                      key={field.id}
+                      className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
+                    >
+                      <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                        {field.label}
+                        {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
+                      </Label>
+                      <Input
+                        type={field.type}
+                        value={formData[field.id as keyof typeof formData]}
+                        onChange={(e) => handleInputChange(field.id, e.target.value)}
+                        className="self-stretch w-full h-8 md:h-10 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font placeholder:text-gray-500"
+                      />
+                    </div>
+                  )
+                }
+              })}
 
-              <div className="flex flex-col w-full items-start gap-4 md:gap-[39px] relative">
+              <div className="flex flex-col w-full items-start gap-3 md:gap-[25px] relative">
                 {/* UAE Driving license toggle */}
-                <div className="flex flex-col items-start gap-2 md:gap-6 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
-                    UAE Driving License*
+                <div className="flex flex-col items-start gap-1 md:gap-3 relative self-stretch w-full">
+                  <Label className="flex-1 self-stretch form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                    UAE Driving License
+                    <span className="text-red-asterisk">{textRedAsterisk}</span>
                   </Label>
                   <ToggleGroup
                     type="single"
                     value={formData.egyptDrivingLicense}
                     onValueChange={(value) => handleInputChange("egyptDrivingLicense", value)}
-                    className="flex w-full max-w-[240px] md:max-w-[274px] h-[40px] md:h-[55px] items-center gap-3 md:gap-5 relative"
+                    className="flex w-full max-w-[180px] md:max-w-[220px] h-[30px] md:h-[40px] items-center gap-2 md:gap-3 relative"
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -285,25 +556,26 @@ export const JobApplication = (): JSX.Element => {
                 </div>
 
                 {/* Relocation Possibility toggle */}
-                <div className="flex flex-col items-start gap-2 md:gap-6 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
-                    Relocation Possibility*
+                <div className="flex flex-col items-start gap-1 md:gap-3 relative self-stretch w-full">
+                  <Label className="flex-1 self-stretch form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                    Relocation Possibility
+                    <span className="text-red-asterisk">{textRedAsterisk}</span>
                   </Label>
                   <ToggleGroup
                     type="single"
                     value={formData.relocationPossibility}
                     onValueChange={(value) => handleInputChange("relocationPossibility", value)}
-                    className="flex w-full max-w-[240px] md:max-w-[274px] h-[40px] md:h-[55px] items-center gap-3 md:gap-5 relative"
+                    className="flex w-full max-w-[180px] md:max-w-[220px] h-[30px] md:h-[40px] items-center gap-2 md:gap-3 relative"
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.66px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[40px] md:h-[55px] rounded-[35.68px] flex items-center justify-center bg-[#d9d9d9] [font-family:'Inter',Helvetica] font-semibold text-black text-[18px] md:text-[29.6px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -311,29 +583,37 @@ export const JobApplication = (): JSX.Element => {
                 </div>
 
                 {/* Languages section */}
-                <div className="flex flex-col items-start gap-2 md:gap-3.5 relative self-stretch w-full">
-                  <Label className="self-stretch [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[21.6px] tracking-[0] leading-[normal]">
-                    Languages*
+                <div className="flex flex-col items-start gap-1 md:gap-2 relative self-stretch w-full">
+                  <Label className="self-stretch form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                    Languages
+                    <span className="text-red-asterisk">{textRedAsterisk}</span>
                   </Label>
-                  
+
                   {/* Dynamic Languages */}
-                  <div className="flex flex-col gap-4 w-full">
+                  <div className="flex flex-col gap-3 w-full">
                     {formData.languages.map((lang, index) => (
-                      <div key={lang.id} className="flex flex-col md:flex-row items-start gap-3 md:gap-4 p-4 bg-gray-50 rounded-lg border">
+                      <div
+                        key={lang.id}
+                        className="flex flex-col md:flex-row items-start gap-2 md:gap-3 p-3 bg-gray-50 rounded-lg border"
+                      >
                         <div className="flex-1 min-w-0">
-                          <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] md:text-[14px] tracking-[0] leading-[normal] mb-1 block">
+                          <Label className="form-label-font text-black text-[10px] md:text-[12px] tracking-[0] leading-[normal] mb-1 block">
                             Language {index + 1}
                           </Label>
                           <Select
                             value={lang.language}
                             onValueChange={(value) => handleLanguageChange(lang.id, "language", value)}
                           >
-                            <SelectTrigger className="w-full h-10 md:h-12 bg-white rounded-[47px] border border-solid border-gray-300 text-sm">
+                            <SelectTrigger className="w-full h-8 md:h-9 bg-white rounded-[47px] border border-solid border-gray-300 text-xs form-input-font">
                               <SelectValue placeholder="Select language" />
                             </SelectTrigger>
                             <SelectContent>
                               {availableLanguages.map((language) => (
-                                <SelectItem key={language.toLowerCase()} value={language.toLowerCase()}>
+                                <SelectItem
+                                  key={language.toLowerCase()}
+                                  value={language.toLowerCase()}
+                                  className="form-input-font"
+                                >
                                   {language}
                                 </SelectItem>
                               ))}
@@ -342,19 +622,23 @@ export const JobApplication = (): JSX.Element => {
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] md:text-[14px] tracking-[0] leading-[normal] mb-1 block">
+                          <Label className="form-label-font text-black text-[10px] md:text-[12px] tracking-[0] leading-[normal] mb-1 block">
                             Proficiency Level
                           </Label>
                           <Select
                             value={lang.proficiency}
                             onValueChange={(value) => handleLanguageChange(lang.id, "proficiency", value)}
                           >
-                            <SelectTrigger className="w-full h-10 md:h-12 bg-white rounded-[47px] border border-solid border-gray-300 text-sm">
+                            <SelectTrigger className="w-full h-8 md:h-9 bg-white rounded-[47px] border border-solid border-gray-300 text-xs form-input-font">
                               <SelectValue placeholder="Select proficiency" />
                             </SelectTrigger>
                             <SelectContent>
                               {proficiencyLevels.map((level) => (
-                                <SelectItem key={level.toLowerCase()} value={level.toLowerCase()}>
+                                <SelectItem
+                                  key={level.toLowerCase()}
+                                  value={level.toLowerCase()}
+                                  className="form-input-font"
+                                >
                                   {level}
                                 </SelectItem>
                               ))}
@@ -369,9 +653,9 @@ export const JobApplication = (): JSX.Element => {
                               type="button"
                               variant="outline"
                               onClick={() => removeLanguage(lang.id)}
-                              className="w-10 h-10 md:w-12 md:h-12 bg-red-100 hover:bg-red-200 rounded-full border border-red-300 flex items-center justify-center mt-5"
+                              className="w-8 h-8 md:w-9 md:h-9 bg-red-100 hover:bg-red-200 rounded-full border border-red-300 flex items-center justify-center mt-4"
                             >
-                              <span className="text-red-600 text-lg font-bold">×</span>
+                              <span className="text-red-600 text-sm font-bold">×</span>
                             </Button>
                           </div>
                         )}
@@ -379,42 +663,40 @@ export const JobApplication = (): JSX.Element => {
                     ))}
 
                     {/* Add More Languages Button */}
-                    <div className="flex justify-center mt-2">
+                    <div className="flex justify-center mt-1">
                       <Button
                         type="button"
                         variant="outline"
                         onClick={addLanguage}
-                        className="flex items-center gap-2 h-10 md:h-12 px-4 md:px-6 bg-[#d9d9d9] hover:bg-[#c9c9c9] rounded-[47px] border border-solid border-black transition-colors"
+                        className="flex items-center gap-2 h-8 md:h-9 px-3 md:px-4 bg-[#d9d9d9] hover:bg-[#c9c9c9] rounded-[47px] border border-solid border-black transition-colors"
                       >
-                        <span className="[font-family:'Inter',Helvetica] font-light text-[#505050] text-[20px] md:text-[24px]">+</span>
-                        <span className="[font-family:'Inter',Helvetica] font-normal text-black text-[12px] md:text-[14px]">
-                          Add Language
-                        </span>
+                        <span className="form-input-font text-[#505050] text-[16px] md:text-[18px]">+</span>
+                        <span className="form-input-font text-black text-[10px] md:text-[12px]">Add Language</span>
                       </Button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-[90px] my-6 md:my-10">
-              <Button
-                type="button"
-                onClick={() => router.back()}
-                variant="outline"
-                className="w-full md:w-[138px] h-[45px] md:h-[60px] rounded-[38px] text-black text-[20px] md:text-[32px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
-              >
-                Cancel
-              </Button>
+              {/* Navigation Buttons */}
+              <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-[90px] my-6 md:my-10">
+                <Button
+                  type="button"
+                  onClick={() => router.back()}
+                  variant="outline"
+                  className="w-full md:w-[110px] h-[35px] md:h-[45px] rounded-[38px] text-black text-[16px] md:text-[24px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
+                >
+                  Cancel
+                </Button>
 
-              <Button
-                onClick={onSubmit}
-                variant="outline"
-                className="w-full md:w-[138px] h-[45px] md:h-[60px] rounded-[38px] text-white text-[20px] md:text-[32px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
-              >
-                Next
-              </Button>
+                <Button
+                  onClick={onSubmit}
+                  variant="outline"
+                  className="w-full md:w-[110px] h-[35px] md:h-[45px] rounded-[38px] text-white text-[16px] md:text-[24px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           </div>
         </main>

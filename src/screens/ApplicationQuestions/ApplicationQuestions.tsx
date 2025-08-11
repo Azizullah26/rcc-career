@@ -31,7 +31,7 @@ export const ApplicationQuestions = (): JSX.Element => {
 
   const handleSubmit = () => {
     // Store application questions in localStorage
-    localStorage.setItem('applicationQuestions', JSON.stringify({ previouslyWorked, relativesOrFriends }))
+    localStorage.setItem("applicationQuestions", JSON.stringify({ previouslyWorked, relativesOrFriends }))
     console.log("Application questions submitted:", { previouslyWorked, relativesOrFriends })
     // Navigate to extended application questions page
     router.push(`/extended-application-questions/${jobId}`)
@@ -94,8 +94,8 @@ export const ApplicationQuestions = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >

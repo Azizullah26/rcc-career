@@ -1,13 +1,14 @@
 "use client"
 
 import { LogInIcon, ArrowLeft, Menu, X } from "lucide-react"
-import React, { useState } from "react"
+import { useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
 import { cn } from "../../lib/utils"
 import { Button } from "../../../components/ui/button"
 import { Input } from "../../../components/ui/input"
 import { ToggleGroup, ToggleGroupItem } from "../../../components/ui/toggle-group"
+import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
 
 export const ExtendedApplicationQuestions = (): JSX.Element => {
   const router = useRouter()
@@ -18,7 +19,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   const [workDetails, setWorkDetails] = useState("")
   const [relativesOrFriends, setRelativesOrFriends] = useState("")
   const [names, setNames] = useState("")
-  const [selectedRelationships, setSelectedRelationships] = useState<string[]>([])
+  const [selectedRelationship, setSelectedRelationship] = useState("")
 
   // Navigation items data
   const navItems = [
@@ -34,9 +35,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   const relationshipOptions = ["Father", "Mother", "Brother", "Sister", "Spouse", "Uncle", "Aunt", "Friend"]
 
   const handleRelationshipToggle = (relationship: string) => {
-    setSelectedRelationships((prev) =>
-      prev.includes(relationship) ? prev.filter((r) => r !== relationship) : [...prev, relationship],
-    )
+    setSelectedRelationship(relationship)
   }
 
   const handleSubmit = () => {
@@ -45,10 +44,10 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
       workDetails,
       relativesOrFriends,
       names,
-      selectedRelationships,
+      selectedRelationship,
     }
     // Store extended questions in localStorage
-    localStorage.setItem('extendedQuestions', JSON.stringify(formData))
+    localStorage.setItem("extendedQuestions", JSON.stringify(formData))
     console.log("Extended application questions submitted:", formData)
     router.push(`/add-experience/${jobId}`)
   }
@@ -61,7 +60,11 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
         {/* Header/Navigation Bar */}
         <header className="fixed w-full h-[70px] md:h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px] top-0 left-0 z-50">
           <div className="flex items-center">
-            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+            <img
+              className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+              alt="EL RACE Logo"
+              src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+            />
           </div>
 
           {/* Desktop Navigation */}
@@ -102,8 +105,8 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
-            className="lg:hidden p-2 z-50 relative" 
+          <button
+            className="lg:hidden p-2 z-50 relative"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -261,7 +264,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
                         onClick={() => handleRelationshipToggle(option)}
                         className={cn(
                           "h-[35px] md:h-[46px] bg-[#d9d9d9] rounded-[30px] [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[24px] border-none hover:bg-[#c9c9c9] transition-colors px-3 md:px-6",
-                          selectedRelationships.includes(option) && "bg-[#151d61] text-white hover:bg-[#1a2470]",
+                          selectedRelationship === option && "bg-[#151d61] text-white hover:bg-[#1a2470]",
                         )}
                       >
                         {option}

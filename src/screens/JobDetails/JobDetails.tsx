@@ -137,7 +137,7 @@ export const JobDetails = (): JSX.Element => {
     },
   }
 
-  const job = jobData[Number.parseInt(jobId || "1") as keyof typeof jobData] || jobData[1]
+  const job = jobData[Number.parseInt(jobId || "1")] || jobData[1]
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
@@ -147,7 +147,11 @@ export const JobDetails = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
             {/* Logo and Back Button */}
             <div className="flex items-center">
-              <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+              <img
+                className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+                alt="EL RACE Logo"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+              />
             </div>
 
             {/* Desktop Navigation */}
@@ -179,7 +183,11 @@ export const JobDetails = (): JSX.Element => {
                   variant="outline"
                   className="h-[35px] md:h-[39px] w-[90px] md:w-[104px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                 >
-                  <img className="w-[18px] md:w-[21.69px] h-[18px] md:h-[21.69px] mr-[3px] md:mr-[5px]" alt="Language" src="/language.svg" />
+                  <img
+                    className="w-[18px] md:w-[21.69px] h-[18px] md:h-[21.69px] mr-[3px] md:mr-[5px]"
+                    alt="Language"
+                    src="/language.svg"
+                  />
                   <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[14px] md:text-[16px] [direction:rtl]">
                     العربيــة
                   </span>
@@ -188,8 +196,8 @@ export const JobDetails = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -261,10 +269,12 @@ export const JobDetails = (): JSX.Element => {
         {/* Job Description */}
         <Card className="absolute w-[95%] md:w-[1084px] top-[180px] md:top-[248px] left-1/2 transform -translate-x-1/2 border-none shadow-none">
           <CardContent className="p-4 md:p-0 [font-family:'Inter',Helvetica] font-normal text-black text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] text-justify tracking-[0] leading-normal">
-            <h2 className="font-bold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] mb-3 md:mb-4">Job Description</h2>
+            <h2 className="font-bold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] mb-3 md:mb-4">
+              Job Description
+            </h2>
 
             <p className="font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] leading-relaxed">
-              <strong>ABOUT THE POSITION</strong>
+              ABOUT THE POSITION
               <br />
               {job.description}
             </p>
@@ -276,7 +286,9 @@ export const JobDetails = (): JSX.Element => {
               </p>
             </div>
 
-            <h2 className="font-bold mt-3 md:mt-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px]">WHAT YOU WILL NEED TO SUCCEED</h2>
+            <h2 className="font-normal mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px]">
+              WHAT YOU WILL NEED TO SUCCEED
+            </h2>
 
             <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
               {job.requirements.map((requirement, index) => (
@@ -286,7 +298,9 @@ export const JobDetails = (): JSX.Element => {
               ))}
             </ul>
 
-            <h2 className="font-bold mt-3 md:mt-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px]">KEY RESPONSIBILITIES</h2>
+            <h2 className="font-normal mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px]">
+              KEY RESPONSIBILITIES
+            </h2>
 
             <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
               {job.responsibilities.map((responsibility, index) => (

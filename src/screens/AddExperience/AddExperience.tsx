@@ -9,7 +9,7 @@ import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { useJobApplication } from "../../hooks/useJobApplication"
-import type { JSX } from "react"
+import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
 
 export const AddExperience = (): JSX.Element => {
   const router = useRouter()
@@ -34,10 +34,10 @@ export const AddExperience = (): JSX.Element => {
 
   // Form fields for each experience card
   const formFields = [
-    { label: "Company Name*", id: "company-name", type: "text" },
-    { label: "Job Title*", id: "job-title", type: "text" },
-    { label: "Start Date*", id: "start-date", type: "date" },
-    { label: "End Date*", id: "end-date", type: "date" },
+    { label: "Company Name<span class='text-red-500'>*</span>", id: "company-name", type: "text" },
+    { label: "Job Title<span class='text-red-500'>*</span>", id: "job-title", type: "text" },
+    { label: "Start Date<span class='text-red-500'>*</span>", id: "start-date", type: "date" },
+    { label: "End Date<span class='text-red-500'>*</span>", id: "end-date", type: "date" },
   ]
 
   const addExperienceCard = () => {
@@ -113,7 +113,7 @@ export const AddExperience = (): JSX.Element => {
       workDetails: extendedQuestions.workDetails || "",
       relativesOrFriends: extendedQuestions.relativesOrFriends || "no",
       names: extendedQuestions.names || "",
-      selectedRelationships: extendedQuestions.selectedRelationships || [],
+      selectedRelationship: extendedQuestions.selectedRelationship || "",
 
       // Experience Data
       experienceData: experienceData,
@@ -279,9 +279,10 @@ export const AddExperience = (): JSX.Element => {
                   <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-3 md:gap-6">
                     {formFields.map((field, index) => (
                       <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
-                        <label className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] tracking-[0] leading-[normal]">
-                          {field.label}
-                        </label>
+                        <label
+                          className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] tracking-[0] leading-[normal]"
+                          dangerouslySetInnerHTML={{ __html: field.label }}
+                        />
                         <Input
                           id={`${field.id}-${cardNumber}`}
                           type={field.type}
