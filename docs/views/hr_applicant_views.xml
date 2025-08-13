@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        &lt;!-- Extended HR Applicant Form View -->
+        <record id="hr_applicant_view_form_extended" model="ir.ui.view">
+            <field name="name">hr.applicant.form.extended</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_phone']" position="after">
+                    <group string="Personal Information" col="4">
+                        <field name="x_date_of_birth"/>
+                        <field name="x_nationality"/>
+                        <field name="x_gender"/>
+                        <field name="x_marital_status"/>
+                    </group>
+                    
+                    <group string="Experience Information" col="4">
+                        <field name="x_total_experience"/>
+                        <field name="x_uae_experience"/>
+                        <field name="x_current_location"/>
+                        <field name="x_expected_salary"/>
+                        <field name="x_joining_possibility" colspan="2"/>
+                    </group>
+                    
+                    <group string="Additional Information" col="4">
+                        <field name="x_uae_driving_license"/>
+                        <field name="x_relocation_possibility"/>
+                        <field name="x_languages_display" colspan="4"/>
+                    </group>
+                    
+                    <group string="Application Questions" col="2">
+                        <field name="x_previously_worked"/>
+                        <field name="x_relatives_friends"/>
+                        <field name="x_work_details" colspan="2" attrs="{'invisible': [('x_previously_worked', '=', False)]}"/>
+                        <field name="x_relative_names" colspan="2" attrs="{'invisible': [('x_relatives_friends', '=', False)]}"/>
+                    </group>
+                    
+                    <group string="Experience Summary" col="1">
+                        <field name="x_experience_summary" nolabel="1" readonly="1"/>
+                    </group>
+                    
+                    <group string="Source Information" col="2">
+                        <field name="x_source_website"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+        &lt;!-- Extended HR Applicant Tree View -->
+        <record id="hr_applicant_view_tree_extended" model="ir.ui.view">
+            <field name="name">hr.applicant.tree.extended</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_phone']" position="after">
+                    <field name="x_nationality" optional="hide"/>
+                    <field name="x_current_location" optional="hide"/>
+                    <field name="x_expected_salary" optional="hide"/>
+                    <field name="x_source_website" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        
+        &lt;!-- Search View Extension -->
+        <record id="hr_applicant_view_search_extended" model="ir.ui.view">
+            <field name="name">hr.applicant.search.extended</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="x_nationality"/>
+                    <field name="x_current_location"/>
+                    <field name="x_source_website"/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <filter string="Career Portal Applications" name="career_portal" 
+                            domain="[('x_source_website', '=', 'RCC Career Portal')]"/>
+                    <filter string="UAE Experience" name="uae_experience" 
+                            domain="[('x_uae_experience', '!=', False)]"/>
+                    <filter string="UAE Driving License" name="driving_license" 
+                            domain="[('x_uae_driving_license', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

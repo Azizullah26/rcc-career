@@ -1,11 +1,11 @@
 "use client"
 
-import { LogInIcon, ArrowRightIcon, Menu, X } from 'lucide-react'
+import { LogInIcon, ArrowRightIcon, Menu, X } from "lucide-react"
 import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
-import { Card, CardContent } from "../../components/ui/card"
+import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
 
 export const Careers = (): JSX.Element => {
   const router = useRouter()
@@ -28,7 +28,11 @@ export const Careers = (): JSX.Element => {
         <header className="w-full h-[70px] md:h-[91px] bg-white relative z-50">
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
-            <img className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]" alt="EL RACE Logo" src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif" />
+            <img
+              className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+              alt="EL RACE Logo"
+              src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+            />
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center justify-between">
@@ -47,20 +51,20 @@ export const Careers = (): JSX.Element => {
               <div className="flex items-center gap-[29px] ml-[60px]">
                 <Button
                   variant="outline"
-                  className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
+                  className="group flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] transition-colors relative z-10"
                 >
-                  <LogInIcon className="w-[23px] h-[23px]" />
-                  <span className="font-normal text-[#151d61] text-[19.7px] tracking-[0] leading-[normal]">
+                  <LogInIcon className="w-[23px] h-[23px] text-[#151d61] group-hover:text-white transition-colors relative z-20" />
+                  <span className="font-normal text-[#151d61] text-[19.7px] tracking-[0] leading-[normal] group-hover:text-white transition-colors relative z-20">
                     Sign in
                   </span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
+                  className="group flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] transition-colors relative z-10"
                 >
-                  <img className="w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
-                  <span className="font-medium text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-normal whitespace-nowrap [direction:rtl]">
+                  <img className="w-[21.69px] h-[21.69px] relative z-20" alt="Language" src="/language.svg" />
+                  <span className="font-medium text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl] group-hover:text-white transition-colors relative z-20">
                     العربيــة
                   </span>
                 </Button>
@@ -68,8 +72,8 @@ export const Careers = (): JSX.Element => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -101,18 +105,14 @@ export const Careers = (): JSX.Element => {
                     className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
                   >
                     <LogInIcon className="w-[20px] h-[20px]" />
-                    <span className="font-normal text-[#151d61] text-[16px]">
-                      Sign in
-                    </span>
+                    <span className="font-normal text-[#151d61] text-[16px]">Sign in</span>
                   </Button>
                   <Button
                     variant="outline"
                     className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
                   >
                     <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                    <span className="font-medium text-[#ce363a] text-[16px] [direction:rtl]">
-                      العربيــة
-                    </span>
+                    <span className="font-medium text-[#ce363a] text-[16px] [direction:rtl]">العربيــة</span>
                   </Button>
                 </div>
               </nav>
@@ -128,13 +128,17 @@ export const Careers = (): JSX.Element => {
                 <h1 className="font-normal text-white text-[24px] md:text-[48px] tracking-[0] leading-normal mb-4 md:mb-6">
                   <span className="font-bold tracking-wider">EL RACE CAREERS</span>
                 </h1>
-                
+
                 <p className="w-full max-w-[800px] mx-auto font-normal text-white text-[12px] md:text-[18px] text-center tracking-[0] leading-relaxed mb-6 md:mb-8">
-                  EL RACE is a well-established local company with over 40 years of experience, known for delivering major government projects with excellence and reliability. We take pride in our talented and dedicated team, and we're always looking for passionate individuals to join our growing family. At EL RACE, you'll find a supportive work environment, real opportunities for growth, and a chance to be part of something meaningful.
+                  EL RACE is a well-established local company with over 40 years of experience, known for delivering
+                  major government projects with excellence and reliability. We take pride in our talented and dedicated
+                  team, and we're always looking for passionate individuals to join our growing family. At EL RACE,
+                  you'll find a supportive work environment, real opportunities for growth, and a chance to be part of
+                  something meaningful.
                 </p>
 
                 <Button
-                  onClick={() => router.push('/search-careers')}
+                  onClick={() => router.push("/search-careers")}
                   className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[60px] px-6 md:px-12 font-semibold text-[16px] md:text-[20px] transition-colors flex items-center gap-2 mx-auto"
                 >
                   Explore Opportunities
@@ -160,9 +164,7 @@ export const Careers = (): JSX.Element => {
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">
-                Quick Links
-              </h3>
+              <h3 className="font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">Quick Links</h3>
               <ul className="space-y-1 md:space-y-2">
                 <li>
                   <Link
@@ -173,35 +175,24 @@ export const Careers = (): JSX.Element => {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
-                  >
+                  <a href="#" className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors">
                     Projects
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
-                  >
+                  <a href="#" className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors">
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
-                  >
+                  <a href="#" className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors">
                     Contact
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">
-                Contact Info
-              </h3>
+              <h3 className="font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">Contact Info</h3>
               <div className="space-y-1 md:space-y-2 text-[11px] md:text-[14px] text-gray-300">
                 <p>EL RACE UAE</p>
                 <p>600500722</p>
@@ -210,9 +201,7 @@ export const Careers = (): JSX.Element => {
             </div>
           </div>
           <div className="border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
-            <p className="text-[10px] md:text-[14px] text-gray-300">
-              © 2024 EL RACE. All rights reserved.
-            </p>
+            <p className="text-[10px] md:text-[14px] text-gray-300">© 2024 EL RACE. All rights reserved.</p>
           </div>
         </footer>
       </div>

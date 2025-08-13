@@ -1,0 +1,306 @@
+{
+  "info": {
+    "name": "RCC Career Portal API",
+    "description": "Complete API test collection for RCC Career Portal integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://your-odoo-domain.com",
+      "type": "string"
+    },
+    {
+      "key": "job_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "applicant_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "test_email",
+      "value": "test@example.com",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Get Job Positions",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response has success field', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "    pm.expect(jsonData.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('Response has jobs array', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('jobs');",
+              "    pm.expect(jsonData.jobs).to.be.an('array');",
+              "});",
+              "",
+              "// Save job ID for next requests",
+              "const jsonData = pm.response.json();",
+              "if (jsonData.jobs && jsonData.jobs.length > 0) {",
+              "    pm.collectionVariables.set('job_id', jsonData.jobs[0].id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/career/jobs",
+          "host": ["{{base_url}}"],
+          "path": ["api", "career", "jobs"]
+        }
+      }
+    },
+    {
+      "name": "2. Submit Job Application",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Application submitted successfully', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "    pm.expect(jsonData.success).to.be.true;",
+              "    pm.expect(jsonData).to.have.property('applicant_id');",
+              "});",
+              "",
+              "// Save applicant ID for CV upload",
+              "const jsonData = pm.response.json();",
+              "if (jsonData.applicant_id) {",
+              "    pm.collectionVariables.set('applicant_id', jsonData.applicant_id);",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Generate unique email for testing",
+              "const timestamp = Date.now();",
+              "pm.collectionVariables.set('test_email', `test.${timestamp}@example.com`);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jobId\": \"{{job_id}}\",\n  \"formData\": {\n    \"firstName\": \"Ahmed\",\n    \"lastName\": \"Al-Rashid\",\n    \"email\": \"{{test_email}}\",\n    \"phone\": \"+971501234567\",\n    \"dateOfBirth\": \"1990-05-15\",\n    \"nationality\": \"Emirati\",\n    \"gender\": \"male\",\n    \"maritalStatus\": \"single\",\n    \"totalExperience\": \"5 years\",\n    \"uaeExperience\": \"3 years\",\n    \"currentLocation\": \"Dubai\",\n    \"expectedSalary\": \"12000 AED\",\n    \"joiningPossibility\": \"1 month notice\",\n    \"uaeDrivingLicense\": true,\n    \"relocationPossibility\": false,\n    \"languages\": [\n      {\"language\": \"Arabic\", \"proficiency\": \"Native\"},\n      {\"language\": \"English\", \"proficiency\": \"Fluent\"}\n    ],\n    \"previouslyWorked\": false,\n    \"workDetails\": \"\",\n    \"relativesOrFriends\": false,\n    \"relativeNames\": \"\",\n    \"relationships\": [],\n    \"experienceData\": [\n      {\n        \"company\": \"Tech Solutions LLC\",\n        \"position\": \"Senior Developer\",\n        \"duration\": \"2020-2023\",\n        \"responsibilities\": \"Led development team, built web applications\"\n      }\n    ]\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/career/apply",
+          "host": ["{{base_url}}"],
+          "path": ["api", "career", "apply"]
+        }
+      }
+    },
+    {
+      "name": "3. Upload CV File",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('CV uploaded successfully', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "    pm.expect(jsonData.success).to.be.true;",
+              "    pm.expect(jsonData).to.have.property('attachment_id');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "applicant_id",
+              "value": "{{applicant_id}}",
+              "type": "text"
+            },
+            {
+              "key": "cv_file",
+              "type": "file",
+              "src": "test_cv.pdf"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/career/upload_cv",
+          "host": ["{{base_url}}"],
+          "path": ["api", "career", "upload_cv"]
+        }
+      }
+    },
+    {
+      "name": "4. Error Test - Invalid Job ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Error handled correctly', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "    pm.expect(jsonData.success).to.be.false;",
+              "    pm.expect(jsonData).to.have.property('error');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jobId\": \"99999\",\n  \"formData\": {\n    \"firstName\": \"Test\",\n    \"email\": \"error.test@example.com\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/career/apply",
+          "host": ["{{base_url}}"],
+          "path": ["api", "career", "apply"]
+        }
+      }
+    },
+    {
+      "name": "5. Error Test - Missing Data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Missing data error handled', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "    pm.expect(jsonData.success).to.be.false;",
+              "    pm.expect(jsonData).to.have.property('error');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jobId\": \"{{job_id}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/career/apply",
+          "host": ["{{base_url}}"],
+          "path": ["api", "career", "apply"]
+        }
+      }
+    },
+    {
+      "name": "6. File Validation - Invalid Type",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Invalid file type rejected', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "    pm.expect(jsonData.success).to.be.false;",
+              "    pm.expect(jsonData.error).to.include('Invalid file type');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "applicant_id",
+              "value": "{{applicant_id}}",
+              "type": "text"
+            },
+            {
+              "key": "cv_file",
+              "type": "file",
+              "src": "test.txt"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/career/upload_cv",
+          "host": ["{{base_url}}"],
+          "path": ["api", "career", "upload_cv"]
+        }
+      }
+    }
+  ]
+}

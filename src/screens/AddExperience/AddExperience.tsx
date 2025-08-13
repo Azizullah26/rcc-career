@@ -9,7 +9,7 @@ import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { useJobApplication } from "../../hooks/useJobApplication"
-import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
+import type { JSX } from "react/jsx-runtime"
 
 export const AddExperience = (): JSX.Element => {
   const router = useRouter()
@@ -21,6 +21,7 @@ export const AddExperience = (): JSX.Element => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [experienceData, setExperienceData] = useState<Record<string, string>>({})
+  const [currentlyWorkingStatus, setCurrentlyWorkingStatus] = useState<Record<number, boolean>>({})
 
   // Navigation menu items
   const navItems = [
@@ -83,6 +84,7 @@ export const AddExperience = (): JSX.Element => {
     console.log("Personal Info:", personalInfo)
     console.log("Extended Questions:", extendedQuestions)
     console.log("Experience Data:", experienceData)
+    console.log("Currently Working Status:", currentlyWorkingStatus)
     console.log("Uploaded File:", uploadedFile)
 
     // Combine all form data
@@ -117,6 +119,7 @@ export const AddExperience = (): JSX.Element => {
 
       // Experience Data
       experienceData: experienceData,
+      currentlyWorkingStatus: currentlyWorkingStatus,
     }
 
     console.log("Combined Form Data:", combinedFormData)
@@ -137,6 +140,10 @@ export const AddExperience = (): JSX.Element => {
 
   const handleExperienceChange = (field: string, value: string) => {
     setExperienceData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleCurrentlyWorkingChange = (cardNumber: number, isWorking: boolean) => {
+    setCurrentlyWorkingStatus((prev) => ({ ...prev, [cardNumber]: isWorking }))
   }
 
   return (
@@ -246,9 +253,9 @@ export const AddExperience = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[123px] pb-[60px] md:pb-[100px] ml-[10px]">
+        <main className="pt-[60px] md:pt-[80px] px-4 md:px-[60px] pb-[30px] md:pb-[50px] ml-[10px]">
           {/* Back Button */}
-          <div className="mb-6">
+          <div className="mb-6 py-5">
             <button
               onClick={() => router.back()}
               className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
@@ -259,28 +266,28 @@ export const AddExperience = (): JSX.Element => {
           </div>
 
           {/* Page Title */}
-          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[12px] md:text-[24.6px] mb-[15px] md:mb-[60px] leading-tight">
+          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[9px] md:text-[16px] mb-[8px] md:mb-[30px] leading-tight">
             Please provide details about your latest work experience
           </h1>
 
           {/* Experience Cards Container */}
-          <div className="flex flex-col w-full max-w-[1021px] mx-auto items-center gap-[15px] md:gap-[30px]">
+          <div className="flex flex-col w-full max-w-[1021px] mx-auto items-center gap-[12px] md:gap-[25px]">
             {/* Experience Cards */}
             {experienceCards.map((cardNumber) => (
               <div key={cardNumber} className="w-full">
                 {/* Previous Experience Label for each card */}
                 <div className="mb-2 md:mb-3">
-                  <h3 className="text-left [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[18px] leading-normal">
+                  <h3 className="text-left [font-family:'Inter',Helvetica] text-black text-[11px] md:text-[13px] leading-normal font-semibold font-sans italic">
                     Previous Experience
                   </h3>
                 </div>
 
-                <Card className="flex flex-col h-auto items-center gap-2.5 px-4 md:px-[46px] py-4 md:py-[31px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black shadow-sm">
+                <Card className="flex flex-col h-auto items-center gap-2.5 px-2 md:px-[25px] py-2 md:py-[15px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black shadow-sm">
                   <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-3 md:gap-6">
                     {formFields.map((field, index) => (
                       <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
                         <label
-                          className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[16px] md:text-[22.4px] tracking-[0] leading-[normal]"
+                          className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] tracking-[0] leading-[normal]"
                           dangerouslySetInnerHTML={{ __html: field.label }}
                         />
                         <Input
@@ -288,10 +295,27 @@ export const AddExperience = (): JSX.Element => {
                           type={field.type}
                           value={experienceData[`${field.id}-${cardNumber}`] || ""}
                           onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
-                          className="w-full h-[50px] md:h-[78px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-sm md:text-lg"
+                          className="w-full h-[35px] md:h-[55px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm"
                         />
                       </div>
                     ))}
+
+                    {/* Currently Working Checkbox for each card */}
+                    <div className="flex items-center gap-3 w-full mt-2">
+                      <input
+                        type="checkbox"
+                        id={`currently-working-${cardNumber}`}
+                        checked={currentlyWorkingStatus[cardNumber] || false}
+                        onChange={(e) => handleCurrentlyWorkingChange(cardNumber, e.target.checked)}
+                        className="w-4 h-4 text-[#151d61] bg-white border-2 border-black rounded focus:ring-[#151d61] focus:ring-2"
+                      />
+                      <label
+                        htmlFor={`currently-working-${cardNumber}`}
+                        className="[font-family:'Inter',Helvetica] font-medium text-black text-[11px] md:text-[13px] cursor-pointer"
+                      >
+                        Are you currently working in this company/position?
+                      </label>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -301,15 +325,15 @@ export const AddExperience = (): JSX.Element => {
             <Button
               onClick={addExperienceCard}
               variant="outline"
-              className="flex flex-col w-[70px] md:w-[108px] items-center p-0 border-none bg-transparent hover:bg-transparent"
+              className="flex flex-col w-[50px] md:w-[70px] items-center p-0 border-none bg-transparent hover:bg-transparent"
             >
-              <div className="w-[50px] md:w-[72px] h-[50px] md:h-[72px] bg-white rounded-full border border-solid border-black flex items-center justify-center hover:bg-gray-50 transition-colors">
-                <PlusIcon className="text-[#151d61] w-[28px] md:w-[44px] h-[28px] md:h-[44px]" />
+              <div className="w-[35px] md:w-[50px] h-[35px] md:h-[50px] bg-white rounded-full border border-solid border-black flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <PlusIcon className="text-[#151d61] w-[20px] md:w-[30px] h-[20px] md:h-[30px]" />
               </div>
             </Button>
 
             {/* Bottom Action Buttons */}
-            <div className="flex flex-col w-full max-w-[244px] items-center gap-[15px] md:gap-[27px] mt-[30px] md:mt-[60px]">
+            <div className="flex flex-col w-full max-w-[244px] items-center gap-[12px] md:gap-[20px] mt-[20px] md:mt-[40px]">
               {/* Hidden file input */}
               <input
                 id="cv-upload"
@@ -322,9 +346,9 @@ export const AddExperience = (): JSX.Element => {
               <Button
                 onClick={triggerFileUpload}
                 variant="outline"
-                className="h-[45px] md:h-[54px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
+                className="h-[30px] md:h-[40px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
               >
-                <span className="[font-family:'Inter',Helvetica] font-bold text-[16px] md:text-[23.7px] text-center">
+                <span className="[font-family:'Inter',Helvetica] font-bold text-[12px] md:text-[16px] text-center">
                   {uploadedFile
                     ? `CV: ${uploadedFile.name.length > 15 ? uploadedFile.name.substring(0, 15) + "..." : uploadedFile.name}`
                     : "Upload Your CV"}
@@ -334,9 +358,9 @@ export const AddExperience = (): JSX.Element => {
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full max-w-[207px] h-[50px] md:h-[67px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
+                className="w-full max-w-[180px] h-[35px] md:h-[50px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
               >
-                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[24px] md:text-[36.6px]">
+                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[18px] md:text-[24px]">
                   {isSubmitting ? "Submitting..." : "Apply"}
                 </span>
               </Button>

@@ -203,7 +203,7 @@ export const SearchCareers = (): JSX.Element => {
               individual finds their place to contribute to building projects that serve communities and create a better
               future for our nation.
               <br />
-              <strong>We're Looking for You!</strong>
+              <strong className="px-0 my-0 mx-0 py-3.5">We're Looking for You!</strong>
             </p>
             <br />
             <p>
@@ -268,7 +268,7 @@ export const SearchCareers = (): JSX.Element => {
               <div className="flex-1 flex items-center">
                 <div className="flex flex-col px-[35px] py-[35px] flex-1">
                   <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[20.1px] text-center">
-                    FIND JOBS
+                    Find jobs 
                   </span>
                   <Input
                     value={jobSearch}
@@ -282,7 +282,7 @@ export const SearchCareers = (): JSX.Element => {
                 <div className="flex flex-col px-[35px] py-[35px] flex-1">
                   <div className="flex items-center justify-between">
                     <span className="[font-family:'Tajawal',Helvetica] font-normal text-black text-[20.1px] text-center">
-                      NEAR LOCATIONS
+                      Near Locations
                     </span>
                   </div>
                   <Select value={selectedCity} onValueChange={setSelectedCity}>

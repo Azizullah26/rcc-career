@@ -679,7 +679,7 @@ export const JobApplication = (): JSX.Element => {
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-[90px] my-6 md:my-10">
+              <div className="flex flex-col gap-3 md:gap-[90px] my-6 md:flex-row justify-center items-center md:my-10 mx-80 py-0 px-20">
                 <Button
                   type="button"
                   onClick={() => router.back()}

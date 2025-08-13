@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_applicant_public,hr.applicant.public,hr_recruitment.model_hr_applicant,,1,0,1,0
+access_hr_job_public,hr.job.public,hr_recruitment.model_hr_job,,1,0,0,0
+access_utm_source_public,utm.source.public,utm.model_utm_source,,1,0,1,0
+access_ir_attachment_public,ir.attachment.public,base.model_ir_attachment,,1,0,1,0

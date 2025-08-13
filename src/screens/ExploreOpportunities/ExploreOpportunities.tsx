@@ -352,7 +352,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               <div className="hidden md:flex h-[138px]">
                 <div className="flex-1 flex flex-col justify-center px-[35px]">
                   <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
-                    FIND JOBS
+                    Find jobs 
                   </div>
                   <Input
                     value={searchTerm}
@@ -365,7 +365,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 <div className="flex-1 flex flex-col justify-center px-[35px]">
                   <div className="flex items-center justify-between">
                     <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
-                      NEAR LOCATIONS
+                      Near locations
                     </div>
                   </div>
                   <Select value={selectedLocation} onValueChange={setSelectedLocation}>

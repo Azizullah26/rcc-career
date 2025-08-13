@@ -274,7 +274,7 @@ export const JobDetails = (): JSX.Element => {
             </h2>
 
             <p className="font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] leading-relaxed">
-              ABOUT THE POSITION
+              <span className="font-semibold">About the Position</span>
               <br />
               {job.description}
             </p>
@@ -286,8 +286,8 @@ export const JobDetails = (): JSX.Element => {
               </p>
             </div>
 
-            <h2 className="font-normal mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px]">
-              WHAT YOU WILL NEED TO SUCCEED
+            <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 sm:text-[12px] md:text-[14px] lg:text-[16px] font-semibold text-sm">
+              What you will need to Success
             </h2>
 
             <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
@@ -298,8 +298,8 @@ export const JobDetails = (): JSX.Element => {
               ))}
             </ul>
 
-            <h2 className="font-normal mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px]">
-              KEY RESPONSIBILITIES
+            <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] font-semibold">
+              Key Responsibilities
             </h2>
 
             <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
