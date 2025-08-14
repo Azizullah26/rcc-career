@@ -144,6 +144,11 @@ export const AddExperience = (): JSX.Element => {
 
   const handleCurrentlyWorkingChange = (cardNumber: number, isWorking: boolean) => {
     setCurrentlyWorkingStatus((prev) => ({ ...prev, [cardNumber]: isWorking }))
+
+    // If currently working is checked, clear the end date for this card
+    if (isWorking) {
+      setExperienceData((prev) => ({ ...prev, [`end-date-${cardNumber}`]: "" }))
+    }
   }
 
   return (
@@ -155,7 +160,7 @@ export const AddExperience = (): JSX.Element => {
             {/* Logo and Back Button */}
             <div className="flex items-center">
               <img
-                className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+                className="w-[100px] h-[45px] font-medium md:h-20 md:w-36 my-[22px] mx-24"
                 alt="EL RACE Logo"
                 src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
               />
@@ -290,13 +295,26 @@ export const AddExperience = (): JSX.Element => {
                           className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] tracking-[0] leading-[normal]"
                           dangerouslySetInnerHTML={{ __html: field.label }}
                         />
-                        <Input
-                          id={`${field.id}-${cardNumber}`}
-                          type={field.type}
-                          value={experienceData[`${field.id}-${cardNumber}`] || ""}
-                          onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
-                          className="w-full h-[35px] md:h-[55px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm"
-                        />
+                        {field.id === "end-date" ? (
+                          <Input
+                            id={`${field.id}-${cardNumber}`}
+                            type={field.type}
+                            value={experienceData[`${field.id}-${cardNumber}`] || ""}
+                            onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
+                            disabled={currentlyWorkingStatus[cardNumber]}
+                            className={`w-full h-[35px] md:h-[55px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm ${
+                              currentlyWorkingStatus[cardNumber] ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
+                          />
+                        ) : (
+                          <Input
+                            id={`${field.id}-${cardNumber}`}
+                            type={field.type}
+                            value={experienceData[`${field.id}-${cardNumber}`] || ""}
+                            onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
+                            className="w-full h-[35px] md:h-[55px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm"
+                          />
+                        )}
                       </div>
                     ))}
 

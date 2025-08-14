@@ -175,7 +175,7 @@ export const ExploreOpportunities = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
             <img
-              className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+              className="w-[100px] h-[45px] md:w-[150px] md:h-20"
               alt="EL RACE Logo"
               src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
             />
@@ -301,33 +301,33 @@ export const ExploreOpportunities = (): JSX.Element => {
         {/* Main content area */}
         <main className="w-full flex flex-col">
           {/* Search Filter Section */}
-          <div className="w-full max-w-[819px] mx-auto mt-6 md:mt-8 px-4">
+          <div className="w-full max-w-[550px] mx-auto mt-4 md:mt-6 px-2">
             <Card className="rounded-[9px] border-2 border-[#6b6b6b] overflow-hidden shadow-lg">
               {/* Mobile Layout */}
               <div className="md:hidden">
                 <div className="flex flex-col">
                   <div className="flex flex-col px-4 py-4">
-                    <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
+                    <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[14px] tracking-[0]">
                       FIND JOBS
                     </div>
                     <Input
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[18px] tracking-[0] placeholder:text-black focus-visible:ring-0"
+                      className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[16px] tracking-[0] placeholder:text-black focus-visible:ring-0"
                       placeholder="Job title, skill, keyword"
                     />
                   </div>
                   <Separator orientation="horizontal" className="h-[1px]" />
                   <div className="flex flex-col px-4 py-4">
                     <div className="flex items-center justify-between">
-                      <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[16px] tracking-[0]">
+                      <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[14px] tracking-[0]">
                         NEAR LOCATIONS
                       </div>
                       <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
                     </div>
                     <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[14px] tracking-[0] focus-visible:ring-0 bg-transparent">
-                        <SelectValue placeholder="City" />
+                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[13px] tracking-[0] focus-visible:ring-0 bg-transparent">
+                        <SelectValue placeholder="city" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="abu-dhabi">Abu Dhabi</SelectItem>
@@ -349,28 +349,28 @@ export const ExploreOpportunities = (): JSX.Element => {
               </div>
 
               {/* Desktop Layout */}
-              <div className="hidden md:flex h-[138px]">
-                <div className="flex-1 flex flex-col justify-center px-[35px]">
-                  <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
-                    Find jobs 
+              <div className="hidden md:flex h-[90px]">
+                <div className="flex-1 flex flex-col justify-center px-[25px]">
+                  <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[14px] tracking-[0]">
+                    Find jobs
                   </div>
                   <Input
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[25.9px] tracking-[0] placeholder:text-black focus-visible:ring-0"
+                    className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[16px] tracking-[0] placeholder:text-black focus-visible:ring-0"
                     placeholder="Job title, skill, keyword"
                   />
                 </div>
-                <Separator orientation="vertical" className="h-[62px] my-auto" />
-                <div className="flex-1 flex flex-col justify-center px-[35px]">
+                <Separator orientation="vertical" className="h-[40px] my-auto" />
+                <div className="flex-1 flex flex-col justify-center px-[25px]">
                   <div className="flex items-center justify-between">
-                    <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[20.1px] tracking-[0]">
+                    <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[14px] tracking-[0]">
                       Near locations
                     </div>
                   </div>
                   <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                    <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[20px] tracking-[0] focus-visible:ring-0 bg-transparent">
-                      <SelectValue placeholder="City" />
+                    <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[13px] tracking-[0] focus-visible:ring-0 bg-transparent">
+                      <SelectValue placeholder="city" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="abu-dhabi">Abu Dhabi</SelectItem>
@@ -383,10 +383,10 @@ export const ExploreOpportunities = (): JSX.Element => {
                   onClick={() => {
                     console.log("Search triggered with:", { searchTerm, selectedLocation })
                   }}
-                  className="w-[156px] h-full rounded-none rounded-r-[9px] bg-[#e6e6e6] hover:bg-[#d9d9d9] border-l-2 border-[#6b6b6b]"
+                  className="w-[130px] h-full rounded-none rounded-r-[9px] bg-[#e6e6e6] hover:bg-[#d9d9d9] border-l-2 border-[#6b6b6b]"
                   variant="ghost"
                 >
-                  <SearchIcon className="w-[38px] h-[38px] text-black" />
+                  <SearchIcon className="w-[32px] h-[32px] text-black" />
                 </Button>
               </div>
             </Card>
@@ -442,7 +442,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 <button
                   key={index}
                   onClick={() => handleJobClick(job.id)}
-                  className="w-full min-h-[160px] md:h-[220px] bg-[#cfcfcf] border-none rounded-lg p-4 md:p-6 text-left hover:bg-[#c5c5c5] transition-colors cursor-pointer shadow-sm"
+                  className="w-full min-h-[160px] md:h-[220px] bg-white border border-black rounded-lg p-4 md:p-6 text-left hover:bg-gray-200 transition-colors cursor-pointer shadow-sm"
                 >
                   <div className="w-full h-full">
                     <div className="w-full [font-family:'Arimo_Hebrew_Subset-Bold',Helvetica]">
@@ -455,7 +455,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       </p>
 
                       <h4 className="[font-family:'Arimo',Helvetica] font-bold text-black text-[12px] md:text-[15px] mt-2 md:mt-4 mb-1 md:mb-2">
-                        ABOUT THE JOB
+                        About the Job
                       </h4>
 
                       <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-black text-[11px] md:text-[15px] line-clamp-3 md:line-clamp-none leading-relaxed">

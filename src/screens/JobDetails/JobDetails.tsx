@@ -148,7 +148,7 @@ export const JobDetails = (): JSX.Element => {
             {/* Logo and Back Button */}
             <div className="flex items-center">
               <img
-                className="w-[100px] h-[45px] md:w-[150px] md:h-[68px]"
+                className="w-[100px] h-[45px] md:w-36 md:h-20 mx-[134px]"
                 alt="EL RACE Logo"
                 src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
               />

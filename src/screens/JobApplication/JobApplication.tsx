@@ -333,7 +333,7 @@ export const JobApplication = (): JSX.Element => {
             {/* Logo */}
             <div className="flex items-center">
               <img
-                className="w-[100px] h-[45px] md:h-24 md:w-40"
+                className="w-[100px] h-[45px] my-0 mx-20 md:w-40 md:h-24"
                 alt="EL RACE Logo"
                 src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
               />
@@ -408,14 +408,16 @@ export const JobApplication = (): JSX.Element => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[35px] md:h-[45px] rounded-[38px] text-black text-[16px] md:text-[24px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
+                    onClick={() => router.back()}
+                    className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
                   >
                     Cancel
                   </Button>
 
                   <Button
+                    onClick={onSubmit}
                     variant="outline"
-                    className="flex items-center justify-center gap-2 h-[35px] md:h-[45px] rounded-[38px] text-white text-[16px] md:text-[24px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
+                    className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2"
                   >
                     Next
                   </Button>
@@ -468,7 +470,7 @@ export const JobApplication = (): JSX.Element => {
                         value={formData.nationality}
                         onValueChange={(value) => handleInputChange("nationality", value)}
                       >
-                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
+                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-white rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
                           <SelectValue placeholder="Select nationality" />
                         </SelectTrigger>
                         <SelectContent>
@@ -492,7 +494,7 @@ export const JobApplication = (): JSX.Element => {
                         {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
                       </Label>
                       <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
-                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
+                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-white rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
                           <SelectValue placeholder="Choose option" />
                         </SelectTrigger>
                         <SelectContent>
@@ -520,7 +522,7 @@ export const JobApplication = (): JSX.Element => {
                         type={field.type}
                         value={formData[field.id as keyof typeof formData]}
                         onChange={(e) => handleInputChange(field.id, e.target.value)}
-                        className="self-stretch w-full h-8 md:h-10 bg-[#d9d9d9] rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font placeholder:text-gray-500"
+                        className="self-stretch w-full h-8 md:h-10 bg-white rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font placeholder:text-gray-500"
                       />
                     </div>
                   )
@@ -684,7 +686,7 @@ export const JobApplication = (): JSX.Element => {
                   type="button"
                   onClick={() => router.back()}
                   variant="outline"
-                  className="w-full md:w-[110px] h-[35px] md:h-[45px] rounded-[38px] text-black text-[16px] md:text-[24px] font-medium bg-[#d9d9d9] hover:bg-gray-300 transition-colors order-2 md:order-1"
+                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
                 >
                   Cancel
                 </Button>
@@ -692,7 +694,7 @@ export const JobApplication = (): JSX.Element => {
                 <Button
                   onClick={onSubmit}
                   variant="outline"
-                  className="w-full md:w-[110px] h-[35px] md:h-[45px] rounded-[38px] text-white text-[16px] md:text-[24px] font-medium bg-[#151d61] hover:bg-[#1a2470] transition-colors border-[#151d61] order-1 md:order-2"
+                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2"
                 >
                   Next
                 </Button>
