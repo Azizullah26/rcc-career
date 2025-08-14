@@ -540,17 +540,17 @@ export const JobApplication = (): JSX.Element => {
                     type="single"
                     value={formData.egyptDrivingLicense}
                     onValueChange={(value) => handleInputChange("egyptDrivingLicense", value)}
-                    className="flex w-full max-w-[180px] md:max-w-[220px] h-[30px] md:h-[40px] items-center gap-2 md:gap-3 relative"
+                    className="flex w-full max-w-[140px] md:max-w-[160px] h-[25px] md:h-[32px] items-center gap-2 md:gap-3 relative"
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[25px] md:h-[32px] rounded-[20px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[25px] md:h-[32px] rounded-[20px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>
@@ -567,17 +567,17 @@ export const JobApplication = (): JSX.Element => {
                     type="single"
                     value={formData.relocationPossibility}
                     onValueChange={(value) => handleInputChange("relocationPossibility", value)}
-                    className="flex w-full max-w-[180px] md:max-w-[220px] h-[30px] md:h-[40px] items-center gap-2 md:gap-3 relative"
+                    className="flex w-full max-w-[140px] md:max-w-[160px] h-[25px] md:h-[32px] items-center gap-2 md:gap-3 relative"
                   >
                     <ToggleGroupItem
                       value="yes"
-                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[25px] md:h-[32px] rounded-[20px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       Yes
                     </ToggleGroupItem>
                     <ToggleGroupItem
                       value="no"
-                      className="flex-1 h-[30px] md:h-[40px] rounded-[25px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[14px] md:text-[20px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
+                      className="flex-1 h-[25px] md:h-[32px] rounded-[20px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
                     >
                       No
                     </ToggleGroupItem>

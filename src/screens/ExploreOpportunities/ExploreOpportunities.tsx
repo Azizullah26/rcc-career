@@ -412,7 +412,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               <button
                 onClick={() => setViewMode("list")}
                 className={`w-[60px] md:w-[67px] h-10 rounded-[8.91px_0px_0px_8.91px] flex items-center justify-center transition-colors ${
-                  viewMode === "list" ? "bg-[#a4a4a4]" : "bg-transparent hover:bg-gray-100"
+                  viewMode === "list" ? "bg-[#d9d9d9]" : "bg-transparent hover:bg-[#d9d9d9]"
                 }`}
               >
                 <ListIcon className="w-[18px] md:w-[21px] h-[18px] md:h-[21px]" />
@@ -420,7 +420,7 @@ export const ExploreOpportunities = (): JSX.Element => {
               <button
                 onClick={() => setViewMode("map")}
                 className={`w-[60px] md:w-[67px] h-10 flex items-center justify-center transition-colors ${
-                  viewMode === "map" ? "bg-[#a4a4a4]" : "bg-transparent hover:bg-gray-100"
+                  viewMode === "map" ? "bg-[#d9d9d9]" : "bg-transparent hover:bg-[#d9d9d9]"
                 }`}
               >
                 <MapPinIcon className="w-[18px] md:w-[21px] h-[18px] md:h-[21px]" />

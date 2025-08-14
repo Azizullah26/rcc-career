@@ -183,13 +183,13 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             >
               <ToggleGroupItem
                 value="yes"
-                className="w-[70px] md:w-[100px] h-[32px] md:h-[45px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[22px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 yes
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="no"
-                className="w-[70px] md:w-[100px] h-[32px] md:h-[45px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[22px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 No
               </ToggleGroupItem>
@@ -225,13 +225,13 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             >
               <ToggleGroupItem
                 value="yes"
-                className="w-[70px] md:w-[100px] h-[32px] md:h-[45px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[22px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 yes
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="no"
-                className="w-[70px] md:w-[100px] h-[32px] md:h-[45px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[22px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
               >
                 No
               </ToggleGroupItem>
