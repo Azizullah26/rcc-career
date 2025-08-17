@@ -40,7 +40,7 @@ This module is specifically designed for RCC's career portal requirements
 and integrates seamlessly with the existing HR recruitment process.
     """,
     'author': 'RCC Development Team',
-    'website': 'https://careerrccv3.vercel.app',
+    'website': 'https://careerrccv4.vercel.app',
     'depends': [
         'base',
         'hr',
