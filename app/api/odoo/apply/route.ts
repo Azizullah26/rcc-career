@@ -131,7 +131,7 @@ class OdooService {
         x_work_details: applicationData.applicationQuestions.workDetails || "",
         x_relative_names: applicationData.applicationQuestions.relativeNames || "",
         x_source_website: "RCC Career Portal",
-        x_portal_url: process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv4.vercel.app",
+        x_portal_url: process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv5.vercel.app",
 
         // Experience summary
         x_experience_summary: applicationData.experiences

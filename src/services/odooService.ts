@@ -279,7 +279,7 @@ export class OdooService {
       x_work_details: applicationData.applicationQuestions.workDetails || "",
       x_relative_names: applicationData.applicationQuestions.relativeNames || "",
       x_source_website: "RCC Career Portal",
-      x_portal_url: "https://careerrccv4.vercel.app",
+      x_portal_url: "https://careerrccv5.vercel.app",
 
       // Experience summary
       x_experience_summary: applicationData.experiences
