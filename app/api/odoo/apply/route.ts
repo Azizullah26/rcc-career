@@ -50,46 +50,60 @@ interface JobApplicationData {
 }
 
 async function authenticateOdoo() {
-  const odooUrl = process.env.ODOO_URL
-  const odooDb = process.env.ODOO_DB
-  const odooUser = process.env.ODOO_USER
-  const odooPassword = process.env.ODOO_PASSWORD
+  // RCC Odoo Connection Details
+  const odooUrl = process.env.ODOO_URL || "https://test.elrace.com"
+  const odooDb = process.env.ODOO_DB || "test_elrace_db"
+  const odooUser = process.env.ODOO_USER || "aziz@elrace.com"
+  const odooPassword = process.env.ODOO_PASSWORD || "1111"
 
-  if (!odooUrl || !odooDb || !odooUser || !odooPassword) {
-    throw new Error("Missing Odoo configuration")
-  }
+  console.log("Connecting to Odoo:", { url: odooUrl, db: odooDb, user: odooUser })
 
-  const authResponse = await fetch(`${odooUrl}/web/session/authenticate`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "call",
-      params: {
-        db: odooDb,
-        login: odooUser,
-        password: odooPassword,
+  try {
+    const authResponse = await fetch(`${odooUrl}/web/session/authenticate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    }),
-  })
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          db: odooDb,
+          login: odooUser,
+          password: odooPassword,
+        },
+      }),
+    })
 
-  const authResult = await authResponse.json()
+    if (!authResponse.ok) {
+      throw new Error(`HTTP error! status: ${authResponse.status}`)
+    }
 
-  if (authResult.error) {
-    throw new Error(`Odoo authentication failed: ${authResult.error.message}`)
-  }
+    const authResult = await authResponse.json()
 
-  return {
-    sessionId: authResult.result.session_id,
-    userId: authResult.result.uid,
-    cookies: authResponse.headers.get("set-cookie"),
+    if (authResult.error) {
+      throw new Error(`Odoo authentication failed: ${authResult.error.message}`)
+    }
+
+    if (!authResult.result || !authResult.result.uid) {
+      throw new Error("Authentication failed: Invalid credentials")
+    }
+
+    console.log("Odoo authentication successful:", authResult.result.uid)
+
+    return {
+      sessionId: authResult.result.session_id,
+      userId: authResult.result.uid,
+      cookies: authResponse.headers.get("set-cookie"),
+    }
+  } catch (error) {
+    console.error("Odoo authentication error:", error)
+    throw error
   }
 }
 
 async function createJobApplication(sessionData: any, applicationData: JobApplicationData) {
-  const odooUrl = process.env.ODOO_URL
+  const odooUrl = process.env.ODOO_URL || "https://test.elrace.com"
   const { formData, jobId } = applicationData
 
   const applicantData = {
@@ -129,79 +143,107 @@ async function createJobApplication(sessionData: any, applicationData: JobApplic
     // Source Information
     source_website: "RCC Career Portal",
     application_date: new Date().toISOString(),
+    portal_url: "https://careerrccv2.vercel.app",
   }
 
-  const createResponse = await fetch(`${odooUrl}/web/dataset/call_kw`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: sessionData.cookies || "",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "call",
-      params: {
-        model: "hr.applicant",
-        method: "create",
-        args: [applicantData],
-        kwargs: {},
+  console.log("Creating job application with data:", applicantData)
+
+  try {
+    const createResponse = await fetch(`${odooUrl}/web/dataset/call_kw`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: sessionData.cookies || "",
       },
-    }),
-  })
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          model: "hr.applicant",
+          method: "create",
+          args: [applicantData],
+          kwargs: {},
+        },
+      }),
+    })
 
-  const createResult = await createResponse.json()
+    if (!createResponse.ok) {
+      throw new Error(`HTTP error! status: ${createResponse.status}`)
+    }
 
-  if (createResult.error) {
-    throw new Error(`Failed to create application: ${createResult.error.message}`)
+    const createResult = await createResponse.json()
+
+    if (createResult.error) {
+      throw new Error(`Failed to create application: ${createResult.error.message}`)
+    }
+
+    console.log("Job application created successfully:", createResult.result)
+    return createResult.result
+  } catch (error) {
+    console.error("Error creating job application:", error)
+    throw error
   }
-
-  return createResult.result
 }
 
 async function uploadCV(sessionData: any, applicantId: number, file: File) {
-  const odooUrl = process.env.ODOO_URL
+  const odooUrl = process.env.ODOO_URL || "https://test.elrace.com"
 
-  // Convert file to base64
-  const arrayBuffer = await file.arrayBuffer()
-  const base64Data = Buffer.from(arrayBuffer).toString("base64")
+  try {
+    // Convert file to base64
+    const arrayBuffer = await file.arrayBuffer()
+    const base64Data = Buffer.from(arrayBuffer).toString("base64")
 
-  const attachmentData = {
-    name: file.name,
-    datas: base64Data,
-    res_model: "hr.applicant",
-    res_id: applicantId,
-    mimetype: file.type,
-  }
+    const attachmentData = {
+      name: file.name,
+      datas: base64Data,
+      res_model: "hr.applicant",
+      res_id: applicantId,
+      mimetype: file.type,
+      description: "CV/Resume uploaded from RCC Career Portal",
+    }
 
-  const uploadResponse = await fetch(`${odooUrl}/web/dataset/call_kw`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: sessionData.cookies || "",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "call",
-      params: {
-        model: "ir.attachment",
-        method: "create",
-        args: [attachmentData],
-        kwargs: {},
+    console.log("Uploading CV for applicant:", applicantId)
+
+    const uploadResponse = await fetch(`${odooUrl}/web/dataset/call_kw`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: sessionData.cookies || "",
       },
-    }),
-  })
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          model: "ir.attachment",
+          method: "create",
+          args: [attachmentData],
+          kwargs: {},
+        },
+      }),
+    })
 
-  const uploadResult = await uploadResponse.json()
+    if (!uploadResponse.ok) {
+      throw new Error(`HTTP error! status: ${uploadResponse.status}`)
+    }
 
-  if (uploadResult.error) {
-    throw new Error(`Failed to upload CV: ${uploadResult.error.message}`)
+    const uploadResult = await uploadResponse.json()
+
+    if (uploadResult.error) {
+      throw new Error(`Failed to upload CV: ${uploadResult.error.message}`)
+    }
+
+    console.log("CV uploaded successfully:", uploadResult.result)
+    return uploadResult.result
+  } catch (error) {
+    console.error("Error uploading CV:", error)
+    throw error
   }
-
-  return uploadResult.result
 }
 
 export async function POST(request: NextRequest) {
   try {
+    console.log("Received job application submission request")
+
     const formData = await request.formData()
     const dataString = formData.get("data") as string
     const cvFile = formData.get("cv") as File | null
@@ -211,20 +253,22 @@ export async function POST(request: NextRequest) {
     }
 
     const applicationData: JobApplicationData = JSON.parse(dataString)
-
-    console.log("Received application data:", applicationData)
+    console.log("Parsed application data for job:", applicationData.jobId)
 
     // Authenticate with Odoo
+    console.log("Authenticating with Odoo...")
     const sessionData = await authenticateOdoo()
     console.log("Authenticated with Odoo successfully")
 
     // Create job application
+    console.log("Creating job application...")
     const applicantId = await createJobApplication(sessionData, applicationData)
     console.log("Created job application with ID:", applicantId)
 
     // Upload CV if provided
     let attachmentId = null
     if (cvFile && cvFile.size > 0) {
+      console.log("Uploading CV file...")
       attachmentId = await uploadCV(sessionData, applicantId, cvFile)
       console.log("Uploaded CV with attachment ID:", attachmentId)
     }
@@ -233,14 +277,43 @@ export async function POST(request: NextRequest) {
       success: true,
       applicantId,
       attachmentId,
-      message: "Application submitted successfully",
+      message: "Application submitted successfully to RCC Odoo system",
+      odooUrl: process.env.ODOO_URL,
     })
   } catch (error) {
-    console.error("Error submitting application:", error)
+    console.error("Error submitting application to Odoo:", error)
     return NextResponse.json(
       {
-        error: "Failed to submit application",
+        error: "Failed to submit application to Odoo",
         details: error instanceof Error ? error.message : "Unknown error",
+        odooUrl: process.env.ODOO_URL,
+      },
+      { status: 500 },
+    )
+  }
+}
+
+// Test endpoint to verify Odoo connection
+export async function GET() {
+  try {
+    console.log("Testing Odoo connection...")
+    const sessionData = await authenticateOdoo()
+
+    return NextResponse.json({
+      success: true,
+      message: "Successfully connected to RCC Odoo system",
+      userId: sessionData.userId,
+      odooUrl: process.env.ODOO_URL,
+      timestamp: new Date().toISOString(),
+    })
+  } catch (error) {
+    console.error("Odoo connection test failed:", error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Failed to connect to Odoo",
+        details: error instanceof Error ? error.message : "Unknown error",
+        odooUrl: process.env.ODOO_URL,
       },
       { status: 500 },
     )
