@@ -253,25 +253,32 @@ class OdooService {
 // GET endpoint for testing connection
 export async function GET() {
   try {
+    console.log("=== GET /api/odoo/apply - Testing Connection ===")
+
     const odooService = new OdooService()
     const connectionTest = await odooService.testConnection()
 
-    return NextResponse.json({
+    const response = {
       message: "Odoo API endpoint is working",
+      timestamp: new Date().toISOString(),
       connection: connectionTest,
       config: {
         url: ODOO_URL,
         database: ODOO_DB,
         username: ODOO_USERNAME,
-        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || "development",
       },
-    })
+    }
+
+    console.log("GET response:", response)
+    return NextResponse.json(response)
   } catch (error) {
     console.error("GET request error:", error)
     return NextResponse.json(
       {
         error: "Failed to test connection",
         details: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
       },
       { status: 500 },
     )
@@ -281,36 +288,53 @@ export async function GET() {
 // POST endpoint for job applications
 export async function POST(request: NextRequest) {
   try {
-    console.log("Received job application request")
+    console.log("=== POST /api/odoo/apply - Job Application Submission ===")
+    console.log("Request URL:", request.url)
+    console.log("Request method:", request.method)
 
     const formData = await request.formData()
     const applicationDataString = formData.get("applicationData") as string
     const cvFile = formData.get("cv") as File | null
 
+    console.log("Form data keys:", Array.from(formData.keys()))
+    console.log("Application data string length:", applicationDataString?.length || 0)
+    console.log("CV file:", cvFile ? `${cvFile.name} (${cvFile.size} bytes)` : "No CV file")
+
     if (!applicationDataString) {
+      console.error("Missing application data")
       return NextResponse.json({ error: "Missing application data" }, { status: 400 })
     }
 
-    const applicationData: JobApplicationData = JSON.parse(applicationDataString)
-    console.log("Application data parsed:", applicationData)
+    let applicationData: JobApplicationData
+    try {
+      applicationData = JSON.parse(applicationDataString)
+      console.log("Application data parsed successfully for job:", applicationData.jobId)
+    } catch (parseError) {
+      console.error("Failed to parse application data:", parseError)
+      return NextResponse.json({ error: "Invalid application data format" }, { status: 400 })
+    }
 
     const odooService = new OdooService()
 
     // Authenticate with Odoo
+    console.log("Authenticating with Odoo...")
     const authenticated = await odooService.authenticate()
     if (!authenticated) {
+      console.error("Odoo authentication failed")
       return NextResponse.json({ error: "Failed to authenticate with Odoo" }, { status: 500 })
     }
 
     // Create applicant
+    console.log("Creating applicant in Odoo...")
     const result = await odooService.createApplicant(applicationData, cvFile || undefined)
 
     console.log("Application submitted successfully:", result)
 
     return NextResponse.json({
       success: true,
-      message: "Application submitted successfully",
+      message: "Application submitted successfully to Odoo",
       applicantId: result.applicantId,
+      timestamp: new Date().toISOString(),
     })
   } catch (error) {
     console.error("Error processing job application:", error)
@@ -319,6 +343,7 @@ export async function POST(request: NextRequest) {
       {
         error: "Failed to submit application",
         details: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
       },
       { status: 500 },
     )
