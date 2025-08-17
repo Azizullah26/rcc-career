@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 
 const ODOO_URL = process.env.ODOO_URL || "https://test.elrace.com"
-const ODOO_DB = process.env.ODOO_DB || "your_database_name"
+const ODOO_DB = process.env.ODOO_DB || "test.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "aziz@elrace.com"
 const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "1111"
 
