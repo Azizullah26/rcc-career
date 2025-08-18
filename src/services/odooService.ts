@@ -239,36 +239,42 @@ export class OdooService {
       partner_name: applicationData.fullName || `${applicationData.firstName} ${applicationData.lastName}`,
       email_from: applicationData.email,
       partner_phone: applicationData.phone,
-      job_id: Number.parseInt(applicationData.totalExperience),
 
-      // Custom fields (these need to be defined in the Odoo module)
-      x_date_of_birth: applicationData.dateOfBirth || applicationData.dob,
-      x_nationality: applicationData.nationality,
-      x_gender: applicationData.gender,
-      x_marital_status: applicationData.maritalStatus,
-      x_total_experience: applicationData.totalExperience,
-      x_uae_experience: applicationData.uaeExperience,
-      x_egypt_experience: applicationData.egyptExperience,
-      x_current_location: applicationData.currentLocation,
-      x_expected_salary: applicationData.expectedSalary,
-      x_joining_possibility: applicationData.joiningPossibility,
-      x_uae_driving_license: applicationData.uaeDrivingLicense,
-      x_egypt_driving_license: applicationData.egyptDrivingLicense,
-      x_relocation_possibility: applicationData.relocationPossibility,
-      x_languages: Array.isArray(applicationData.languages)
-        ? applicationData.languages.join(", ")
-        : applicationData.languages,
-      x_previously_worked: applicationData.previouslyWorked,
-      x_work_details: applicationData.workDetails || "",
-      x_relatives_friends: applicationData.relativesOrFriends,
-      x_relative_names: applicationData.relativeNames || applicationData.names,
-      x_source_website: "RCC Career Portal",
-      x_portal_url: "https://careerrccv5.vercel.app",
+      // Use standard description field instead of custom fields
+      description: `
+Application Details:
+- Date of Birth: ${applicationData.dateOfBirth || applicationData.dob || "Not provided"}
+- Nationality: ${applicationData.nationality || "Not provided"}
+- Gender: ${applicationData.gender || "Not provided"}
+- Marital Status: ${applicationData.maritalStatus || "Not provided"}
+- Total Experience: ${applicationData.totalExperience || "Not provided"}
+- UAE Experience: ${applicationData.uaeExperience || "Not provided"}
+- Egypt Experience: ${applicationData.egyptExperience || "Not provided"}
+- Current Location: ${applicationData.currentLocation || "Not provided"}
+- Expected Salary: ${applicationData.expectedSalary || "Not provided"}
+- Joining Possibility: ${applicationData.joiningPossibility || "Not provided"}
+- UAE Driving License: ${applicationData.uaeDrivingLicense || "Not provided"}
+- Egypt Driving License: ${applicationData.egyptDrivingLicense || "Not provided"}
+- Relocation Possibility: ${applicationData.relocationPossibility || "Not provided"}
+- Languages: ${
+        Array.isArray(applicationData.languages)
+          ? applicationData.languages.join(", ")
+          : applicationData.languages || "Not provided"
+      }
+- Previously Worked: ${applicationData.previouslyWorked || "Not provided"}
+- Work Details: ${applicationData.workDetails || "Not provided"}
+- Relatives/Friends: ${applicationData.relativesOrFriends || "Not provided"}
+- Relative Names: ${applicationData.relativeNames || applicationData.names || "Not provided"}
+- Source: RCC Career Portal
+- Portal URL: https://careerrccv5.vercel.app
 
-      // Experience summary
-      x_experience_summary: applicationData.experienceData
-        ? Object.values(applicationData.experienceData).join("\n\n")
-        : "",
+Experience Summary:
+${
+  applicationData.experienceData
+    ? Object.values(applicationData.experienceData).join("\n\n")
+    : "No experience data provided"
+}
+      `.trim(),
     }
   }
 }

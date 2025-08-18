@@ -113,6 +113,66 @@ class OdooService {
     }
   }
 
+  async getValidJobId(): Promise<number | null> {
+    if (!this.uid) {
+      throw new Error("Not authenticated - missing UID")
+    }
+
+    try {
+      console.log("Fetching valid job IDs from Odoo...")
+
+      // Search for active job positions
+      const searchPayload = {
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          service: "object",
+          method: "execute_kw",
+          args: [ODOO_DB, this.uid, ODOO_PASSWORD, "hr.job", "search", [[]], { limit: 1 }],
+        },
+        id: Math.floor(Math.random() * 1000000),
+      }
+
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+
+      if (this.cookies.length > 0) {
+        headers.Cookie = this.cookies.join("; ")
+      }
+
+      if (this.sessionId) {
+        headers.Cookie = (headers.Cookie ? headers.Cookie + "; " : "") + `session_id=${this.sessionId}`
+      }
+
+      const searchResponse = await fetch(`${ODOO_URL}/jsonrpc`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(searchPayload),
+      })
+
+      if (!searchResponse.ok) {
+        console.error("Failed to search jobs:", searchResponse.status, searchResponse.statusText)
+        return null
+      }
+
+      const searchData = await searchResponse.json()
+      console.log("Job search response:", searchData)
+
+      if (searchData.result && searchData.result.length > 0) {
+        const jobId = searchData.result[0]
+        console.log("Found valid job ID:", jobId)
+        return jobId
+      }
+
+      console.log("No jobs found, will create applicant without job_id")
+      return null
+    } catch (error) {
+      console.error("Error fetching job IDs:", error)
+      return null
+    }
+  }
+
   async createApplicant(applicationData: JobApplicationData, cvFile?: File): Promise<any> {
     if (!this.uid) {
       throw new Error("Not authenticated - missing UID")
@@ -128,46 +188,66 @@ class OdooService {
       const lastName = formData.lastName || formData.fullName?.split(" ").slice(1).join(" ") || ""
       const fullName = formData.fullName || `${firstName} ${lastName}`.trim()
 
-      // Prepare applicant data
-      const applicantData = {
+      // Get a valid job ID or use null
+      const validJobId = await this.getValidJobId()
+
+      // Prepare applicant data with only standard fields
+      const applicantData: any = {
         name: fullName,
         partner_name: fullName,
         email_from: formData.email,
         partner_phone: formData.phone,
-        job_id: Number.parseInt(applicationData.jobId),
 
-        // Custom fields
-        x_date_of_birth: formData.dateOfBirth || formData.dob || "",
-        x_nationality: formData.nationality || "",
-        x_gender: formData.gender || "",
-        x_marital_status: formData.maritalStatus || "",
-        x_total_experience: formData.totalExperience || "",
-        x_uae_experience: formData.uaeExperience || formData.egyptExperience || "",
-        x_current_location: formData.currentLocation || "",
-        x_expected_salary: formData.expectedSalary || "",
-        x_joining_possibility: formData.joiningPossibility || "",
-        x_uae_driving_license: formData.uaeDrivingLicense || formData.egyptDrivingLicense || false,
-        x_relocation_possibility: formData.relocationPossibility || false,
-        x_languages: Array.isArray(formData.languages)
-          ? (formData.languages as any[])
-              .map((lang) => (typeof lang === "string" ? lang : `${lang.language} (${lang.proficiency})`))
-              .join(", ")
-          : JSON.stringify(formData.languages || []),
-        x_previously_worked: formData.previouslyWorked || false,
-        x_relatives_friends: formData.relativesOrFriends || false,
-        x_work_details: formData.workDetails || "",
-        x_relative_names: formData.relativeNames || formData.names || "",
-        x_relationship: formData.selectedRelationship || "",
-        x_source_website: "RCC Career Portal",
-        x_portal_url: process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv5.vercel.app",
+        // Standard description field to store additional information
+        description: `
+Application Details:
+- Applied for Job ID: ${applicationData.jobId}
+- Date of Birth: ${formData.dateOfBirth || formData.dob || "Not provided"}
+- Nationality: ${formData.nationality || "Not provided"}
+- Gender: ${formData.gender || "Not provided"}
+- Marital Status: ${formData.maritalStatus || "Not provided"}
+- Total Experience: ${formData.totalExperience || "Not provided"}
+- UAE Experience: ${formData.uaeExperience || formData.egyptExperience || "Not provided"}
+- Current Location: ${formData.currentLocation || "Not provided"}
+- Expected Salary: ${formData.expectedSalary || "Not provided"}
+- Joining Possibility: ${formData.joiningPossibility || "Not provided"}
+- UAE Driving License: ${formData.uaeDrivingLicense || formData.egyptDrivingLicense || "Not provided"}
+- Relocation Possibility: ${formData.relocationPossibility || "Not provided"}
+- Languages: ${
+          Array.isArray(formData.languages)
+            ? (formData.languages as any[])
+                .map((lang) => (typeof lang === "string" ? lang : `${lang.language} (${lang.proficiency})`))
+                .join(", ")
+            : JSON.stringify(formData.languages || [])
+        }
+- Previously Worked: ${formData.previouslyWorked || "Not provided"}
+- Work Details: ${formData.workDetails || "Not provided"}
+- Relatives/Friends: ${formData.relativesOrFriends || "Not provided"}
+- Relative Names: ${formData.relativeNames || formData.names || "Not provided"}
+- Relationship: ${formData.selectedRelationship || "Not provided"}
+- Source: RCC Career Portal
+- Portal URL: ${process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv5.vercel.app"}
 
-        // Experience summary
-        x_experience_summary: formData.experienceData
-          ? Object.entries(formData.experienceData)
-              .map(([key, value]) => `${key}: ${value}`)
-              .join("\n")
-          : "",
-        x_currently_working: JSON.stringify(formData.currentlyWorkingStatus || {}),
+Experience Summary:
+${
+  formData.experienceData
+    ? Object.entries(formData.experienceData)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("\n")
+    : "No experience data provided"
+}
+
+Currently Working Status:
+${JSON.stringify(formData.currentlyWorkingStatus || {})}
+        `.trim(),
+      }
+
+      // Only add job_id if we have a valid one
+      if (validJobId) {
+        applicantData.job_id = validJobId
+        console.log("Using valid job_id:", validJobId)
+      } else {
+        console.log("Creating applicant without job_id (will be assigned manually)")
       }
 
       console.log("Applicant data prepared:", applicantData)
@@ -250,13 +330,34 @@ class OdooService {
     try {
       console.log("Uploading CV for applicant:", applicantId)
 
-      const formData = new FormData()
-      formData.append("ufile", cvFile)
-      formData.append("model", "hr.applicant")
-      formData.append("id", applicantId.toString())
+      // Convert file to base64 string
+      const arrayBuffer = await cvFile.arrayBuffer()
+      const base64String = Buffer.from(arrayBuffer).toString("base64")
+
+      // Create attachment using JSON-RPC with base64 string
+      const attachmentData = {
+        name: cvFile.name,
+        datas: base64String, // Send as base64 string, not bytes
+        res_model: "hr.applicant",
+        res_id: applicantId,
+        mimetype: cvFile.type || "application/pdf",
+      }
+
+      const attachmentPayload = {
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          service: "object",
+          method: "execute_kw",
+          args: [ODOO_DB, this.uid, ODOO_PASSWORD, "ir.attachment", "create", [attachmentData]],
+        },
+        id: Math.floor(Math.random() * 1000000),
+      }
 
       // Prepare headers with cookies
-      const headers: Record<string, string> = {}
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
 
       if (this.cookies.length > 0) {
         headers.Cookie = this.cookies.join("; ")
@@ -266,22 +367,36 @@ class OdooService {
         headers.Cookie = (headers.Cookie ? headers.Cookie + "; " : "") + `session_id=${this.sessionId}`
       }
 
-      const uploadResponse = await fetch(`${ODOO_URL}/web/binary/upload_attachment`, {
+      console.log("Uploading CV with attachment payload...")
+
+      const uploadResponse = await fetch(`${ODOO_URL}/jsonrpc`, {
         method: "POST",
         headers,
-        body: formData,
+        body: JSON.stringify(attachmentPayload),
       })
+
+      console.log("CV upload response status:", uploadResponse.status)
 
       if (!uploadResponse.ok) {
         console.error("Failed to upload CV:", uploadResponse.status, uploadResponse.statusText)
+        const errorText = await uploadResponse.text()
+        console.error("CV upload error response:", errorText)
         throw new Error("Failed to upload CV")
       }
 
       const uploadData = await uploadResponse.json()
       console.log("CV upload response:", uploadData)
+
+      if (uploadData.error) {
+        console.error("CV upload Odoo error:", uploadData.error)
+        throw new Error(uploadData.error.data?.message || uploadData.error.message || "Failed to upload CV")
+      }
+
+      console.log("CV uploaded successfully with attachment ID:", uploadData.result)
     } catch (error) {
       console.error("Error uploading CV:", error)
       // Don't throw here as the applicant was already created
+      console.log("CV upload failed, but applicant was created successfully")
     }
   }
 

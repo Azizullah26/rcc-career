@@ -4,14 +4,25 @@
     'category': 'Human Resources',
     'summary': 'Career portal integration for RCC job applications',
     'description': """
-        This module extends the HR Recruitment module to support
-        job applications from the RCC career portal website.
-        
-        Features:
-        - Custom fields for applicant information
-        - API endpoints for job application submission
-        - CV file upload support
-        - Integration with career portal website
+RCC Career Portal Integration
+=============================
+
+This module provides integration between the RCC career portal website and Odoo HR.
+
+Features:
+- Receive job applications from the career portal
+- Store applicant information in hr.applicant model
+- Handle CV file uploads
+- Track application source and portal URL
+
+Installation:
+1. Copy this module to your Odoo addons directory
+2. Update the app list in Odoo
+3. Install the module from Apps menu
+
+Configuration:
+- No additional configuration required
+- All custom fields are automatically created
     """,
     'author': 'RCC Development Team',
     'website': 'https://careerrccv5.vercel.app',
@@ -24,4 +35,5 @@
     'installable': True,
     'auto_install': False,
     'application': False,
+    'license': 'LGPL-3',
 }
