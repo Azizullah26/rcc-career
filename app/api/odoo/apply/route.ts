@@ -5,6 +5,16 @@ const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
 const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "272127212721"
 
+// Helper function to handle trailing slash redirects
+function handleTrailingSlash(request: NextRequest) {
+  const url = new URL(request.url)
+  if (url.pathname.endsWith("/") && url.pathname !== "/") {
+    url.pathname = url.pathname.slice(0, -1)
+    return NextResponse.redirect(url, 301)
+  }
+  return null
+}
+
 interface JobApplicationData {
   jobId: string
   jobTitle?: string
@@ -232,7 +242,7 @@ Application Details:
 - Relative Names: ${formData.relativeNames || formData.names || "Not provided"}
 - Relationship: ${formData.selectedRelationship || "Not provided"}
 - Source: RCC Career Portal
-- Portal URL: ${process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv5.vercel.app"}
+- Portal URL: https://careerrccv11.vercel.app
 
 Experience Summary:
 ${
@@ -446,7 +456,10 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
 }
 
 // GET endpoint for testing connection
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const redirectResponse = handleTrailingSlash(request)
+  if (redirectResponse) return redirectResponse
+
   try {
     console.log("=== GET /api/odoo/apply - Testing Connection ===")
     console.log("Environment variables:")
@@ -506,7 +519,10 @@ export async function GET() {
 }
 
 // OPTIONS endpoint for CORS
-export async function OPTIONS() {
+export async function OPTIONS(request: NextRequest) {
+  const redirectResponse = handleTrailingSlash(request)
+  if (redirectResponse) return redirectResponse
+
   return new NextResponse(null, {
     status: 200,
     headers: {
@@ -519,6 +535,9 @@ export async function OPTIONS() {
 
 // POST endpoint for job applications
 export async function POST(request: NextRequest) {
+  const redirectResponse = handleTrailingSlash(request)
+  if (redirectResponse) return redirectResponse
+
   try {
     console.log("=== POST /api/odoo/apply - Job Application Submission ===")
     console.log("Request URL:", request.url)
