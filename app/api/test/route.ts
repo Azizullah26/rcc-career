@@ -10,6 +10,7 @@ export async function GET() {
       ODOO_USERNAME: process.env.ODOO_USERNAME || "Not set",
       ODOO_PASSWORD: process.env.ODOO_PASSWORD ? "Set (hidden)" : "Not set",
       NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "Not set",
+      NEXT_PUBLIC_ODOO_DB: process.env.NEXT_PUBLIC_ODOO_DB || "Not set",
       NODE_ENV: process.env.NODE_ENV || "Not set",
     }
 
@@ -17,7 +18,7 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      message: "Test endpoint working",
+      message: "Test endpoint working with updated Odoo credentials",
       timestamp: new Date().toISOString(),
       environment: envVars,
     })
@@ -34,4 +35,15 @@ export async function GET() {
       { status: 500 },
     )
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  })
 }

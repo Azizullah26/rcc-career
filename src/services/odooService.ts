@@ -73,10 +73,10 @@ export class OdooService {
 
   constructor() {
     this.config = {
-      url: process.env.NEXT_PUBLIC_ODOO_URL || "https://test.elrace.com",
-      database: process.env.NEXT_PUBLIC_ODOO_DATABASE || "test.elrace.com",
-      username: process.env.NEXT_PUBLIC_ODOO_USERNAME || "aziz",
-      password: process.env.NEXT_PUBLIC_ODOO_PASSWORD || "aziz",
+      url: process.env.NEXT_PUBLIC_ODOO_URL || "https://erp.elrace.com",
+      database: process.env.NEXT_PUBLIC_ODOO_DATABASE || "odoo.elrace.com",
+      username: process.env.NEXT_PUBLIC_ODOO_USERNAME || "jawad",
+      password: process.env.NEXT_PUBLIC_ODOO_PASSWORD || "272127212721",
     }
     this.baseUrl = API_BASE_URL
   }

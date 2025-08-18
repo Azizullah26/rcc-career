@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const ODOO_URL = process.env.ODOO_URL || "https://test.elrace.com"
-const ODOO_DB = process.env.ODOO_DB || "test.elrace.com"
-const ODOO_USERNAME = process.env.ODOO_USERNAME || "aziz"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "aziz"
+const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
+const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
+const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "272127212721"
 
 interface JobApplicationData {
   jobId: string

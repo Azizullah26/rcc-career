@@ -51,12 +51,17 @@ export function useJobApplication() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const submitApplication = async (jobId: string, applicationData: JobApplicationData, cvFile?: File) => {
+  const submitApplication = async (
+    jobId: string,
+    applicationData: JobApplicationData,
+    cvFile?: File,
+  ): Promise<{ success: boolean; applicantId?: number; error?: string }> => {
     setIsSubmitting(true)
     setError(null)
 
     try {
-      console.log("Submitting job application...")
+      console.log("Submitting job application for job:", jobId)
+      console.log("Application data:", applicationData)
 
       const formData = new FormData()
 
@@ -71,6 +76,7 @@ export function useJobApplication() {
       // Add CV file if provided
       if (cvFile) {
         formData.append("cv", cvFile)
+        console.log("CV file attached:", cvFile.name, cvFile.size, "bytes")
       }
 
       console.log("Sending request to /api/odoo/apply")
@@ -92,36 +98,37 @@ export function useJobApplication() {
       const result = await response.json()
       console.log("API success response:", result)
 
-      // Ensure we return a proper response object
-      if (!result || typeof result.success === "undefined") {
-        throw new Error("Invalid response format from server")
-      }
-
       if (!result.success) {
         throw new Error(result.error || "Application submission failed")
       }
 
-      return result
+      return {
+        success: true,
+        applicantId: result.applicantId,
+      }
     } catch (error) {
       console.error("Error submitting application:", error)
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
       setError(errorMessage)
-      throw error
+
+      return {
+        success: false,
+        error: errorMessage,
+      }
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const testConnection = async () => {
+  const testConnection = async (): Promise<{ success: boolean; error?: string }> => {
     try {
-      console.log("Testing connection to API...")
+      console.log("Testing API connection...")
 
       const response = await fetch("/api/odoo/apply", {
         method: "GET",
       })
 
       console.log("Test response status:", response.status)
-      console.log("Test response headers:", Object.fromEntries(response.headers.entries()))
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`)
@@ -130,10 +137,15 @@ export function useJobApplication() {
       const result = await response.json()
       console.log("Test success response:", result)
 
-      return result
+      return { success: true }
     } catch (error) {
       console.error("Connection test failed:", error)
-      throw error
+      const errorMessage = error instanceof Error ? error.message : "Connection test failed"
+
+      return {
+        success: false,
+        error: errorMessage,
+      }
     }
   }
 

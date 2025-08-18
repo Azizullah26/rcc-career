@@ -11,7 +11,7 @@
         - Custom fields for applicant information
         - API endpoints for job application submission
         - CV file upload support
-        - Integration with external career portal
+        - Integration with career portal website
     """,
     'author': 'RCC Development Team',
     'website': 'https://careerrccv5.vercel.app',
