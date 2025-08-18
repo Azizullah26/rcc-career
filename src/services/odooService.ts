@@ -1,3 +1,5 @@
+"use client"
+
 interface OdooConfig {
   url: string
   database: string
@@ -5,43 +7,49 @@ interface OdooConfig {
   password: string
 }
 
-interface JobApplicationData {
-  jobId: string
-  personalInfo: {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    dateOfBirth: string
-    nationality: string
-    gender: string
-    maritalStatus: string
-  }
-  experienceInfo: {
-    totalExperience: string
-    uaeExperience: string
-    currentLocation: string
-    expectedSalary: string
-    joiningPossibility: string
-  }
-  additionalInfo: {
-    uaeDrivingLicense: boolean
-    relocationPossibility: boolean
-    languages: string[]
-  }
-  applicationQuestions: {
-    previouslyWorked: boolean
-    relativesOrFriends: boolean
-    workDetails?: string
-    relativeNames?: string
-  }
-  experiences: Array<{
-    jobTitle: string
-    company: string
-    startDate: string
-    endDate: string
-    description: string
-  }>
+export interface JobApplicationData {
+  // Personal Information
+  firstName?: string
+  lastName?: string
+  fullName?: string
+  email: string
+  phone: string
+  dateOfBirth?: string
+  dob?: string
+  nationality: string
+  gender: string
+  maritalStatus: string
+
+  // Experience Information
+  totalExperience: string
+  uaeExperience?: string
+  egyptExperience?: string
+  currentLocation: string
+  expectedSalary: string
+  joiningPossibility: string
+
+  // Additional Information
+  uaeDrivingLicense?: boolean | string
+  egyptDrivingLicense?: boolean | string
+  relocationPossibility: boolean | string
+  languages:
+    | Array<{
+        language: string
+        proficiency: string
+      }>
+    | string[]
+
+  // Application Questions
+  previouslyWorked?: boolean | string
+  workDetails?: string
+  relativesOrFriends?: boolean | string
+  relativeNames?: string
+  names?: string
+  selectedRelationship?: string
+
+  // Experience Data
+  experienceData?: Record<string, string>
+  currentlyWorkingStatus?: Record<number, boolean>
 }
 
 interface OdooResponse {
@@ -55,7 +63,10 @@ interface OdooResponse {
   }
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv5.vercel.app"
+
 export class OdooService {
+  private baseUrl: string
   private config: OdooConfig
   private sessionId: string | null = null
   private uid: number | null = null
@@ -64,9 +75,10 @@ export class OdooService {
     this.config = {
       url: process.env.NEXT_PUBLIC_ODOO_URL || "https://test.elrace.com",
       database: process.env.NEXT_PUBLIC_ODOO_DATABASE || "test.elrace.com",
-      username: process.env.NEXT_PUBLIC_ODOO_USERNAME || "aziz@elrace.com",
-      password: process.env.NEXT_PUBLIC_ODOO_PASSWORD || "1111",
+      username: process.env.NEXT_PUBLIC_ODOO_USERNAME || "aziz",
+      password: process.env.NEXT_PUBLIC_ODOO_PASSWORD || "aziz",
     }
+    this.baseUrl = API_BASE_URL
   }
 
   async authenticate(): Promise<{ success: boolean; error?: string }> {
@@ -119,172 +131,144 @@ export class OdooService {
     }
   }
 
-  async submitJobApplication(
-    applicationData: JobApplicationData,
-    cvFile?: File,
-  ): Promise<{ success: boolean; applicantId?: number; error?: string }> {
+  async submitJobApplication(jobId: string, applicationData: JobApplicationData, cvFile?: File): Promise<any> {
     try {
-      // First authenticate
-      const authResult = await this.authenticate()
-      if (!authResult.success) {
-        return { success: false, error: authResult.error }
+      console.log("Submitting job application...")
+
+      const formData = new FormData()
+
+      // Add application data
+      const payload = {
+        jobId,
+        formData: applicationData,
       }
 
-      // Prepare form data for API
-      const formData = new FormData()
-      formData.append("applicationData", JSON.stringify(applicationData))
+      formData.append("data", JSON.stringify(payload))
 
+      // Add CV file if provided
       if (cvFile) {
         formData.append("cv", cvFile)
       }
 
-      // Submit to our API endpoint
-      const response = await fetch("/api/odoo/apply", {
+      console.log("Sending request to /api/odoo/apply")
+
+      const response = await fetch(`${this.baseUrl}/api/odoo/apply`, {
         method: "POST",
         body: formData,
       })
 
+      console.log("Response status:", response.status)
+      console.log("Response headers:", Object.fromEntries(response.headers.entries()))
+
       if (!response.ok) {
-        const errorData = await response.json()
-        return {
-          success: false,
-          error: errorData.details || errorData.error || "Failed to submit application",
-        }
+        const errorText = await response.text()
+        console.error("Response not OK:", response.status, response.statusText)
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
       }
 
       const result = await response.json()
-      return {
-        success: true,
-        applicantId: result.applicantId,
+      console.log("Success response:", result)
+
+      // Ensure we return a proper response object
+      if (!result || typeof result.success === "undefined") {
+        throw new Error("Invalid response format from server")
       }
+
+      return result
     } catch (error) {
       console.error("Error submitting job application:", error)
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      }
+      throw error
     }
   }
 
-  async testConnection(): Promise<{ success: boolean; error?: string }> {
+  async testConnection(): Promise<any> {
     try {
-      const response = await fetch("/api/odoo/apply", {
+      console.log("Testing connection to API...")
+
+      const response = await fetch(`${this.baseUrl}/api/odoo/apply`, {
         method: "GET",
       })
 
+      console.log("Test response status:", response.status)
+      console.log("Test response headers:", Object.fromEntries(response.headers.entries()))
+
       if (!response.ok) {
-        const errorData = await response.json()
-        return {
-          success: false,
-          error: errorData.details || errorData.error || "Connection test failed",
-        }
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
 
       const result = await response.json()
-      return {
-        success: result.connection?.success || false,
-        error: result.connection?.error,
-      }
+      console.log("Test success response:", result)
+
+      return result
     } catch (error) {
-      console.error("Connection test error:", error)
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      }
+      console.error("Connection test failed:", error)
+      throw error
     }
   }
 
-  async getJobPositions(): Promise<{ success: boolean; jobs?: any[]; error?: string }> {
+  async fetchJobs(): Promise<any[]> {
     try {
-      const authResult = await this.authenticate()
-      if (!authResult.success) {
-        return { success: false, error: authResult.error }
-      }
+      console.log("Fetching job positions...")
 
-      const response = await fetch(`${this.config.url}/web/dataset/call_kw`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session_id=${this.sessionId}`,
-        },
-        body: JSON.stringify({
-          jsonrpc: "2.0",
-          method: "call",
-          params: {
-            model: "hr.job",
-            method: "search_read",
-            args: [
-              [["state", "=", "recruit"]], // Only active job positions
-              ["id", "name", "description", "department_id", "company_id"],
-            ],
-            kwargs: {},
-          },
-          id: Math.floor(Math.random() * 1000000),
-        }),
+      // This would be implemented when you have a jobs endpoint
+      const response = await fetch(`${this.baseUrl}/api/odoo/jobs`, {
+        method: "GET",
       })
 
+      console.log("Fetch jobs response status:", response.status)
+      console.log("Fetch jobs response headers:", Object.fromEntries(response.headers.entries()))
+
       if (!response.ok) {
-        return {
-          success: false,
-          error: `HTTP ${response.status}: ${response.statusText}`,
-        }
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
 
-      const data: OdooResponse = await response.json()
+      const result = await response.json()
+      console.log("Fetch jobs success response:", result)
 
-      if (data.result) {
-        return {
-          success: true,
-          jobs: data.result,
-        }
-      }
-
-      return {
-        success: false,
-        error: data.error?.message || "Failed to fetch job positions",
-      }
+      return result
     } catch (error) {
-      console.error("Error fetching job positions:", error)
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      }
+      console.error("Failed to fetch jobs:", error)
+      return []
     }
   }
 
   // Utility method to format application data for Odoo
   formatApplicationForOdoo(applicationData: JobApplicationData) {
     return {
-      name: `${applicationData.personalInfo.firstName} ${applicationData.personalInfo.lastName}`,
-      partner_name: `${applicationData.personalInfo.firstName} ${applicationData.personalInfo.lastName}`,
-      email_from: applicationData.personalInfo.email,
-      partner_phone: applicationData.personalInfo.phone,
-      job_id: Number.parseInt(applicationData.jobId),
+      name: applicationData.fullName || `${applicationData.firstName} ${applicationData.lastName}`,
+      partner_name: applicationData.fullName || `${applicationData.firstName} ${applicationData.lastName}`,
+      email_from: applicationData.email,
+      partner_phone: applicationData.phone,
+      job_id: Number.parseInt(applicationData.totalExperience),
 
       // Custom fields (these need to be defined in the Odoo module)
-      x_date_of_birth: applicationData.personalInfo.dateOfBirth,
-      x_nationality: applicationData.personalInfo.nationality,
-      x_gender: applicationData.personalInfo.gender,
-      x_marital_status: applicationData.personalInfo.maritalStatus,
-      x_total_experience: applicationData.experienceInfo.totalExperience,
-      x_uae_experience: applicationData.experienceInfo.uaeExperience,
-      x_current_location: applicationData.experienceInfo.currentLocation,
-      x_expected_salary: applicationData.experienceInfo.expectedSalary,
-      x_joining_possibility: applicationData.experienceInfo.joiningPossibility,
-      x_uae_driving_license: applicationData.additionalInfo.uaeDrivingLicense,
-      x_relocation_possibility: applicationData.additionalInfo.relocationPossibility,
-      x_languages: applicationData.additionalInfo.languages.join(", "),
-      x_previously_worked: applicationData.applicationQuestions.previouslyWorked,
-      x_relatives_friends: applicationData.applicationQuestions.relativesOrFriends,
-      x_work_details: applicationData.applicationQuestions.workDetails || "",
-      x_relative_names: applicationData.applicationQuestions.relativeNames || "",
+      x_date_of_birth: applicationData.dateOfBirth || applicationData.dob,
+      x_nationality: applicationData.nationality,
+      x_gender: applicationData.gender,
+      x_marital_status: applicationData.maritalStatus,
+      x_total_experience: applicationData.totalExperience,
+      x_uae_experience: applicationData.uaeExperience,
+      x_egypt_experience: applicationData.egyptExperience,
+      x_current_location: applicationData.currentLocation,
+      x_expected_salary: applicationData.expectedSalary,
+      x_joining_possibility: applicationData.joiningPossibility,
+      x_uae_driving_license: applicationData.uaeDrivingLicense,
+      x_egypt_driving_license: applicationData.egyptDrivingLicense,
+      x_relocation_possibility: applicationData.relocationPossibility,
+      x_languages: Array.isArray(applicationData.languages)
+        ? applicationData.languages.join(", ")
+        : applicationData.languages,
+      x_previously_worked: applicationData.previouslyWorked,
+      x_work_details: applicationData.workDetails || "",
+      x_relatives_friends: applicationData.relativesOrFriends,
+      x_relative_names: applicationData.relativeNames || applicationData.names,
       x_source_website: "RCC Career Portal",
       x_portal_url: "https://careerrccv5.vercel.app",
 
       // Experience summary
-      x_experience_summary: applicationData.experiences
-        .map((exp) => `${exp.jobTitle} at ${exp.company} (${exp.startDate} - ${exp.endDate}): ${exp.description}`)
-        .join("\n\n"),
+      x_experience_summary: applicationData.experienceData
+        ? Object.values(applicationData.experienceData).join("\n\n")
+        : "",
     }
   }
 }
@@ -293,4 +277,4 @@ export class OdooService {
 export const odooService = new OdooService()
 
 // Export types for use in components
-export type { JobApplicationData, OdooConfig }
+export type { JobApplicationData }

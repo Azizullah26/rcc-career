@@ -2,60 +2,67 @@ import { type NextRequest, NextResponse } from "next/server"
 
 const ODOO_URL = process.env.ODOO_URL || "https://test.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "test.elrace.com"
-const ODOO_USERNAME = process.env.ODOO_USERNAME || "aziz@elrace.com"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "1111"
-
-interface OdooAuthResponse {
-  uid: number
-  session_id: string
-}
+const ODOO_USERNAME = process.env.ODOO_USERNAME || "aziz"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "aziz"
 
 interface JobApplicationData {
   jobId: string
-  personalInfo: {
-    firstName: string
-    lastName: string
+  formData: {
+    // Personal Information
+    firstName?: string
+    lastName?: string
+    fullName?: string
     email: string
     phone: string
-    dateOfBirth: string
+    dateOfBirth?: string
+    dob?: string
     nationality: string
     gender: string
     maritalStatus: string
-  }
-  experienceInfo: {
+
+    // Experience Information
     totalExperience: string
-    uaeExperience: string
+    uaeExperience?: string
+    egyptExperience?: string
     currentLocation: string
     expectedSalary: string
     joiningPossibility: string
-  }
-  additionalInfo: {
-    uaeDrivingLicense: boolean
-    relocationPossibility: boolean
-    languages: string[]
-  }
-  applicationQuestions: {
-    previouslyWorked: boolean
-    relativesOrFriends: boolean
+
+    // Additional Information
+    uaeDrivingLicense?: boolean | string
+    egyptDrivingLicense?: boolean | string
+    relocationPossibility: boolean | string
+    languages:
+      | Array<{
+          language: string
+          proficiency: string
+        }>
+      | string[]
+
+    // Application Questions
+    previouslyWorked?: boolean | string
     workDetails?: string
+    relativesOrFriends?: boolean | string
     relativeNames?: string
+    names?: string
+    selectedRelationship?: string
+
+    // Experience Data
+    experienceData?: Record<string, string>
+    currentlyWorkingStatus?: Record<number, boolean>
   }
-  experiences: Array<{
-    jobTitle: string
-    company: string
-    startDate: string
-    endDate: string
-    description: string
-  }>
 }
 
 class OdooService {
   private sessionId: string | null = null
   private uid: number | null = null
+  private cookies: string[] = []
 
   async authenticate(): Promise<boolean> {
     try {
-      console.log("Authenticating with Odoo...")
+      console.log("Authenticating with Odoo at:", ODOO_URL)
+      console.log("Database:", ODOO_DB)
+      console.log("Username:", ODOO_USERNAME)
 
       const authResponse = await fetch(`${ODOO_URL}/web/session/authenticate`, {
         method: "POST",
@@ -74,18 +81,27 @@ class OdooService {
         }),
       })
 
+      console.log("Auth response status:", authResponse.status)
+
       if (!authResponse.ok) {
         console.error("Authentication failed:", authResponse.status, authResponse.statusText)
         return false
       }
 
+      // Extract cookies from response headers
+      const setCookieHeaders = authResponse.headers.get("set-cookie")
+      if (setCookieHeaders) {
+        this.cookies = setCookieHeaders.split(", ")
+        console.log("Cookies extracted:", this.cookies)
+      }
+
       const authData = await authResponse.json()
-      console.log("Auth response:", authData)
+      console.log("Auth response data:", authData)
 
       if (authData.result && authData.result.uid) {
         this.uid = authData.result.uid
         this.sessionId = authData.result.session_id
-        console.log("Authentication successful, UID:", this.uid)
+        console.log("Authentication successful, UID:", this.uid, "Session ID:", this.sessionId)
         return true
       }
 
@@ -98,71 +114,113 @@ class OdooService {
   }
 
   async createApplicant(applicationData: JobApplicationData, cvFile?: File): Promise<any> {
-    if (!this.uid || !this.sessionId) {
-      throw new Error("Not authenticated")
+    if (!this.uid) {
+      throw new Error("Not authenticated - missing UID")
     }
 
     try {
       console.log("Creating applicant in Odoo...")
 
+      const formData = applicationData.formData
+
+      // Extract name
+      const firstName = formData.firstName || formData.fullName?.split(" ")[0] || ""
+      const lastName = formData.lastName || formData.fullName?.split(" ").slice(1).join(" ") || ""
+      const fullName = formData.fullName || `${firstName} ${lastName}`.trim()
+
       // Prepare applicant data
       const applicantData = {
-        name: `${applicationData.personalInfo.firstName} ${applicationData.personalInfo.lastName}`,
-        partner_name: `${applicationData.personalInfo.firstName} ${applicationData.personalInfo.lastName}`,
-        email_from: applicationData.personalInfo.email,
-        partner_phone: applicationData.personalInfo.phone,
+        name: fullName,
+        partner_name: fullName,
+        email_from: formData.email,
+        partner_phone: formData.phone,
         job_id: Number.parseInt(applicationData.jobId),
 
         // Custom fields
-        x_date_of_birth: applicationData.personalInfo.dateOfBirth,
-        x_nationality: applicationData.personalInfo.nationality,
-        x_gender: applicationData.personalInfo.gender,
-        x_marital_status: applicationData.personalInfo.maritalStatus,
-        x_total_experience: applicationData.experienceInfo.totalExperience,
-        x_uae_experience: applicationData.experienceInfo.uaeExperience,
-        x_current_location: applicationData.experienceInfo.currentLocation,
-        x_expected_salary: applicationData.experienceInfo.expectedSalary,
-        x_joining_possibility: applicationData.experienceInfo.joiningPossibility,
-        x_uae_driving_license: applicationData.additionalInfo.uaeDrivingLicense,
-        x_relocation_possibility: applicationData.additionalInfo.relocationPossibility,
-        x_languages: applicationData.additionalInfo.languages.join(", "),
-        x_previously_worked: applicationData.applicationQuestions.previouslyWorked,
-        x_relatives_friends: applicationData.applicationQuestions.relativesOrFriends,
-        x_work_details: applicationData.applicationQuestions.workDetails || "",
-        x_relative_names: applicationData.applicationQuestions.relativeNames || "",
+        x_date_of_birth: formData.dateOfBirth || formData.dob || "",
+        x_nationality: formData.nationality || "",
+        x_gender: formData.gender || "",
+        x_marital_status: formData.maritalStatus || "",
+        x_total_experience: formData.totalExperience || "",
+        x_uae_experience: formData.uaeExperience || formData.egyptExperience || "",
+        x_current_location: formData.currentLocation || "",
+        x_expected_salary: formData.expectedSalary || "",
+        x_joining_possibility: formData.joiningPossibility || "",
+        x_uae_driving_license: formData.uaeDrivingLicense || formData.egyptDrivingLicense || false,
+        x_relocation_possibility: formData.relocationPossibility || false,
+        x_languages: Array.isArray(formData.languages)
+          ? (formData.languages as any[])
+              .map((lang) => (typeof lang === "string" ? lang : `${lang.language} (${lang.proficiency})`))
+              .join(", ")
+          : JSON.stringify(formData.languages || []),
+        x_previously_worked: formData.previouslyWorked || false,
+        x_relatives_friends: formData.relativesOrFriends || false,
+        x_work_details: formData.workDetails || "",
+        x_relative_names: formData.relativeNames || formData.names || "",
+        x_relationship: formData.selectedRelationship || "",
         x_source_website: "RCC Career Portal",
         x_portal_url: process.env.NEXT_PUBLIC_APP_URL || "https://careerrccv5.vercel.app",
 
         // Experience summary
-        x_experience_summary: applicationData.experiences
-          .map((exp) => `${exp.jobTitle} at ${exp.company} (${exp.startDate} - ${exp.endDate}): ${exp.description}`)
-          .join("\n\n"),
+        x_experience_summary: formData.experienceData
+          ? Object.entries(formData.experienceData)
+              .map(([key, value]) => `${key}: ${value}`)
+              .join("\n")
+          : "",
+        x_currently_working: JSON.stringify(formData.currentlyWorkingStatus || {}),
       }
 
       console.log("Applicant data prepared:", applicantData)
 
-      const createResponse = await fetch(`${ODOO_URL}/web/dataset/call_kw`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session_id=${this.sessionId}`,
+      // Use the JSON-RPC execute_kw method with proper authentication
+      const createPayload = {
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          service: "object",
+          method: "execute_kw",
+          args: [
+            ODOO_DB, // database
+            this.uid, // user id
+            ODOO_PASSWORD, // password
+            "hr.applicant", // model
+            "create", // method
+            [applicantData], // record data
+          ],
         },
-        body: JSON.stringify({
-          jsonrpc: "2.0",
-          method: "call",
-          params: {
-            model: "hr.applicant",
-            method: "create",
-            args: [applicantData],
-            kwargs: {},
-          },
-          id: Math.floor(Math.random() * 1000000),
-        }),
+        id: Math.floor(Math.random() * 1000000),
+      }
+
+      console.log("Create payload:", JSON.stringify(createPayload, null, 2))
+
+      // Prepare headers with cookies
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+
+      if (this.cookies.length > 0) {
+        headers.Cookie = this.cookies.join("; ")
+      }
+
+      if (this.sessionId) {
+        headers.Cookie = (headers.Cookie ? headers.Cookie + "; " : "") + `session_id=${this.sessionId}`
+      }
+
+      console.log("Request headers:", headers)
+
+      const createResponse = await fetch(`${ODOO_URL}/jsonrpc`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(createPayload),
       })
+
+      console.log("Create response status:", createResponse.status)
 
       if (!createResponse.ok) {
         console.error("Failed to create applicant:", createResponse.status, createResponse.statusText)
-        throw new Error("Failed to create applicant")
+        const errorText = await createResponse.text()
+        console.error("Error response:", errorText)
+        throw new Error(`Failed to create applicant: ${createResponse.status} ${errorText}`)
       }
 
       const createData = await createResponse.json()
@@ -170,7 +228,7 @@ class OdooService {
 
       if (createData.error) {
         console.error("Odoo error:", createData.error)
-        throw new Error(createData.error.data?.message || "Failed to create applicant")
+        throw new Error(createData.error.data?.message || createData.error.message || "Failed to create applicant")
       }
 
       const applicantId = createData.result
@@ -197,11 +255,20 @@ class OdooService {
       formData.append("model", "hr.applicant")
       formData.append("id", applicantId.toString())
 
+      // Prepare headers with cookies
+      const headers: Record<string, string> = {}
+
+      if (this.cookies.length > 0) {
+        headers.Cookie = this.cookies.join("; ")
+      }
+
+      if (this.sessionId) {
+        headers.Cookie = (headers.Cookie ? headers.Cookie + "; " : "") + `session_id=${this.sessionId}`
+      }
+
       const uploadResponse = await fetch(`${ODOO_URL}/web/binary/upload_attachment`, {
         method: "POST",
-        headers: {
-          Cookie: `session_id=${this.sessionId}`,
-        },
+        headers,
         body: formData,
       })
 
@@ -220,6 +287,8 @@ class OdooService {
 
   async testConnection(): Promise<any> {
     try {
+      console.log("Testing connection to:", ODOO_URL)
+
       const response = await fetch(`${ODOO_URL}/web/database/list`, {
         method: "POST",
         headers: {
@@ -233,7 +302,11 @@ class OdooService {
         }),
       })
 
+      console.log("Connection test response status:", response.status)
+
       const data = await response.json()
+      console.log("Connection test response data:", data)
+
       return {
         success: response.ok,
         data: data,
@@ -241,6 +314,7 @@ class OdooService {
         status: response.status,
       }
     } catch (error) {
+      console.error("Connection test error:", error)
       return {
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
@@ -254,11 +328,17 @@ class OdooService {
 export async function GET() {
   try {
     console.log("=== GET /api/odoo/apply - Testing Connection ===")
+    console.log("Environment variables:")
+    console.log("ODOO_URL:", ODOO_URL)
+    console.log("ODOO_DB:", ODOO_DB)
+    console.log("ODOO_USERNAME:", ODOO_USERNAME)
+    console.log("NODE_ENV:", process.env.NODE_ENV)
 
     const odooService = new OdooService()
     const connectionTest = await odooService.testConnection()
 
     const response = {
+      success: true,
       message: "Odoo API endpoint is working",
       timestamp: new Date().toISOString(),
       connection: connectionTest,
@@ -271,18 +351,49 @@ export async function GET() {
     }
 
     console.log("GET response:", response)
-    return NextResponse.json(response)
+
+    return NextResponse.json(response, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    })
   } catch (error) {
     console.error("GET request error:", error)
+
     return NextResponse.json(
       {
+        success: false,
         error: "Failed to test connection",
         details: error instanceof Error ? error.message : "Unknown error",
         timestamp: new Date().toISOString(),
       },
-      { status: 500 },
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      },
     )
   }
+}
+
+// OPTIONS endpoint for CORS
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  })
 }
 
 // POST endpoint for job applications
@@ -293,25 +404,63 @@ export async function POST(request: NextRequest) {
     console.log("Request method:", request.method)
 
     const formData = await request.formData()
-    const applicationDataString = formData.get("applicationData") as string
+    console.log("Form data keys:", Array.from(formData.keys()))
+
+    // Try to get data from different possible keys
+    const applicationDataString =
+      (formData.get("data") as string) ||
+      (formData.get("applicationData") as string) ||
+      (formData.get("formData") as string)
+
     const cvFile = formData.get("cv") as File | null
 
-    console.log("Form data keys:", Array.from(formData.keys()))
     console.log("Application data string length:", applicationDataString?.length || 0)
     console.log("CV file:", cvFile ? `${cvFile.name} (${cvFile.size} bytes)` : "No CV file")
 
     if (!applicationDataString) {
-      console.error("Missing application data")
-      return NextResponse.json({ error: "Missing application data" }, { status: 400 })
+      console.error("Missing application data. Available keys:", Array.from(formData.keys()))
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing application data",
+          availableKeys: Array.from(formData.keys()),
+        },
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        },
+      )
     }
 
     let applicationData: JobApplicationData
     try {
       applicationData = JSON.parse(applicationDataString)
       console.log("Application data parsed successfully for job:", applicationData.jobId)
+      console.log("Form data structure:", JSON.stringify(applicationData, null, 2))
     } catch (parseError) {
       console.error("Failed to parse application data:", parseError)
-      return NextResponse.json({ error: "Invalid application data format" }, { status: 400 })
+      console.error("Raw data:", applicationDataString.substring(0, 500))
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid application data format",
+          details: parseError instanceof Error ? parseError.message : "Unknown parsing error",
+        },
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        },
+      )
     }
 
     const odooService = new OdooService()
@@ -321,7 +470,22 @@ export async function POST(request: NextRequest) {
     const authenticated = await odooService.authenticate()
     if (!authenticated) {
       console.error("Odoo authentication failed")
-      return NextResponse.json({ error: "Failed to authenticate with Odoo" }, { status: 500 })
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Failed to authenticate with Odoo",
+          details: "Check Odoo credentials and connection",
+        },
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        },
+      )
     }
 
     // Create applicant
@@ -330,22 +494,42 @@ export async function POST(request: NextRequest) {
 
     console.log("Application submitted successfully:", result)
 
-    return NextResponse.json({
-      success: true,
-      message: "Application submitted successfully to Odoo",
-      applicantId: result.applicantId,
-      timestamp: new Date().toISOString(),
-    })
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Application submitted successfully to Odoo",
+        applicantId: result.applicantId,
+        timestamp: new Date().toISOString(),
+      },
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      },
+    )
   } catch (error) {
     console.error("Error processing job application:", error)
 
     return NextResponse.json(
       {
+        success: false,
         error: "Failed to submit application",
         details: error instanceof Error ? error.message : "Unknown error",
         timestamp: new Date().toISOString(),
       },
-      { status: 500 },
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      },
     )
   }
 }

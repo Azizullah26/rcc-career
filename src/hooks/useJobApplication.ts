@@ -4,110 +4,142 @@ import { useState } from "react"
 
 export interface JobApplicationData {
   // Personal Information
-  firstName: string
-  lastName: string
+  firstName?: string
+  lastName?: string
+  fullName?: string
   email: string
   phone: string
-  dateOfBirth: string
+  dateOfBirth?: string
+  dob?: string
   nationality: string
   gender: string
   maritalStatus: string
 
   // Experience Information
   totalExperience: string
-  uaeExperience: string
+  uaeExperience?: string
+  egyptExperience?: string
   currentLocation: string
   expectedSalary: string
   joiningPossibility: string
 
   // Additional Information
-  uaeDrivingLicense: boolean
-  relocationPossibility: boolean
-  languages: Array<{
-    language: string
-    proficiency: string
-  }>
+  uaeDrivingLicense?: boolean | string
+  egyptDrivingLicense?: boolean | string
+  relocationPossibility: boolean | string
+  languages:
+    | Array<{
+        language: string
+        proficiency: string
+      }>
+    | string[]
 
   // Application Questions
-  previouslyWorked: boolean
-  workDetails: string
-  relativesOrFriends: boolean
-  relativeNames: string
-  relationships: Array<{
-    name: string
-    relationship: string
-    department: string
-  }>
+  previouslyWorked?: boolean | string
+  workDetails?: string
+  relativesOrFriends?: boolean | string
+  relativeNames?: string
+  names?: string
+  selectedRelationship?: string
 
   // Experience Data
-  experienceData: Array<{
-    company: string
-    position: string
-    duration: string
-    responsibilities: string
-  }>
+  experienceData?: Record<string, string>
+  currentlyWorkingStatus?: Record<number, boolean>
 }
 
-export const useJobApplication = () => {
+export function useJobApplication() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const submitApplication = async (
-    jobId: string,
-    formData: JobApplicationData,
-    cvFile?: File | null,
-  ): Promise<{ success: boolean; error?: string }> => {
+  const submitApplication = async (jobId: string, applicationData: JobApplicationData, cvFile?: File) => {
     setIsSubmitting(true)
     setError(null)
 
     try {
-      console.log("Submitting application for job:", jobId)
-      console.log("Form data:", formData)
-      console.log("CV file:", cvFile)
+      console.log("Submitting job application...")
 
-      // Create FormData for multipart upload
-      const submitFormData = new FormData()
+      const formData = new FormData()
 
-      // Add application data as JSON string
-      submitFormData.append(
-        "data",
-        JSON.stringify({
-          jobId,
-          formData,
-        }),
-      )
+      // Add application data
+      const payload = {
+        jobId,
+        formData: applicationData,
+      }
+
+      formData.append("data", JSON.stringify(payload))
 
       // Add CV file if provided
       if (cvFile) {
-        submitFormData.append("cv", cvFile)
+        formData.append("cv", cvFile)
       }
 
-      // Submit to our API route
+      console.log("Sending request to /api/odoo/apply")
+
       const response = await fetch("/api/odoo/apply", {
         method: "POST",
-        body: submitFormData,
+        body: formData,
       })
 
-      const result = await response.json()
+      console.log("API response status:", response.status)
+      console.log("API response headers:", Object.fromEntries(response.headers.entries()))
 
       if (!response.ok) {
-        throw new Error(result.details || result.error || "Failed to submit application")
+        const errorText = await response.text()
+        console.error("API response error:", errorText)
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
       }
 
-      console.log("Application submitted successfully:", result)
+      const result = await response.json()
+      console.log("API success response:", result)
+
+      // Ensure we return a proper response object
+      if (!result || typeof result.success === "undefined") {
+        throw new Error("Invalid response format from server")
+      }
+
+      if (!result.success) {
+        throw new Error(result.error || "Application submission failed")
+      }
+
       return result
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to submit application"
-      console.error("Error submitting application:", err)
+    } catch (error) {
+      console.error("Error submitting application:", error)
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
       setError(errorMessage)
-      return { success: false, error: errorMessage }
+      throw error
     } finally {
       setIsSubmitting(false)
     }
   }
 
+  const testConnection = async () => {
+    try {
+      console.log("Testing connection to API...")
+
+      const response = await fetch("/api/odoo/apply", {
+        method: "GET",
+      })
+
+      console.log("Test response status:", response.status)
+      console.log("Test response headers:", Object.fromEntries(response.headers.entries()))
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      console.log("Test success response:", result)
+
+      return result
+    } catch (error) {
+      console.error("Connection test failed:", error)
+      throw error
+    }
+  }
+
   return {
     submitApplication,
+    testConnection,
     isSubmitting,
     error,
   }
