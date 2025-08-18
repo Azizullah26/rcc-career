@@ -14,7 +14,7 @@ import type { JSX } from "react/jsx-runtime"
 export const AddExperience = (): JSX.Element => {
   const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
-  const { submitApplication, isSubmitting, submitError } = useJobApplication()
+  const { submitApplication, isSubmitting, error: submitError } = useJobApplication()
 
   // State for managing experience cards
   const [experienceCards, setExperienceCards] = useState([1, 2])
@@ -124,13 +124,19 @@ export const AddExperience = (): JSX.Element => {
 
     console.log("Combined Form Data:", combinedFormData)
 
-    const result = await submitApplication(jobId, combinedFormData, uploadedFile)
+    // Get job title from localStorage if available
+    const jobTitle = localStorage.getItem("jobTitle") || undefined
+    const jobName = localStorage.getItem("jobName") || undefined
+
+    const result = await submitApplication(jobId, combinedFormData, uploadedFile, jobTitle, jobName)
 
     if (result.success) {
       console.log("Application submitted successfully!")
       // Clear stored data
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
+      localStorage.removeItem("jobTitle")
+      localStorage.removeItem("jobName")
       router.push("/application-success")
     } else {
       console.error("Application submission failed:", result.error)

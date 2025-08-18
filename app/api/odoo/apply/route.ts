@@ -7,6 +7,8 @@ const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "272127212721"
 
 interface JobApplicationData {
   jobId: string
+  jobTitle?: string
+  jobName?: string
   formData: {
     // Personal Information
     firstName?: string
@@ -191,6 +193,9 @@ class OdooService {
       // Get a valid job ID or use null
       const validJobId = await this.getValidJobId()
 
+      // Get job title/name for description
+      const jobTitle = applicationData.jobTitle || applicationData.jobName || `Job ID: ${applicationData.jobId}`
+
       // Prepare applicant data with only standard fields
       const applicantData: any = {
         name: fullName,
@@ -201,7 +206,8 @@ class OdooService {
         // Standard description field to store additional information
         description: `
 Application Details:
-- Applied for Job ID: ${applicationData.jobId}
+- Applied for Job: ${jobTitle}
+- Job ID: ${applicationData.jobId}
 - Date of Birth: ${formData.dateOfBirth || formData.dob || "Not provided"}
 - Nationality: ${formData.nationality || "Not provided"}
 - Gender: ${formData.gender || "Not provided"}
@@ -556,6 +562,7 @@ export async function POST(request: NextRequest) {
     try {
       applicationData = JSON.parse(applicationDataString)
       console.log("Application data parsed successfully for job:", applicationData.jobId)
+      console.log("Job title/name:", applicationData.jobTitle || applicationData.jobName || "Not provided")
       console.log("Form data structure:", JSON.stringify(applicationData, null, 2))
     } catch (parseError) {
       console.error("Failed to parse application data:", parseError)

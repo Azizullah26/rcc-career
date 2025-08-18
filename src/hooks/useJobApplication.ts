@@ -55,19 +55,24 @@ export function useJobApplication() {
     jobId: string,
     applicationData: JobApplicationData,
     cvFile?: File,
+    jobTitle?: string,
+    jobName?: string,
   ): Promise<{ success: boolean; applicantId?: number; error?: string }> => {
     setIsSubmitting(true)
     setError(null)
 
     try {
       console.log("Submitting job application for job:", jobId)
+      console.log("Job title/name:", jobTitle || jobName || "Not provided")
       console.log("Application data:", applicationData)
 
       const formData = new FormData()
 
-      // Add application data
+      // Add application data with job title/name
       const payload = {
         jobId,
+        jobTitle,
+        jobName,
         formData: applicationData,
       }
 

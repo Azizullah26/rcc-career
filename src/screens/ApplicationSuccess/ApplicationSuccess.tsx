@@ -14,24 +14,24 @@ import { LogInIcon, Menu, X } from "lucide-react"
 export const ApplicationSuccess = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
-  // Navigation menu items data
+  // Navigation menu items data - matching home page
   const navItems = [
-    { label: "HOME", marginLeft: "ml-[-96.50px]" },
-    { label: "PROJECTS", marginLeft: "ml-[-12.50px]" },
-    { label: "BLOGS", marginLeft: "" },
-    { label: "CONTACTS", marginLeft: "", width: "w-[86px]" },
-    { label: "SEARCH CAREERS", marginLeft: "" },
-    { label: "CAREERS", marginLeft: "", marginRight: "mr-[-96.50px]" },
+    { label: "HOME", href: "/" },
+    { label: "PROJECTS", href: "#" },
+    { label: "BLOGS", href: "#" },
+    { label: "CONTACTS", href: "#" },
+    { label: "SEARCH CAREERS", href: "/search-careers" },
+    { label: "CAREERS", href: "/explore-opportunities" },
   ]
 
   return (
     <div className="bg-transparent flex flex-row justify-center w-full">
       <div className="bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_100%)] w-full max-w-[1280px] h-auto min-h-[848px] relative">
-        {/* Header/Navigation Bar */}
-        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-white z-50">
-          <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
+        {/* Header/Navigation Bar - Updated to match home page */}
+        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-white z-50 shadow-sm">
+          <div className="flex items-center justify-between px-4 md:px-[103px] h-full max-w-[1280px] mx-auto">
             {/* Company Logo */}
-            <Link href="/">
+            <Link href="/" className="flex-shrink-0">
               <img
                 className="w-[100px] h-[45px] md:w-[150px] md:h-[68px] cursor-pointer hover:opacity-80 transition-opacity"
                 alt="Company logo"
@@ -40,16 +40,14 @@ export const ApplicationSuccess = (): JSX.Element => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-between">
-              <NavigationMenu className="flex items-center justify-center gap-[34px] relative">
-                <NavigationMenuList>
+            <div className="hidden lg:flex items-center justify-between flex-1 ml-8">
+              <NavigationMenu className="flex items-center justify-center">
+                <NavigationMenuList className="flex items-center gap-8">
                   {navItems.map((item, index) => (
-                    <NavigationMenuItem
-                      key={index}
-                      className={`inline-flex items-center justify-center gap-2.5 relative flex-[0_0_auto] ${item.marginLeft || ""} ${item.marginRight || ""}`}
-                    >
+                    <NavigationMenuItem key={index}>
                       <NavigationMenuLink
-                        className={`relative ${item.width || "w-fit"} mt-[-1.00px] [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#151d61] transition-colors cursor-pointer`}
+                        href={item.href}
+                        className="relative [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#151d61] transition-colors cursor-pointer"
                       >
                         {item.label}
                       </NavigationMenuLink>
@@ -58,36 +56,32 @@ export const ApplicationSuccess = (): JSX.Element => {
                 </NavigationMenuList>
               </NavigationMenu>
 
-              <div className="inline-flex items-center gap-[29px] relative flex-[0_0_auto] ml-[60px]">
+              <div className="flex items-center gap-[29px] ml-8">
                 <Button
                   variant="outline"
-                  className="flex flex-col w-[104px] h-[39px] items-center justify-center gap-2.5 px-[5px] py-[3px] relative rounded-[9px] border border-solid border-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
+                  className="flex items-center justify-center gap-2 w-[104px] h-[39px] px-[5px] py-[3px] rounded-[9px] border border-solid border-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
                 >
-                  <div className="inline-flex items-center gap-[5px] relative flex-[0_0_auto]">
-                    <LogInIcon className="relative w-[23px] h-[23px] text-[#151d61]" />
-                    <span className="relative w-fit mt-[-1.00px] [font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[19.7px] tracking-[0] leading-[normal]">
-                      Sign in
-                    </span>
-                  </div>
+                  <LogInIcon className="w-[23px] h-[23px] text-[#151d61]" />
+                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[19.7px] tracking-[0] leading-[normal]">
+                    Sign in
+                  </span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex flex-col w-[104px] h-[39px] items-center justify-center gap-2.5 px-[5px] py-[3px] relative rounded-[9px] border border-solid border-[#ce363a] hover:bg-[#ce363a] hover:text-white transition-colors bg-transparent"
+                  className="flex items-center justify-center gap-2 w-[104px] h-[39px] px-[5px] py-[3px] rounded-[9px] border border-solid border-[#ce363a] hover:bg-[#ce363a] hover:text-white transition-colors bg-transparent"
                 >
-                  <div className="inline-flex items-center gap-[5px] relative flex-[0_0_auto]">
-                    <img className="relative w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
-                    <span className="relative w-fit mt-[-1.00px] [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl]">
-                      العربيــة
-                    </span>
-                  </div>
+                  <img className="w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
+                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl]">
+                    العربيــة
+                  </span>
                 </Button>
               </div>
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-2 z-50 relative" 
+            <button
+              className="lg:hidden p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -102,16 +96,16 @@ export const ApplicationSuccess = (): JSX.Element => {
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
             <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="flex flex-col p-4">
+              <nav className="flex flex-col p-4 max-w-[1280px] mx-auto">
                 {navItems.map((item, index) => (
-                  <a
+                  <Link
                     key={index}
-                    href="#"
+                    href={item.href}
                     className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 ))}
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
