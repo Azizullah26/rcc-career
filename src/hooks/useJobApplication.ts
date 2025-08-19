@@ -86,7 +86,7 @@ export function useJobApplication() {
 
       console.log("Sending request to /api/odoo/apply")
 
-      const response = await fetch("https://careerrccv12.vercel.app/api/odoo/apply", {
+      const response = await fetch("/api/odoo/apply", {
         method: "POST",
         body: formData,
       })
@@ -129,7 +129,7 @@ export function useJobApplication() {
     try {
       console.log("Testing API connection...")
 
-      const response = await fetch("https://careerrccv12.vercel.app/api/odoo/apply", {
+      const response = await fetch("/api/odoo/apply", {
         method: "GET",
       })
 

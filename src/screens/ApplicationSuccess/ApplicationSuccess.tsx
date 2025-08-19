@@ -72,7 +72,7 @@ export const ApplicationSuccess = (): JSX.Element => {
                   className="flex items-center justify-center gap-2 w-[104px] h-[39px] px-[5px] py-[3px] rounded-[9px] border border-solid border-[#ce363a] hover:bg-[#ce363a] hover:text-white transition-colors bg-transparent"
                 >
                   <img className="w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] md:text-[18px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl]">
+                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl]">
                     العربيــة
                   </span>
                 </Button>
@@ -134,7 +134,7 @@ export const ApplicationSuccess = (): JSX.Element => {
 
         {/* Success Message Section */}
         <section className="absolute w-[90%] md:w-[1173px] h-auto top-[100px] md:top-[134px] left-1/2 transform -translate-x-1/2 flex flex-col items-center px-4">
-          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[24px] md:text-[59.4px] text-center tracking-[0] leading-tight mb-3 md:mb-4">
+          <h1 className="w-full [font-family:'Inter',Helvetica] text-[#151d61] text-[16px] md:text-[59.4px] text-center tracking-[0] leading-tight mb-3 md:mb-4">
             <span className="font-bold">
               Your Application
               <br />
@@ -144,7 +144,7 @@ export const ApplicationSuccess = (): JSX.Element => {
 
           {/* Success Check Mark */}
           <div className="w-[100px] md:w-[188px] h-[100px] md:h-[188px] mt-[12px] md:mt-[18px] flex items-center justify-center">
-            <div className="w-[100px] md:w-[188px] h-[100px] md:h-[188px] bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-[100px] md:w-[188px] h-[100px] md:h-[188px] bg-green-500 rounded-full flex items-center justify-center">
               <svg
                 className="w-[60px] md:w-[120px] h-[60px] md:h-[120px] text-white"
                 fill="none"
@@ -157,66 +157,15 @@ export const ApplicationSuccess = (): JSX.Element => {
             </div>
           </div>
 
-          {/* Success Message Details */}
-          <div className="mt-[20px] md:mt-[30px] text-center max-w-[600px]">
-            <p className="text-[#656565] text-[14px] md:text-[18px] [font-family:'Tajawal',Helvetica] mb-4">
-              Thank you for your interest in joining our team. We have received your application and will review it
-              carefully.
-            </p>
-            <p className="text-[#656565] text-[12px] md:text-[16px] [font-family:'Tajawal',Helvetica] mb-6">
-              Our HR team will contact you within 3-5 business days if your profile matches our requirements.
-            </p>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-[20px] md:mt-[30px]">
-            <Link href="/explore-opportunities">
-              <Button className="w-[180px] md:w-[220px] h-[40px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[12px] md:text-[16px] transition-colors">
-                Explore More Jobs
-              </Button>
-            </Link>
+          {/* Return to Home Button */}
+          <div className="mt-[20px] md:mt-[40px]">
             <Link href="/">
-              <Button
-                variant="outline"
-                className="w-[180px] md:w-[220px] h-[40px] md:h-[50px] border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[12px] md:text-[16px] transition-colors bg-transparent"
-              >
+              <Button className="w-[140px] md:w-[200px] h-[40px] md:h-[50px] bg-[#151d61] hover:bg-[#1a2470] text-white rounded-lg [font-family:'Tajawal',Helvetica] font-semibold text-[12px] md:text-[18px] transition-colors">
                 Return to Home
               </Button>
             </Link>
           </div>
-
-          {/* What happens next section */}
-          <div className="mt-[40px] md:mt-[60px] w-full max-w-[600px] bg-gray-50 rounded-lg p-6">
-            <h3 className="text-[#151d61] text-[16px] md:text-[20px] [font-family:'Tajawal',Helvetica] font-semibold mb-4 text-center">
-              What happens next?
-            </h3>
-            <ul className="space-y-3 text-[#656565] text-[12px] md:text-[14px] [font-family:'Tajawal',Helvetica]">
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-[#151d61] rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                Our HR team will review your application and CV thoroughly
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-[#151d61] rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                If selected, you'll receive an email or phone call for the next steps
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-[#151d61] rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                Keep an eye on your email (including spam folder) for updates
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-[#151d61] rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                You can continue exploring other opportunities on our careers page
-              </li>
-            </ul>
-          </div>
         </section>
-
-        {/* Footer */}
-        <footer className="absolute bottom-0 w-full py-4 text-center">
-          <p className="text-[#656565] text-[10px] md:text-[12px] [font-family:'Tajawal',Helvetica]">
-            © 2024 RCC Career Portal. All rights reserved.
-          </p>
-        </footer>
       </div>
     </div>
   )
