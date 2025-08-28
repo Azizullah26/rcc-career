@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Remove output: 'export' to enable API routes
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -12,6 +11,10 @@ const nextConfig = {
   },
   optimizeFonts: false,
   trailingSlash: true,
+  // Remove output: 'export' to enable API routes
+  experimental: {
+    serverComponentsExternalPackages: ["sharp"],
+  },
 }
 
 module.exports = nextConfig

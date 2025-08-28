@@ -2,125 +2,166 @@
 
 import { useState } from "react"
 
-interface JobApplicationData {
-  jobId: string
-  jobTitle?: string
-  jobName?: string
-  formData: {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    dateOfBirth: string
-    nationality: string
-    gender: string
-    maritalStatus: string
-    totalExperience: string
-    uaeExperience: string
-    currentLocation: string
-    expectedSalary: string
-    joiningPossibility: string
-    uaeDrivingLicense: boolean
-    relocationPossibility: boolean
-    languages: Array<{
-      language: string
-      proficiency: string
-    }>
-    previouslyWorked: boolean
-    workDetails: string
-    relativesOrFriends: boolean
-    relativeNames: string
-    relationships: any[]
-    experienceData: Array<{
-      company: string
-      position: string
-      duration: string
-      responsibilities: string
-      currentlyWorking: boolean
-    }>
-  }
+export interface JobApplicationData {
+  // Personal Information
+  firstName?: string
+  lastName?: string
+  fullName?: string
+  email: string
+  phone: string
+  dateOfBirth?: string
+  dob?: string
+  nationality: string
+  gender: string
+  maritalStatus: string
+
+  // Experience Information
+  totalExperience: string
+  uaeExperience?: string
+  egyptExperience?: string
+  currentLocation: string
+  expectedSalary: string
+  joiningPossibility: string
+
+  // Additional Information
+  uaeDrivingLicense?: boolean | string
+  egyptDrivingLicense?: boolean | string
+  relocationPossibility: boolean | string
+  languages:
+    | Array<{
+        language: string
+        proficiency: string
+      }>
+    | string[]
+
+  // Application Questions
+  previouslyWorked?: boolean | string
+  workDetails?: string
+  relativesOrFriends?: boolean | string
+  relativeNames?: string
+  names?: string
+  selectedRelationship?: string
+
+  // Experience Data
+  experienceData?: Record<string, string>
+  currentlyWorkingStatus?: Record<number, boolean>
 }
 
-export const useJobApplication = () => {
+export function useJobApplication() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const submitApplication = async (
+    jobId: string,
     applicationData: JobApplicationData,
     cvFile?: File,
     jobTitle?: string,
     jobName?: string,
-  ) => {
+  ): Promise<{ success: boolean; applicantId?: number; error?: string }> => {
     setIsSubmitting(true)
     setError(null)
 
     try {
-      console.log("🚀 Submitting job application...")
-      console.log("Job ID:", applicationData.jobId)
-      console.log("Job Title:", jobTitle || jobName || "Not provided")
-      console.log("Form data keys:", Object.keys(applicationData.formData))
-      console.log("CV file:", cvFile ? `${cvFile.name} (${cvFile.size} bytes)` : "None")
+      console.log("Submitting job application for job:", jobId)
+      console.log("Job title/name:", jobTitle || jobName || "Not provided")
+      console.log("Application data:", applicationData)
 
-      // Prepare form data for submission
-      const submitFormData = new FormData()
-
-      // Add application data as JSON string
-      const dataWithJobInfo = {
-        ...applicationData,
-        jobTitle: jobTitle || applicationData.jobTitle,
-        jobName: jobName || applicationData.jobName,
+      // Validate required data
+      if (!jobId || !applicationData) {
+        throw new Error("Missing required data: jobId and applicationData are required")
       }
 
-      submitFormData.append("applicationData", JSON.stringify(dataWithJobInfo))
+      const formData = new FormData()
+
+      // Add application data with job title/name
+      const payload = {
+        jobId,
+        jobTitle,
+        jobName,
+        formData: applicationData,
+      }
+
+      formData.append("data", JSON.stringify(payload))
 
       // Add CV file if provided
       if (cvFile) {
-        submitFormData.append("cvFile", cvFile)
+        formData.append("cv", cvFile)
+        console.log("CV file attached:", cvFile.name, cvFile.size, "bytes")
       }
 
-      console.log("📤 Sending request to API...")
+      console.log("Sending request to /api/odoo/apply")
 
-      // Submit to API
       const response = await fetch("/api/odoo/apply", {
         method: "POST",
-        body: submitFormData,
+        body: formData,
       })
 
-      console.log("📥 API response status:", response.status)
-      console.log("📥 API response headers:", Object.fromEntries(response.headers.entries()))
+      console.log("API response status:", response.status)
+      console.log("API response headers:", Object.fromEntries(response.headers.entries()))
 
       if (!response.ok) {
         const errorText = await response.text()
-        console.error("❌ API request failed:", response.status, errorText)
-        throw new Error(`Application submission failed: HTTP ${response.status}: ${errorText}`)
+        console.error("API response error:", errorText)
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
       }
 
       const result = await response.json()
-      console.log("📋 API response:", result)
+      console.log("API success response:", result)
 
-      if (result.success) {
-        console.log("✅ Application submitted successfully!")
-        return {
-          success: true,
-          applicantId: result.applicantId,
-          message: result.message || "Application submitted successfully",
-        }
-      } else {
-        console.error("❌ Application submission failed:", result.error)
+      if (!result.success) {
         throw new Error(result.error || "Application submission failed")
       }
+
+      return {
+        success: true,
+        applicantId: result.applicantId,
+      }
     } catch (error) {
-      console.error("❌ Error submitting application:", error)
+      console.error("Error submitting application:", error)
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
       setError(errorMessage)
-      throw new Error(errorMessage)
+
+      return {
+        success: false,
+        error: errorMessage,
+      }
     } finally {
       setIsSubmitting(false)
     }
   }
 
+  const testConnection = async (): Promise<{ success: boolean; error?: string }> => {
+    try {
+      console.log("Testing API connection...")
+
+      const response = await fetch("/api/odoo/apply", {
+        method: "GET",
+      })
+
+      console.log("Test response status:", response.status)
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      console.log("Test success response:", result)
+
+      return { success: true }
+    } catch (error) {
+      console.error("Connection test failed:", error)
+      const errorMessage = error instanceof Error ? error.message : "Connection test failed"
+
+      return {
+        success: false,
+        error: errorMessage,
+      }
+    }
+  }
+
   return {
     submitApplication,
+    testConnection,
     isSubmitting,
     error,
   }

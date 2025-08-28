@@ -187,9 +187,9 @@ class OdooService {
     try {
       console.log("Creating applicant in Odoo...")
 
-      const formData = applicationData.formData
+      const formData = applicationData.formData || {}
 
-      // Extract name
+      // Extract name safely
       const firstName = formData.firstName || formData.fullName?.split(" ")[0] || ""
       const lastName = formData.lastName || formData.fullName?.split(" ").slice(1).join(" ") || ""
       const fullName = formData.fullName || `${firstName} ${lastName}`.trim()
@@ -202,10 +202,10 @@ class OdooService {
 
       // Prepare applicant data with only standard fields
       const applicantData: any = {
-        name: fullName,
-        partner_name: fullName,
-        email_from: formData.email,
-        partner_phone: formData.phone,
+        name: fullName || "Unknown Applicant",
+        partner_name: fullName || "Unknown Applicant",
+        email_from: formData.email || "",
+        partner_phone: formData.phone || "",
 
         // Standard description field to store additional information
         description: `
@@ -515,7 +515,7 @@ export async function GET() {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
       },
@@ -534,7 +534,7 @@ export async function GET() {
         status: 500,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type",
         },
@@ -548,7 +548,7 @@ export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     },
@@ -588,7 +588,7 @@ export async function POST(request: NextRequest) {
           status: 400,
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type",
           },
@@ -615,7 +615,27 @@ export async function POST(request: NextRequest) {
           status: 400,
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        },
+      )
+    }
+
+    // Validate that we have the required data
+    if (!applicationData || !applicationData.jobId) {
+      console.error("Invalid application data structure")
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid application data: missing jobId",
+        },
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type",
           },
@@ -640,7 +660,7 @@ export async function POST(request: NextRequest) {
           status: 500,
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type",
           },
@@ -665,7 +685,7 @@ export async function POST(request: NextRequest) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type",
         },
@@ -685,7 +705,7 @@ export async function POST(request: NextRequest) {
         status: 500,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://careerelraceportal.vercel.app",
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type",
         },
