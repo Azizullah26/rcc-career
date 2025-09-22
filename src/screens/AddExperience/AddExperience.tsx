@@ -1,34 +1,30 @@
 "use client"
 
-import { LogInIcon, ArrowLeft, PlusIcon, Menu, X } from "lucide-react"
-import type React from "react"
-import { useState } from "react"
+import React from "react"
 import { useRouter, useParams } from "next/navigation"
-import Link from "next/link"
+import { ArrowLeft, Menu, X, Plus } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { useJobApplication } from "../../hooks/useJobApplication"
+import Link from "next/link"
+import { PlusIcon } from "lucide-react"
 import type { JSX } from "react/jsx-runtime"
 
 export const AddExperience = (): JSX.Element => {
   const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
-  const { submitApplication, isSubmitting, error: submitError } = useJobApplication()
+  const { submitApplication, isSubmitting, isScreening, error: submitError } = useJobApplication()
 
   // State for managing experience cards
-  const [experienceCards, setExperienceCards] = useState([1, 2])
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [experienceData, setExperienceData] = useState<Record<string, string>>({})
-  const [currentlyWorkingStatus, setCurrentlyWorkingStatus] = useState<Record<number, boolean>>({})
+  const [experienceCards, setExperienceCards] = React.useState([1, 2])
+  const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [experienceData, setExperienceData] = React.useState<Record<string, string>>({})
+  const [currentlyWorkingStatus, setCurrentlyWorkingStatus] = React.useState<Record<number, boolean>>({})
 
   // Navigation menu items
   const navItems = [
-    { name: "HOME", href: "/" },
-    { name: "PROJECTS", href: "#" },
-    { name: "BLOGS", href: "#" },
-    { name: "CONTACTS", href: "#" },
     { name: "SEARCH CAREERS", href: "/search-careers" },
     { name: "CAREERS", href: "/" },
   ]
@@ -53,12 +49,13 @@ export const AddExperience = (): JSX.Element => {
         "application/pdf",
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain",
       ]
       if (allowedTypes.includes(file.type)) {
         setUploadedFile(file)
         console.log("File uploaded:", file.name)
       } else {
-        alert("Please upload a PDF, DOC, or DOCX file.")
+        alert("Please upload a PDF, DOC, DOCX, or text file.")
         event.target.value = ""
       }
     }
@@ -75,7 +72,7 @@ export const AddExperience = (): JSX.Element => {
       return
     }
 
-    console.log("Starting application submission...")
+    console.log("Starting application submission with screening...")
 
     // Get form data from localStorage (stored from previous steps)
     const personalInfo = JSON.parse(localStorage.getItem("personalInfo") || "{}")
@@ -87,7 +84,7 @@ export const AddExperience = (): JSX.Element => {
     console.log("Currently Working Status:", currentlyWorkingStatus)
     console.log("Uploaded File:", uploadedFile)
 
-    // Combine all form data
+    // Combine all form data with additional fields for screening
     const combinedFormData = {
       // Personal Information
       fullName: personalInfo.fullName || "",
@@ -120,27 +117,59 @@ export const AddExperience = (): JSX.Element => {
       // Experience Data
       experienceData: experienceData,
       currentlyWorkingStatus: currentlyWorkingStatus,
+
+      // Additional fields for screening
+      education: personalInfo.education || extendedQuestions.education || "",
+      certifications: extendedQuestions.certifications || personalInfo.certifications || "",
     }
 
     console.log("Combined Form Data:", combinedFormData)
 
     // Get job title from localStorage if available
-    const jobTitle = localStorage.getItem("jobTitle") || undefined
+    const jobTitle = localStorage.getItem("jobTitle") || "Construction Project Manager"
     const jobName = localStorage.getItem("jobName") || undefined
 
     const result = await submitApplication(jobId, combinedFormData, uploadedFile, jobTitle, jobName)
 
-    if (result.success) {
-      console.log("Application submitted successfully!")
+    if (result.success && result.qualified) {
+      console.log("Application submitted successfully and qualified!")
       // Clear stored data
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
       localStorage.removeItem("jobTitle")
       localStorage.removeItem("jobName")
-      router.push("/application-success")
+
+      // Redirect to success page with screening results
+      const params = new URLSearchParams({
+        qualified: "true",
+        score: result.screeningResult?.score?.toString() || "0",
+        percentage: result.screeningResult?.percentage?.toString() || "0",
+        applicantId: result.applicantId?.toString() || "",
+        matched: result.screeningResult?.matchedRequirements?.join(",") || "",
+        missed: result.screeningResult?.missedRequirements?.join(",") || "",
+      })
+      router.push(`/application-success?${params.toString()}`)
+    } else if (!result.qualified && result.screeningResult) {
+      console.log("Application screened but not qualified")
+      // Clear stored data
+      localStorage.removeItem("personalInfo")
+      localStorage.removeItem("extendedQuestions")
+      localStorage.removeItem("jobTitle")
+      localStorage.removeItem("jobName")
+
+      // Redirect to success page with screening feedback
+      const params = new URLSearchParams({
+        qualified: "false",
+        score: result.screeningResult.score.toString(),
+        percentage: result.screeningResult.percentage.toString(),
+        matched: result.screeningResult.matchedRequirements.join(","),
+        missed: result.screeningResult.missedRequirements.join(","),
+      })
+      router.push(`/application-success?${params.toString()}`)
     } else {
+      // Error occurred
       console.error("Application submission failed:", result.error)
-      alert(`Application submission failed: ${result.error}`)
+      alert(result.error || "An error occurred while submitting your application. Please try again.")
     }
   }
 
@@ -163,51 +192,28 @@ export const AddExperience = (): JSX.Element => {
         {/* Header/Navigation */}
         <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-[#ebebeb] z-50">
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
-            {/* Logo and Back Button */}
+            {/* Logo */}
             <div className="flex items-center">
               <img
-                className="w-[100px] h-[45px] font-medium md:h-20 md:w-36 my-[22px] mx-24"
+                className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
               />
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-between">
-              <ul className="flex items-center gap-[34px] mr-[29px]">
+            <div className="hidden lg:flex items-center justify-between gap-10">
+              <nav className="flex items-center gap-[34px]">
                 {navItems.map((item, index) => (
-                  <li key={index} className="inline-flex items-center justify-center">
-                    <Link
-                      href={item.href}
-                      className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18.7px] tracking-[0] leading-normal whitespace-nowrap text-[#656565] hover:text-[#151d61] transition-colors"
+                  >
+                    {item.name}
+                  </Link>
                 ))}
-              </ul>
-
-              <div className="flex items-center gap-[29px] ml-[60px]">
-                <Button
-                  variant="outline"
-                  className="h-[39px] w-[104px] rounded-[9px] border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
-                >
-                  <LogInIcon className="w-[23px] h-[23px] mr-[5px]" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[19.7px]">
-                    Sign in
-                  </span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="h-[39px] w-[104px] rounded-[9px] border-[#ce363a] text-[#ce363a] hover:bg-[#ce363a] hover:text-white transition-colors bg-transparent"
-                >
-                  <img className="w-[21.69px] h-[21.69px] mr-[5px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18.7px] text-left whitespace-nowrap [direction:rtl]">
-                    العربيــة
-                  </span>
-                </Button>
-              </div>
+              </nav>
             </div>
 
             {/* Mobile Menu Button */}
@@ -238,35 +244,15 @@ export const AddExperience = (): JSX.Element => {
                     {item.name}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                  >
-                    <LogInIcon className="w-[20px] h-[20px]" />
-                    <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
-                      Sign in
-                    </span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                  >
-                    <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                    <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
-                      العربيــة
-                    </span>
-                  </Button>
-                </div>
               </nav>
             </div>
           )}
         </header>
 
         {/* Main Content */}
-        <main className="pt-[60px] md:pt-[80px] px-4 md:px-[60px] pb-[30px] md:pb-[50px] ml-[10px]">
+        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[85px] pb-10">
           {/* Back Button */}
-          <div className="mb-6 py-5">
+          <div className="mb-6">
             <button
               onClick={() => router.back()}
               className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
@@ -277,28 +263,90 @@ export const AddExperience = (): JSX.Element => {
           </div>
 
           {/* Page Title */}
-          <h1 className="text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[9px] md:text-[16px] mb-[8px] md:mb-[30px] leading-tight">
-            Please provide details about your latest work experience
-          </h1>
+          <Card className="w-full border-none shadow-none mb-4 md:mb-8">
+            <CardContent className="p-0 text-center">
+              <h1 className="font-sans font-bold text-[14px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight my-0 px-0 py-2.5">
+                Add Your Experience & Upload CV
+              </h1>
+              <p className="font-sans font-medium text-[10px] md:text-[24.6px] text-[#909090] underline mt-1">
+                Tell us about your work experience
+              </p>
+            </CardContent>
+          </Card>
 
-          {/* Experience Cards Container */}
-          <div className="flex flex-col w-full max-w-[1021px] mx-auto items-center gap-[12px] md:gap-[25px]">
-            {/* Experience Cards */}
-            {experienceCards.map((cardNumber) => (
-              <div key={cardNumber} className="w-full">
-                {/* Previous Experience Label for each card */}
-                <div className="mb-2 md:mb-3">
-                  <h3 className="text-left [font-family:'Inter',Helvetica] text-black text-[11px] md:text-[13px] leading-normal font-semibold font-sans italic">
-                    Previous Experience
-                  </h3>
+          {/* CV Upload Section */}
+          <Card className="w-full mb-6 md:mb-8">
+            <CardContent className="p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-semibold text-[#151d61] mb-4">Upload Your CV</h2>
+              <div className="space-y-4">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <input
+                    type="file"
+                    id="cv-upload"
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <label htmlFor="cv-upload" className="cursor-pointer flex flex-col items-center gap-2">
+                    <div className="w-12 h-12 bg-[#151d61] rounded-full flex items-center justify-center">
+                      <Plus className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-[#151d61] font-medium">Click to upload your CV</p>
+                      <p className="text-sm text-gray-500">PDF, Word, or Text files (max 10MB)</p>
+                    </div>
+                  </label>
                 </div>
 
-                <Card className="flex flex-col h-auto items-center gap-2.5 px-2 md:px-[25px] py-2 md:py-[15px] w-full bg-[#ffffff7a] rounded-[45px] border border-solid border-black shadow-sm">
-                  <CardContent className="flex flex-col items-center justify-between w-full p-0 gap-3 md:gap-6">
+                {uploadedFile && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
+                          <span className="text-green-600 text-sm">📄</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-green-800">{uploadedFile.name}</p>
+                          <p className="text-xs text-green-600">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                      </div>
+                      <button onClick={() => setUploadedFile(null)} className="text-red-500 hover:text-red-700">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Experience Section */}
+          <div className="space-y-6">
+            {experienceCards.map((cardNumber) => (
+              <Card key={cardNumber} className="w-full">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm md:text-lg font-semibold text-[#151d61]">
+                      Previous Experience {cardNumber}
+                    </h3>
+                    {experienceCards.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setExperienceCards(experienceCards.filter((card) => card !== cardNumber))}
+                        className="text-red-500 border-red-300 hover:bg-red-50"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
                     {formFields.map((field, index) => (
                       <div key={`field${cardNumber}-${index}`} className="flex flex-col items-start w-full">
                         <label
-                          className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] tracking-[0] leading-[normal]"
+                          className="mb-1 md:mb-2 [font-family:'Inter',Helvetica] font-semibold text-black text-[11px] md:text-[14px] tracking-[0] leading-[normal]"
                           dangerouslySetInnerHTML={{ __html: field.label }}
                         />
                         {field.id === "end-date" ? (
@@ -308,7 +356,7 @@ export const AddExperience = (): JSX.Element => {
                             value={experienceData[`${field.id}-${cardNumber}`] || ""}
                             onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
                             disabled={currentlyWorkingStatus[cardNumber]}
-                            className={`w-full h-[35px] md:h-[55px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm ${
+                            className={`w-full h-[30px] md:h-[45px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm ${
                               currentlyWorkingStatus[cardNumber] ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                           />
@@ -318,7 +366,7 @@ export const AddExperience = (): JSX.Element => {
                             type={field.type}
                             value={experienceData[`${field.id}-${cardNumber}`] || ""}
                             onChange={(e) => handleExperienceChange(`${field.id}-${cardNumber}`, e.target.value)}
-                            className="w-full h-[35px] md:h-[55px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm"
+                            className="w-full h-[30px] md:h-[45px] bg-white rounded-[79px] border border-solid border-black px-4 md:px-6 text-xs md:text-sm"
                           />
                         )}
                       </div>
@@ -335,14 +383,14 @@ export const AddExperience = (): JSX.Element => {
                       />
                       <label
                         htmlFor={`currently-working-${cardNumber}`}
-                        className="[font-family:'Inter',Helvetica] font-medium text-black text-[11px] md:text-[13px] cursor-pointer"
+                        className="[font-family:'Inter',Helvetica] font-medium text-black text-[10px] md:text-[12px] cursor-pointer"
                       >
                         Are you currently working in this company/position?
                       </label>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
 
             {/* Add More Button */}
@@ -362,7 +410,7 @@ export const AddExperience = (): JSX.Element => {
               <input
                 id="cv-upload"
                 type="file"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf,.doc,.docx,.txt"
                 onChange={handleFileUpload}
                 style={{ display: "none" }}
               />
@@ -381,18 +429,119 @@ export const AddExperience = (): JSX.Element => {
 
               <Button
                 onClick={handleSubmit}
-                disabled={isSubmitting}
-                className="w-full max-w-[180px] h-[35px] md:h-[50px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors"
+                disabled={isSubmitting || isScreening}
+                className="w-full max-w-[180px] h-[35px] md:h-[50px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors disabled:opacity-50"
               >
-                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[18px] md:text-[24px]">
-                  {isSubmitting ? "Submitting..." : "Apply"}
+                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[16px] md:text-[20px]">
+                  {isSubmitting || isScreening ? "Processing..." : "Apply"}
                 </span>
               </Button>
 
               {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
             </div>
           </div>
+
+          {/* Error Display */}
+          {submitError && (
+            <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm">{submitError}</p>
+            </div>
+          )}
+
+          {/* Screening Status */}
+          {isScreening && (
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center gap-2">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                <p className="text-blue-600 text-sm font-medium">
+                  🔍 Screening your application against job requirements...
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex flex-col gap-3 md:gap-[90px] my-6 md:flex-row justify-center items-center md:my-10 mx-80 py-0 px-20">
+            <Button
+              type="button"
+              onClick={() => router.back()}
+              variant="outline"
+              disabled={isSubmitting}
+              className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
+            >
+              Back
+            </Button>
+
+            <Button
+              onClick={handleSubmit}
+              disabled={isSubmitting || isScreening}
+              variant="outline"
+              className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2 disabled:opacity-50"
+            >
+              {isSubmitting || isScreening ? "Processing..." : "Apply"}
+            </Button>
+          </div>
         </main>
+
+        {/* Footer */}
+        <footer className="bg-[#151d61] text-white py-8 px-4 md:px-[68px]">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {/* Company Info */}
+              <div className="col-span-1 md:col-span-2">
+                <img
+                  className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] mb-4 object-contain"
+                  alt="EL RACE Logo"
+                  src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                />
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Leading construction and contracting company in the UAE, delivering excellence in every project.
+                </p>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/" className="text-gray-300 hover:text-white transition-colors">
+                      Careers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/search-careers" className="text-gray-300 hover:text-white transition-colors">
+                      Search Jobs
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      href="https://ae.indeed.com/cmp/Elrace-Constructions-and-General-Contracting-Co.-LLC/jobs"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-300 hover:text-white transition-colors"
+                    >
+                      Indeed Jobs
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Contact Info */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Contact</h3>
+                <div className="space-y-2 text-sm text-gray-300">
+                  <p>UAE</p>
+                  <p>Email: careers@elrace.com</p>
+                  <p>Phone: +971 XXX XXXX</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-600 mt-8 pt-8 text-center">
+              <p className="text-sm text-gray-300">© 2024 EL RACE Construction. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   )

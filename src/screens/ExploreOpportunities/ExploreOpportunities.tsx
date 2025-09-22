@@ -32,10 +32,6 @@ export const ExploreOpportunities = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { label: "HOME", href: "/" },
-    { label: "PROJECTS", href: "#" },
-    { label: "BLOGS", href: "#" },
-    { label: "CONTACTS", href: "#" },
     { label: "SEARCH CAREERS", href: "/search-careers" },
     { label: "CAREERS", href: "/" },
   ]
@@ -161,7 +157,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     })
 
     return sorted
-  }, [searchTerm, selectedLocation, sortOrder])
+  }, [searchTerm, selectedLocation, sortOrder, jobListings])
 
   const handleSortToggle = () => {
     setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
@@ -175,9 +171,9 @@ export const ExploreOpportunities = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
             <img
-              className="w-[100px] h-[45px] md:w-[150px] md:h-20"
+              className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
               alt="EL RACE Logo"
-              src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
             />
 
             {/* Desktop Navigation */}
@@ -193,28 +189,6 @@ export const ExploreOpportunities = (): JSX.Element => {
                   </Link>
                 ))}
               </nav>
-
-              <div className="flex items-center gap-[29px] ml-[60px]">
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                >
-                  <img className="w-[23px] h-[23px]" alt="Log in" src="/log-in.svg" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[19.7px] tracking-[0] leading-[normal]">
-                    Sign in
-                  </span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                >
-                  <img className="w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl]">
-                    العربيــة
-                  </span>
-                </Button>
-              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -239,32 +213,12 @@ export const ExploreOpportunities = (): JSX.Element => {
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 [font-family:'Tajawal',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                  >
-                    <img className="w-[20px] h-[20px]" alt="Log in" src="/log-in.svg" />
-                    <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
-                      Sign in
-                    </span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                  >
-                    <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                    <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
-                      العربيــة
-                    </span>
-                  </Button>
-                </div>
               </nav>
             </div>
           )}
@@ -503,10 +457,12 @@ export const ExploreOpportunities = (): JSX.Element => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="https://ae.indeed.com/cmp/Elrace-Constructions-and-General-Contracting-Co.-LLC/jobs"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
-                    Projects
+                    Indeed Jobs
                   </a>
                 </li>
                 <li>

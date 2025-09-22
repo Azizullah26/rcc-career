@@ -1,6 +1,6 @@
 "use client"
 
-import { SearchIcon, Menu, X } from "lucide-react"
+import { SearchIcon, Menu, X, ArrowLeft } from "lucide-react"
 import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -19,10 +19,6 @@ export const SearchCareers = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { label: "HOME", href: "/" },
-    { label: "PROJECTS", href: "#" },
-    { label: "BLOGS", href: "#" },
-    { label: "CONTACTS", href: "#" },
     { label: "SEARCH CAREERS", href: "/search-careers", active: true },
     { label: "CAREERS", href: "/" },
   ]
@@ -62,9 +58,9 @@ export const SearchCareers = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
             <img
-              className="w-[100px] h-[45px] md:w-[150px] md:h-20"
+              className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
               alt="EL RACE Logo"
-              src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
             />
 
             {/* Desktop Navigation */}
@@ -82,28 +78,6 @@ export const SearchCareers = (): JSX.Element => {
                   </Link>
                 ))}
               </nav>
-
-              <div className="flex items-center gap-[29px] ml-[60px]">
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                >
-                  <img className="w-[23px] h-[23px]" alt="Log in" src="/log-in.svg" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[19.7px] tracking-[0] leading-[normal]">
-                    Sign in
-                  </span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-[5px] w-[104px] h-[39px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                >
-                  <img className="w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-[normal] whitespace-nowrap [direction:rtl]">
-                    العربيــة
-                  </span>
-                </Button>
-              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -136,26 +110,6 @@ export const SearchCareers = (): JSX.Element => {
                     {item.label}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                  >
-                    <img className="w-[20px] h-[20px]" alt="Log in" src="/log-in.svg" />
-                    <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
-                      Sign in
-                    </span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                  >
-                    <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                    <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
-                      العربيــة
-                    </span>
-                  </Button>
-                </div>
               </nav>
             </div>
           )}
@@ -166,8 +120,19 @@ export const SearchCareers = (): JSX.Element => {
           {/* Banner Image Section */}
           <section className="flex flex-col w-full items-center gap-[13.66px] mb-[40px] md:mb-[60px]">
             <div className="relative w-full h-[200px] md:h-[326.26px] bg-[url(/image.png)] bg-cover bg-center rounded-lg overflow-hidden">
-              <div className="h-full bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] flex items-center justify-center">
-                <div className="text-center text-white px-4">
+              <div className="h-full bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] flex items-center justify-between px-4 md:px-8">
+                {/* Back Button */}
+                <Button
+                  onClick={() => router.back()}
+                  variant="ghost"
+                  className="text-white hover:bg-white/20 p-2 rounded-full transition-colors"
+                  aria-label="Go back"
+                >
+                  <ArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
+                </Button>
+
+                {/* Center Content */}
+                <div className="text-center text-white flex-1">
                   <h1 className="[font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-[18px] md:text-[42px] mb-2 md:mb-4">
                     <span className="font-bold tracking-wider whitespace-nowrap">SEARCH CAREERS</span>
                   </h1>
@@ -175,6 +140,9 @@ export const SearchCareers = (): JSX.Element => {
                     Find your perfect career opportunity with EL RACE
                   </p>
                 </div>
+
+                {/* Right side spacer to balance the layout */}
+                <div className="w-10 h-10 md:w-12 md:h-12"></div>
               </div>
             </div>
 
@@ -347,10 +315,12 @@ export const SearchCareers = (): JSX.Element => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="https://ae.indeed.com/cmp/Elrace-Constructions-and-General-Contracting-Co.-LLC/jobs"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
                   >
-                    Projects
+                    Indeed Jobs
                   </a>
                 </li>
                 <li>

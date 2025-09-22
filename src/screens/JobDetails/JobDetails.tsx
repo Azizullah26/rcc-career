@@ -1,6 +1,6 @@
 "use client"
 
-import { LogInIcon, ArrowLeft, Menu, X } from "lucide-react"
+import { ArrowLeft, Menu, X } from "lucide-react"
 import React from "react"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
@@ -15,10 +15,6 @@ export const JobDetails = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { name: "HOME", href: "/" },
-    { name: "PROJECTS", href: "#" },
-    { name: "BLOGS", href: "#" },
-    { name: "CONTACTS", href: "#" },
     { name: "SEARCH CAREERS", href: "/search-careers" },
     { name: "CAREERS", href: "/" },
   ]
@@ -148,9 +144,9 @@ export const JobDetails = (): JSX.Element => {
             {/* Logo and Back Button */}
             <div className="flex items-center">
               <img
-                className="w-[100px] h-[45px] md:w-36 md:h-20 mx-[134px]"
+                className="w-[140px] h-[75px] md:w-[200px] md:h-[105px] mx-[134px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
               />
             </div>
 
@@ -169,29 +165,7 @@ export const JobDetails = (): JSX.Element => {
               </nav>
 
               <div className="flex items-center gap-[29px] ml-[60px]">
-                <Button
-                  variant="outline"
-                  className="h-[35px] md:h-[39px] w-[90px] md:w-[104px] rounded-[9px] border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
-                >
-                  <LogInIcon className="w-[18px] md:w-[23px] h-[18px] md:h-[23px] mr-[3px] md:mr-[5px]" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[16px] md:text-[19.7px]">
-                    Sign in
-                  </span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="h-[35px] md:h-[39px] w-[90px] md:w-[104px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                >
-                  <img
-                    className="w-[18px] md:w-[21.69px] h-[18px] md:h-[21.69px] mr-[3px] md:mr-[5px]"
-                    alt="Language"
-                    src="/language.svg"
-                  />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[14px] md:text-[16px] [direction:rtl]">
-                    العربيــة
-                  </span>
-                </Button>
+                {/* Removed Sign In and Arabic Language buttons */}
               </div>
             </div>
 
@@ -223,26 +197,7 @@ export const JobDetails = (): JSX.Element => {
                     {item.name}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                  >
-                    <LogInIcon className="w-[20px] h-[20px]" />
-                    <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[16px]">
-                      Sign in
-                    </span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2 h-[45px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                  >
-                    <img className="w-[18px] h-[18px]" alt="Language" src="/language.svg" />
-                    <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[16px] [direction:rtl]">
-                      العربيــة
-                    </span>
-                  </Button>
-                </div>
+                {/* Removed Sign In and Arabic Language buttons */}
               </nav>
             </div>
           )}

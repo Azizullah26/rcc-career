@@ -264,10 +264,6 @@ export const JobApplication = (): JSX.Element => {
 
   // Navigation menu items
   const navItems = [
-    { name: "HOME", href: "/" },
-    { name: "PROJECTS", href: "#" },
-    { name: "BLOGS", href: "#" },
-    { name: "CONTACTS", href: "#" },
     { name: "SEARCH CAREERS", href: "/search-careers" },
     { name: "CAREERS", href: "/" },
   ]
@@ -333,9 +329,9 @@ export const JobApplication = (): JSX.Element => {
             {/* Logo */}
             <div className="flex items-center">
               <img
-                className="w-[100px] h-[45px] my-0 mx-20 md:w-40 md:h-24"
+                className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logo2025new.gif"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
               />
             </div>
 
@@ -352,28 +348,6 @@ export const JobApplication = (): JSX.Element => {
                   </Link>
                 ))}
               </nav>
-
-              <div className="flex items-center gap-[29px] ml-[60px]">
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-[5px] h-[39px] w-[104px] rounded-[9px] border border-solid border-[#151d61] bg-transparent hover:bg-[#151d61] hover:text-white transition-colors"
-                >
-                  <img className="w-[23px] h-[23px]" alt="Log in" src="/log-in.svg" />
-                  <span className="[font-family:'Tajawal_Black-Regular',Helvetica] font-normal text-[#151d61] text-[19.7px]">
-                    Sign in
-                  </span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-[5px] h-[39px] w-[104px] rounded-[9px] border border-solid border-[#ce363a] bg-transparent hover:bg-[#ce363a] hover:text-white transition-colors"
-                >
-                  <img className="w-[21.69px] h-[21.69px]" alt="Language" src="/language.svg" />
-                  <span className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#ce363a] text-[18.7px] text-left tracking-[0] leading-normal whitespace-nowrap [direction:rtl]">
-                    العربيــة
-                  </span>
-                </Button>
-              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -407,8 +381,8 @@ export const JobApplication = (): JSX.Element => {
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
                   <Button
                     type="button"
-                    variant="outline"
                     onClick={() => router.back()}
+                    variant="outline"
                     className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
                   >
                     Cancel
