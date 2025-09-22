@@ -1,22 +1,50 @@
 "use client"
 
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, XCircle, ArrowLeft, FileText, Clock, Mail } from "lucide-react"
-import Link from "next/link"
+import { CheckCircle, XCircle, Clock, FileText, Award, MapPin } from "lucide-react"
 
-// Separate component that uses useSearchParams
+interface ScreeningResult {
+  score: number
+  maxScore: number
+  percentage: number
+  qualified: boolean
+  matchedRequirements: string[]
+  missedRequirements: string[]
+  feedback: string
+}
+
 function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
+  const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // Get screening results from URL parameters
-  const qualified = searchParams.get("qualified") === "true"
-  const score = searchParams.get("score") || "0"
-  const feedback = searchParams.get("feedback") || ""
-  const matchedRequirements = searchParams.get("matched")?.split(",") || []
-  const missedRequirements = searchParams.get("missed")?.split(",") || []
+  useEffect(() => {
+    // Get screening result from URL params
+    const resultParam = searchParams.get("result")
+    if (resultParam) {
+      try {
+        const result = JSON.parse(decodeURIComponent(resultParam))
+        setScreeningResult(result)
+      } catch (error) {
+        console.error("Error parsing screening result:", error)
+      }
+    }
+    setLoading(false)
+  }, [searchParams])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-spin" />
+          <p className="text-gray-600">Loading your application results...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -28,7 +56,7 @@ function ApplicationSuccessContent() {
               <img
                 src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
                 alt="RCC Logo"
-                className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] object-contain"
+                className="w-[200px] h-[90px] object-contain"
               />
             </div>
           </div>
@@ -36,204 +64,199 @@ function ApplicationSuccessContent() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-6">
-          {/* Status Card */}
-          <Card className="text-center">
-            <CardHeader className="pb-4">
-              <div className="flex justify-center mb-4">
-                {qualified ? (
-                  <CheckCircle className="h-16 w-16 text-green-500" />
-                ) : (
-                  <XCircle className="h-16 w-16 text-orange-500" />
-                )}
-              </div>
-              <CardTitle className="text-2xl font-bold">
-                {qualified ? "Application Submitted Successfully!" : "Application Received"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center justify-center space-x-2 mb-2">
-                    <FileText className="h-5 w-5 text-blue-600" />
-                    <span className="font-semibold">Screening Score: {score}%</span>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-8">
+          {screeningResult?.qualified ? (
+            <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
+          ) : (
+            <FileText className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+          )}
+
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Application Submitted Successfully</h1>
+
+          <p className="text-lg text-gray-600">Thank you for your interest in joining our team at RCC Career Portal</p>
+        </div>
+
+        {/* Screening Results */}
+        {screeningResult && (
+          <div className="space-y-6">
+            {/* Overall Score */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Award className="h-5 w-5" />
+                  Application Assessment
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center mb-6">
+                  <div className="text-4xl font-bold mb-2">{screeningResult.percentage}%</div>
+                  <div className="text-sm text-gray-600">
+                    Score: {screeningResult.score} / {screeningResult.maxScore}
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+
+                  <div className="w-full bg-gray-200 rounded-full h-3 mt-4">
                     <div
                       className={`h-3 rounded-full transition-all duration-500 ${
-                        qualified ? "bg-green-500" : "bg-orange-500"
+                        screeningResult.qualified
+                          ? "bg-green-600"
+                          : screeningResult.percentage >= 40
+                            ? "bg-yellow-500"
+                            : "bg-red-500"
                       }`}
-                      style={{ width: `${Math.min(Number(score), 100)}%` }}
+                      style={{ width: `${Math.min(screeningResult.percentage, 100)}%` }}
                     />
                   </div>
                 </div>
 
-                <p className="text-gray-600 text-lg">{feedback}</p>
-
-                {qualified && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      <span className="font-semibold text-green-800">
-                        Your application has been forwarded to our HR team
-                      </span>
-                    </div>
-                    <p className="text-green-700 text-sm">
-                      We will contact you within 5-7 business days regarding the next steps in the hiring process.
-                    </p>
-                  </div>
-                )}
-
-                {!qualified && (
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Clock className="h-5 w-5 text-orange-600" />
-                      <span className="font-semibold text-orange-800">Application Under Review</span>
-                    </div>
-                    <p className="text-orange-700 text-sm">
-                      Your profile will be kept in our database for future opportunities that may be a better match.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Screening Details */}
-          {(matchedRequirements.length > 0 || missedRequirements.length > 0) && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Screening Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Matched Requirements */}
-                  {matchedRequirements.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold text-green-800 mb-3 flex items-center">
-                        <CheckCircle className="h-5 w-5 mr-2" />
-                        Matched Requirements
-                      </h3>
-                      <ul className="space-y-2">
-                        {matchedRequirements.map((requirement, index) => (
-                          <li key={index} className="flex items-center text-sm text-green-700">
-                            <div className="w-2 h-2 bg-green-500 rounded-full mr-3" />
-                            {requirement}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Missed Requirements */}
-                  {missedRequirements.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold text-gray-600 mb-3 flex items-center">
-                        <XCircle className="h-5 w-5 mr-2" />
-                        Areas for Improvement
-                      </h3>
-                      <ul className="space-y-2">
-                        {missedRequirements.map((requirement, index) => (
-                          <li key={index} className="flex items-center text-sm text-gray-600">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full mr-3" />
-                            {requirement}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                <div
+                  className={`p-4 rounded-lg ${
+                    screeningResult.qualified
+                      ? "bg-green-50 border border-green-200"
+                      : "bg-blue-50 border border-blue-200"
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed">{screeningResult.feedback}</p>
                 </div>
               </CardContent>
             </Card>
-          )}
 
-          {/* Next Steps */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl">What's Next?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {qualified ? (
-                  <>
-                    <div className="flex items-start space-x-3">
-                      <Mail className="h-5 w-5 text-blue-600 mt-0.5" />
-                      <div>
-                        <h4 className="font-semibold">Email Confirmation</h4>
-                        <p className="text-sm text-gray-600">
-                          You will receive an email confirmation with your application details and reference number.
-                        </p>
+            {/* Matched Requirements */}
+            {screeningResult.matchedRequirements.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-green-700">
+                    <CheckCircle className="h-5 w-5" />
+                    Matched Requirements ({screeningResult.matchedRequirements.length})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-2">
+                    {screeningResult.matchedRequirements.map((requirement, index) => (
+                      <div key={index} className="flex items-center gap-2 p-2 bg-green-50 rounded">
+                        <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                        <span className="text-sm text-green-800">{requirement}</span>
                       </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <Clock className="h-5 w-5 text-blue-600 mt-0.5" />
-                      <div>
-                        <h4 className="font-semibold">HR Review</h4>
-                        <p className="text-sm text-gray-600">
-                          Our HR team will review your application and contact you within 5-7 business days.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <FileText className="h-5 w-5 text-blue-600 mt-0.5" />
-                      <div>
-                        <h4 className="font-semibold">Interview Process</h4>
-                        <p className="text-sm text-gray-600">
-                          If selected, you will be invited for an interview to discuss your qualifications further.
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex items-start space-x-3">
-                      <FileText className="h-5 w-5 text-orange-600 mt-0.5" />
-                      <div>
-                        <h4 className="font-semibold">Profile Stored</h4>
-                        <p className="text-sm text-gray-600">
-                          Your profile has been added to our talent database for future opportunities.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <Mail className="h-5 w-5 text-orange-600 mt-0.5" />
-                      <div>
-                        <h4 className="font-semibold">Future Opportunities</h4>
-                        <p className="text-sm text-gray-600">
-                          We will contact you if a position becomes available that matches your profile.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-5 w-5 text-orange-600 mt-0.5" />
-                      <div>
-                        <h4 className="font-semibold">Keep Applying</h4>
-                        <p className="text-sm text-gray-600">
-                          Continue to check our careers page for new positions that may be a better fit.
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/explore-opportunities">
-              <Button variant="outline" className="flex items-center space-x-2 bg-transparent">
-                <ArrowLeft className="h-4 w-4" />
-                <span>View More Jobs</span>
-              </Button>
-            </Link>
-            <Link href="/">
-              <Button className="flex items-center space-x-2">
-                <span>Back to Home</span>
-              </Button>
-            </Link>
+            {/* Missed Requirements */}
+            {screeningResult.missedRequirements.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-orange-700">
+                    <XCircle className="h-5 w-5" />
+                    Areas for Development ({screeningResult.missedRequirements.length})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-2">
+                    {screeningResult.missedRequirements.map((requirement, index) => (
+                      <div key={index} className="flex items-center gap-2 p-2 bg-orange-50 rounded">
+                        <XCircle className="h-4 w-4 text-orange-600 flex-shrink-0" />
+                        <span className="text-sm text-orange-800">{requirement}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
+        )}
+
+        {/* Next Steps */}
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle>What Happens Next?</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                1
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900">Application Review</h4>
+                <p className="text-sm text-gray-600">
+                  Our HR team will review your application and supporting documents.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                2
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900">Initial Screening</h4>
+                <p className="text-sm text-gray-600">
+                  Qualified candidates will be contacted for an initial phone screening.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                3
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900">Interview Process</h4>
+                <p className="text-sm text-gray-600">
+                  Successful candidates will be invited for technical and HR interviews.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                4
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900">Final Decision</h4>
+                <p className="text-sm text-gray-600">We will notify you of our decision within 5-7 business days.</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Contact Information */}
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="h-5 w-5" />
+              Contact Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-2">HR Department</h4>
+                <p className="text-gray-600">Email: hr@rcccareer.com</p>
+                <p className="text-gray-600">Phone: +971 4 XXX XXXX</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-2">Office Address</h4>
+                <p className="text-gray-600">
+                  RCC Career Portal
+                  <br />
+                  Dubai, United Arab Emirates
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <Button onClick={() => (window.location.href = "/")} className="bg-blue-600 hover:bg-blue-700">
+            Return to Home
+          </Button>
+
+          <Button variant="outline" onClick={() => (window.location.href = "/explore-opportunities")}>
+            View Other Opportunities
+          </Button>
         </div>
       </main>
 
@@ -245,49 +268,47 @@ function ApplicationSuccessContent() {
               <img
                 src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
                 alt="RCC Logo"
-                className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] object-contain mb-4"
+                className="w-[140px] h-[65px] object-contain mb-4"
               />
-              <p className="text-gray-300 text-sm">
-                Leading construction and contracting company in the UAE, delivering excellence in infrastructure and
-                development projects.
-              </p>
+              <p className="text-gray-300 text-sm">Building careers in construction and engineering across the UAE.</p>
             </div>
+
             <div>
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/" className="text-gray-300 hover:text-white text-sm">
+                  <a href="/" className="text-gray-300 hover:text-white">
                     Home
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/explore-opportunities" className="text-gray-300 hover:text-white text-sm">
+                  <a href="/explore-opportunities" className="text-gray-300 hover:text-white">
                     Careers
-                  </Link>
+                  </a>
                 </li>
                 <li>
                   <a
                     href="https://ae.indeed.com/cmp/Elrace-Constructions-and-General-Contracting-Co.-LLC/jobs"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-white text-sm"
+                    className="text-gray-300 hover:text-white"
                   >
                     Indeed Jobs
                   </a>
                 </li>
               </ul>
             </div>
+
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>Dubai, UAE</li>
-                <li>careers@rcc.ae</li>
+                <li>hr@rcccareer.com</li>
                 <li>+971 4 XXX XXXX</li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-400 text-sm">© 2024 RCC Construction. All rights reserved.</p>
+
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+            <p>&copy; 2024 RCC Career Portal. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -295,15 +316,14 @@ function ApplicationSuccessContent() {
   )
 }
 
-// Main component with Suspense boundary - this is the named export
 export function ApplicationSuccess() {
   return (
     <Suspense
       fallback={
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading application results...</p>
+            <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-spin" />
+            <p className="text-gray-600">Loading...</p>
           </div>
         </div>
       }
@@ -313,5 +333,4 @@ export function ApplicationSuccess() {
   )
 }
 
-// Default export for the page
 export default ApplicationSuccess

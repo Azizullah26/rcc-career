@@ -1,648 +1,658 @@
-interface JobRequirement {
+"use client"
+
+export interface JobRequirement {
+  id: string
   name: string
   weight: number
-  keywords: string[]
-  formFields?: string[]
-  minValue?: number
-  type: "keyword" | "numeric" | "boolean" | "form"
+  type: "exact" | "minimum" | "keywords" | "boolean"
+  criteria: {
+    field?: string
+    value?: string | number
+    keywords?: string[]
+    minimumValue?: number
+  }
 }
 
-interface ScreeningResult {
-  qualified: boolean
+export interface ScreeningResult {
   score: number
+  maxScore: number
   percentage: number
-  feedback: string[]
+  qualified: boolean
   matchedRequirements: string[]
   missedRequirements: string[]
-  details: {
-    [key: string]: {
-      score: number
-      found: boolean
-      matches: string[]
+  feedback: string
+}
+
+export interface ParseeResponse {
+  success: boolean
+  data?: {
+    text?: string
+    structured_data?: {
+      personal_info?: any
+      experience?: any[]
+      education?: any[]
+      skills?: string[]
+      certifications?: any[]
+      languages?: string[]
     }
   }
+  error?: string
 }
 
-interface ApplicationData {
-  personalInfo: {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    nationality: string
-    gender: string
-    totalExperience: string
-    uaeExperience: string
-    arabicLanguage: string
-    englishLanguage: string
-  }
-  extendedQuestions: {
-    civilEngineeringDegree: string
-    projectManagementCertification: string
-    governmentContractExperience: string
-    leadershipExperience: string
-  }
-  cvFile?: File
-}
-
-class ApplicationScreeningService {
+export class ApplicationScreeningService {
   private jobRequirements: JobRequirement[] = [
     {
-      name: "Civil Engineering Degree",
+      id: "civil_engineering_degree",
+      name: "Degree in Civil Engineering",
       weight: 20,
-      type: "keyword",
-      keywords: [
-        "civil engineering",
-        "civil engineer",
-        "bachelor of civil engineering",
-        "bce",
-        "b.sc civil",
-        "structural engineering",
-        "construction engineering",
-        "infrastructure engineering",
-        "transportation engineering",
-        "geotechnical engineering",
-        "environmental engineering",
-        "water resources engineering",
-        "highway engineering",
-        "bridge engineering",
-        "concrete engineering",
-        "steel structures",
-        "foundation engineering",
-      ],
-      formFields: ["civilEngineeringDegree"],
+      type: "keywords",
+      criteria: {
+        field: "cv_content",
+        keywords: [
+          "civil engineering",
+          "civil engineer",
+          "engineering degree",
+          "bachelor",
+          "b.eng",
+          "bsc engineering",
+          "b.sc engineering",
+          "construction engineering",
+          "structural engineering",
+        ],
+      },
     },
     {
-      name: "Total Experience ≥ 5 years",
+      id: "total_experience",
+      name: "Total experience ≥ 5 years",
       weight: 20,
-      type: "numeric",
-      keywords: ["experience", "years", "work experience", "professional experience"],
-      formFields: ["totalExperience"],
-      minValue: 5,
+      type: "minimum",
+      criteria: {
+        field: "totalExperience",
+        minimumValue: 5,
+      },
     },
     {
-      name: "Project Management Certification",
+      id: "project_management_certification",
+      name: "Project Management certification",
       weight: 10,
-      type: "keyword",
-      keywords: [
-        "pmp",
-        "project management professional",
-        "prince2",
-        "capm",
-        "certified associate",
-        "project management certification",
-        "project manager",
-        "project management",
-        "project coordinator",
-        "project leader",
-        "project director",
-        "program manager",
-        "construction project management",
-        "infrastructure project management",
-        "agile project management",
-        "scrum master",
-        "project planning",
-        "project execution",
-      ],
-      formFields: ["projectManagementCertification"],
+      type: "keywords",
+      criteria: {
+        field: "cv_content",
+        keywords: [
+          "pmp",
+          "project management professional",
+          "prince2",
+          "agile certification",
+          "scrum master",
+          "project management certification",
+          "certified project manager",
+          "pmbok",
+          "project management institute",
+        ],
+      },
     },
     {
-      name: "Leadership & Communication Skills",
+      id: "leadership_communication",
+      name: "Leadership & communication skills",
       weight: 15,
-      type: "keyword",
-      keywords: [
-        "lead",
-        "leading",
-        "leader",
-        "leadership",
-        "manage",
-        "managing",
-        "manager",
-        "coordinate",
-        "coordinating",
-        "coordinator",
-        "mentor",
-        "mentoring",
-        "supervise",
-        "supervising",
-        "supervisor",
-        "team lead",
-        "team leader",
-        "team management",
-        "staff management",
-        "personnel management",
-        "communication skills",
-        "interpersonal",
-        "presentation",
-        "negotiation",
-        "client relations",
-        "stakeholder management",
-        "team building",
-        "conflict resolution",
-        "decision making",
-        "problem solving",
-      ],
+      type: "keywords",
+      criteria: {
+        field: "cv_content",
+        keywords: [
+          "lead",
+          "manage",
+          "coordinate",
+          "mentor",
+          "leadership",
+          "team leader",
+          "project leader",
+          "supervisor",
+          "manager",
+          "communication",
+          "team management",
+          "staff management",
+          "coordinated",
+          "managed team",
+          "led project",
+        ],
+      },
     },
     {
-      name: "Government Contract Experience",
+      id: "government_contract_experience",
+      name: "Government contract experience",
       weight: 15,
-      type: "keyword",
-      keywords: [
-        "government",
-        "government contract",
-        "public sector",
-        "municipal",
-        "federal",
-        "state contract",
-        "public works",
-        "infrastructure project",
-        "government tender",
-        "public procurement",
-        "government agency",
-        "ministry",
-        "department",
-        "roads and transport authority",
-        "rta",
-        "dubai municipality",
-        "abu dhabi municipality",
-        "federal authority",
-        "emirates authority",
-        "public private partnership",
-        "ppp",
-        "government compliance",
-        "public infrastructure",
-        "civic projects",
-      ],
-      formFields: ["governmentContractExperience"],
+      type: "keywords",
+      criteria: {
+        field: "cv_content",
+        keywords: [
+          "government contract",
+          "public sector",
+          "municipal project",
+          "ministry",
+          "authority",
+          "federal project",
+          "state contract",
+          "government tender",
+          "public works",
+          "infrastructure project",
+          "road construction",
+          "bridge construction",
+        ],
+      },
     },
     {
+      id: "languages",
       name: "Languages (Arabic + English)",
       weight: 10,
-      type: "form",
-      keywords: ["arabic", "english", "bilingual", "multilingual"],
-      formFields: ["arabicLanguage", "englishLanguage"],
+      type: "keywords",
+      criteria: {
+        field: "languages",
+        keywords: ["arabic", "english"],
+      },
     },
     {
-      name: "UAE Experience",
+      id: "uae_experience",
+      name: "UAE experience",
       weight: 10,
-      type: "keyword",
-      keywords: [
-        // UAE and Emirates
-        "uae",
-        "united arab emirates",
-        "emirates",
-
-        // Dubai and areas
-        "dubai",
-        "dxb",
-        "dubai marina",
-        "downtown dubai",
-        "business bay",
-        "jlt",
-        "jumeirah lake towers",
-        "jbr",
-        "jumeirah beach residence",
-        "palm jumeirah",
-        "dubai internet city",
-        "dic",
-        "dubai media city",
-        "dmc",
-        "dubai international financial centre",
-        "difc",
-        "dubai silicon oasis",
-        "dso",
-        "dubai investment park",
-        "dip",
-        "dubai south",
-        "al barsha",
-        "jumeirah",
-        "bur dubai",
-        "deira",
-        "karama",
-        "satwa",
-        "oud metha",
-        "dubai festival city",
-        "dubai land",
-        "dubai sports city",
-        "motor city",
-        "arabian ranches",
-        "the greens",
-        "the views",
-        "emirates hills",
-        "dubai hills",
-        "city walk",
-        "la mer",
-        "bluewaters",
-        "dubai creek",
-        "dubai mall",
-        "mall of emirates",
-        "dubai international airport",
-        "al maktoum airport",
-        "jebel ali",
-        "dubai ports",
-        "dubai metro",
-        "sheikh zayed road",
-        "emirates road",
-        "al khail road",
-
-        // Abu Dhabi and areas
-        "abu dhabi",
-        "auh",
-        "al ain",
-        "saadiyat island",
-        "yas island",
-        "reem island",
-        "al raha",
-        "khalifa city",
-        "mohammed bin zayed city",
-        "mbz city",
-        "al reef",
-        "al shamkha",
-        "al rahba",
-        "masdar city",
-        "corniche",
-        "marina mall",
-        "yas mall",
-        "abu dhabi mall",
-        "nation towers",
-        "etihad towers",
-        "adnoc",
-        "abu dhabi international airport",
-        "zayed port",
-        "khalifa port",
-        "sheikh zayed grand mosque",
-        "louvre abu dhabi",
-        "ferrari world",
-        "yas waterworld",
-        "warner bros world",
-        "formula 1 abu dhabi",
-
-        // Sharjah and areas
-        "sharjah",
-        "shj",
-        "university city",
-        "al qasba",
-        "al majaz",
-        "al nahda",
-        "muweilah",
-        "al taawun",
-        "al khan",
-        "corniche sharjah",
-        "sharjah airport",
-        "sharjah city centre",
-        "mega mall",
-        "sahara centre",
-
-        // Other Emirates
-        "ajman",
-        "fujairah",
-        "ras al khaimah",
-        "rak",
-        "umm al quwain",
-        "uaq",
-        "khor fakkan",
-        "dibba",
-        "al dhaid",
-        "masafi",
-        "hatta",
-
-        // UAE Projects and Landmarks
-        "burj khalifa",
-        "burj al arab",
-        "atlantis",
-        "dubai fountain",
-        "miracle garden",
-        "global village",
-        "img worlds",
-        "dubai aquarium",
-        "ski dubai",
-        "wild wadi",
-        "aquaventure",
-        "la perle",
-        "blue waters",
-        "ain dubai",
-        "dubai frame",
-        "museum of the future",
-        "expo 2020",
-        "expo city dubai",
-
-        // UAE Companies and Organizations
-        "etisalat",
-        "du",
-        "emirates airline",
-        "flydubai",
-        "etihad airways",
-        "air arabia",
-        "dewa",
-        "dubai electricity",
-        "addc",
-        "abu dhabi distribution company",
-        "sewa",
-        "sharjah electricity",
-        "fewa",
-        "federal electricity",
-        "emirates nbd",
-        "adcb",
-        "fab",
-        "first abu dhabi bank",
-        "mashreq bank",
-        "dubai islamic bank",
-        "ajman bank",
-        "rak bank",
-        "cbd",
-        "commercial bank of dubai",
-        "hsbc uae",
-        "standard chartered uae",
-        "citibank uae",
-
-        // UAE Authorities and Government
-        "rta",
-        "roads and transport authority",
-        "dubai municipality",
-        "abu dhabi municipality",
-        "sharjah municipality",
-        "ajman municipality",
-        "fujairah municipality",
-        "rak municipality",
-        "uaq municipality",
-        "dubai health authority",
-        "dha",
-        "abu dhabi health authority",
-        "haad",
-        "dubai land department",
-        "dld",
-        "dubai economic development",
-        "ded",
-        "dubai tourism",
-        "dtcm",
-        "abu dhabi tourism",
-        "department of culture and tourism",
-        "dct",
-        "dubai customs",
-        "federal customs authority",
-        "dubai police",
-        "abu dhabi police",
-        "emirates identity authority",
-        "eia",
-        "general directorate of residency",
-        "gdrfa",
-        "mohre",
-        "ministry of human resources",
-        "dubai courts",
-        "adgm",
-        "abu dhabi global market",
-        "dubai international arbitration centre",
-        "diac",
-      ],
-      formFields: ["uaeExperience"],
+      type: "keywords",
+      criteria: {
+        field: "uae_experience_combined",
+        keywords: [
+          // UAE general terms
+          "uae",
+          "united arab emirates",
+          "emirates",
+          "middle east",
+          "gulf",
+          "gcc",
+          // Major Emirates and Cities
+          "dubai",
+          "abu dhabi",
+          "sharjah",
+          "ajman",
+          "fujairah",
+          "ras al khaimah",
+          "umm al quwain",
+          "al ain",
+          // Dubai areas
+          "deira",
+          "bur dubai",
+          "jumeirah",
+          "marina",
+          "downtown dubai",
+          "business bay",
+          "jlt",
+          "jbr",
+          "palm jumeirah",
+          "dubai mall",
+          "burj khalifa",
+          "dubai marina",
+          "dubai creek",
+          // Abu Dhabi areas
+          "abu dhabi city",
+          "al ain",
+          "western region",
+          "corniche",
+          "saadiyat",
+          "yas island",
+          "masdar city",
+          // Sharjah areas
+          "sharjah city",
+          "university city",
+          "al qasba",
+          // Other UAE locations
+          "khor fakkan",
+          "dibba",
+          "kalba",
+          "madinat zayed",
+          "liwa",
+          "al dhafra",
+          "ruwais",
+          "ghayathi",
+          "mirfa",
+          "sila",
+          "delma",
+          // Common UAE project references
+          "dubai metro",
+          "sheikh zayed road",
+          "emirates road",
+          "dubai international airport",
+          "abu dhabi airport",
+          "expo 2020",
+          "dubai world trade centre",
+          "burj al arab",
+          "atlantis",
+          "dubai fountain",
+          "ferrari world",
+          "louvre abu dhabi",
+          "dubai frame",
+          "ain dubai",
+          "global village",
+          "miracle garden",
+          "dubai parks",
+          "img worlds",
+          "dubai opera",
+          "dubai design district",
+          "dubai healthcare city",
+          "dubai internet city",
+          "dubai media city",
+          "dubai knowledge park",
+          "dubai silicon oasis",
+          "dubai south",
+          "al maktoum airport",
+          "jebel ali",
+          "port rashid",
+          "dubai ports",
+          "adnoc",
+          "etisalat",
+          "du telecom",
+          "emirates airline",
+          "flydubai",
+          "dubai electricity",
+          "dewa",
+          "addc",
+          "sewa",
+          "fewa",
+        ],
+      },
     },
   ]
 
-  private qualificationThreshold = 50 // Changed from 75% to 50%
+  private qualificationThreshold = 50 // 50% minimum score to qualify
 
-  async screenApplication(applicationData: ApplicationData): Promise<ScreeningResult> {
-    console.log("Starting application screening...")
-
-    let cvText = ""
-    let parsedCVData: any = null
-
-    // Parse CV if provided
-    if (applicationData.cvFile) {
-      try {
-        const cvParsingResult = await this.parseCV(applicationData.cvFile)
-        cvText = cvParsingResult.text
-        parsedCVData = cvParsingResult.data
-        console.log("CV parsed successfully, text length:", cvText.length)
-      } catch (error) {
-        console.error("CV parsing failed:", error)
-        cvText = await this.extractBasicText(applicationData.cvFile)
-        console.log("Using fallback text extraction, length:", cvText.length)
-      }
-    }
-
-    const results: ScreeningResult = {
-      qualified: false,
-      score: 0,
-      percentage: 0,
-      feedback: [],
-      matchedRequirements: [],
-      missedRequirements: [],
-      details: {},
-    }
+  async screenApplication(applicationData: any, cvContent?: string): Promise<ScreeningResult> {
+    console.log("🔍 Starting application screening...")
 
     let totalScore = 0
+    let maxScore = 0
+    const matchedRequirements: string[] = []
+    const missedRequirements: string[] = []
 
-    // Evaluate each requirement
     for (const requirement of this.jobRequirements) {
-      const evaluation = this.evaluateRequirement(requirement, applicationData, cvText, parsedCVData)
+      maxScore += requirement.weight
+      const isMatched = this.evaluateRequirement(requirement, applicationData, cvContent)
 
-      results.details[requirement.name] = evaluation
-      totalScore += evaluation.score
-
-      if (evaluation.found) {
-        results.matchedRequirements.push(requirement.name)
+      if (isMatched) {
+        totalScore += requirement.weight
+        matchedRequirements.push(requirement.name)
+        console.log(`✅ Matched: ${requirement.name} (${requirement.weight} points)`)
       } else {
-        results.missedRequirements.push(requirement.name)
-      }
-
-      console.log(`${requirement.name}: ${evaluation.score}% (${evaluation.found ? "FOUND" : "NOT FOUND"})`)
-      if (evaluation.matches.length > 0) {
-        console.log(`  Matches: ${evaluation.matches.slice(0, 3).join(", ")}`)
+        missedRequirements.push(requirement.name)
+        console.log(`❌ Missed: ${requirement.name} (${requirement.weight} points)`)
       }
     }
 
-    results.score = Math.round(totalScore)
-    results.percentage = Math.round(totalScore)
-    results.qualified = totalScore >= this.qualificationThreshold
+    const percentage = Math.round((totalScore / maxScore) * 100)
+    const qualified = percentage >= this.qualificationThreshold
 
-    // Generate feedback
-    if (results.qualified) {
-      results.feedback = [
-        `Congratulations! Your application scored ${results.percentage}% and meets our requirements.`,
-        "Your application has been submitted to our HR team for review.",
-        "We will contact you within 5-7 business days regarding the next steps.",
-      ]
-    } else {
-      results.feedback = [
-        "We will review your application. Your profile does not fully match our requirements, but we will keep it for future opportunities.",
-        `Your application scored ${results.percentage}%. We look for candidates with at least ${this.qualificationThreshold}% match.`,
-        "We encourage you to apply again in the future as you gain more relevant experience.",
-      ]
+    const result: ScreeningResult = {
+      score: totalScore,
+      maxScore,
+      percentage,
+      qualified,
+      matchedRequirements,
+      missedRequirements,
+      feedback: this.generateFeedback(qualified, percentage, matchedRequirements, missedRequirements),
     }
 
-    console.log(`Final screening result: ${results.qualified ? "QUALIFIED" : "NOT QUALIFIED"} (${results.percentage}%)`)
+    console.log(
+      `📊 Screening Result: ${percentage}% (${totalScore}/${maxScore}) - ${qualified ? "QUALIFIED" : "NOT QUALIFIED"}`,
+    )
 
-    return results
+    return result
   }
 
-  private async parseCV(file: File): Promise<{ text: string; data: any }> {
-    console.log("Attempting to parse CV with Parsee.ai...")
+  private evaluateRequirement(requirement: JobRequirement, applicationData: any, cvContent?: string): boolean {
+    const { type, criteria } = requirement
 
-    const formData = new FormData()
-    formData.append("file", file)
+    switch (type) {
+      case "minimum":
+        return this.evaluateMinimumRequirement(criteria, applicationData)
 
-    const response = await fetch("/api/parsee", {
-      method: "POST",
-      body: formData,
-    })
+      case "keywords":
+        return this.evaluateKeywordRequirement(criteria, applicationData, cvContent)
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      console.error("Parsee.ai API error:", errorData)
+      case "exact":
+        return this.evaluateExactRequirement(criteria, applicationData)
 
-      if (errorData.fallback) {
-        // Use fallback extraction
-        return {
-          text: await this.extractBasicText(file),
-          data: null,
-        }
-      }
+      case "boolean":
+        return this.evaluateBooleanRequirement(criteria, applicationData)
 
-      throw new Error(`Parsee.ai API failed: ${errorData.error}`)
-    }
-
-    const result = await response.json()
-    console.log("Parsee.ai parsing successful")
-
-    // Extract text from Parsee.ai response
-    let extractedText = ""
-    if (result.data && result.data.text) {
-      extractedText = result.data.text
-    } else if (result.data && result.data.content) {
-      extractedText = result.data.content
-    } else if (typeof result.data === "string") {
-      extractedText = result.data
-    }
-
-    return {
-      text: extractedText,
-      data: result.data,
-    }
-  }
-
-  private async extractBasicText(file: File): Promise<string> {
-    console.log("Using basic text extraction fallback...")
-
-    return new Promise((resolve) => {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const text = e.target?.result as string
-        resolve(text || "")
-      }
-      reader.onerror = () => {
-        console.error("Failed to read file")
-        resolve("")
-      }
-      reader.readAsText(file)
-    })
-  }
-
-  private evaluateRequirement(
-    requirement: JobRequirement,
-    applicationData: ApplicationData,
-    cvText: string,
-    parsedData: any,
-  ): { score: number; found: boolean; matches: string[] } {
-    const matches: string[] = []
-    let found = false
-
-    switch (requirement.type) {
-      case "form":
-        // Check form fields only
-        if (requirement.formFields) {
-          for (const field of requirement.formFields) {
-            const value = this.getNestedValue(applicationData, field)
-            if (value && value.toLowerCase() === "yes") {
-              found = true
-              matches.push(`Form: ${field} = ${value}`)
-            }
-          }
-        }
-        break
-
-      case "numeric":
-        // Check numeric values from form
-        if (requirement.formFields && requirement.minValue) {
-          for (const field of requirement.formFields) {
-            const value = this.getNestedValue(applicationData, field)
-            const numValue = Number.parseInt(value) || 0
-            if (numValue >= requirement.minValue) {
-              found = true
-              matches.push(`${numValue} years experience`)
-            }
-          }
-        }
-        break
-
-      case "keyword":
       default:
-        // Check form fields first
-        if (requirement.formFields) {
-          for (const field of requirement.formFields) {
-            const value = this.getNestedValue(applicationData, field)
-            if (value && value.toLowerCase() === "yes") {
-              found = true
-              matches.push(`Form: ${field}`)
-            }
-          }
-        }
-
-        // Then check CV text for keywords
-        if (cvText) {
-          const lowerCvText = cvText.toLowerCase()
-          for (const keyword of requirement.keywords) {
-            if (lowerCvText.includes(keyword.toLowerCase())) {
-              found = true
-              matches.push(keyword)
-            }
-          }
-        }
-
-        // For UAE experience, also check form data
-        if (requirement.name === "UAE Experience") {
-          const uaeExp = applicationData.personalInfo.uaeExperience
-          if (uaeExp && Number.parseInt(uaeExp) > 0) {
-            found = true
-            matches.push(`${uaeExp} years UAE experience`)
-          }
-        }
-        break
-    }
-
-    return {
-      score: found ? requirement.weight : 0,
-      found,
-      matches: matches.slice(0, 10), // Limit matches for display
+        return false
     }
   }
 
-  private getNestedValue(obj: any, path: string): string {
-    const keys = path.split(".")
-    let current = obj
+  private evaluateMinimumRequirement(criteria: any, applicationData: any): boolean {
+    const fieldValue = this.getFieldValue(criteria.field, applicationData)
+    if (!fieldValue) return false
 
-    for (const key of keys) {
-      if (current && typeof current === "object" && key in current) {
-        current = current[key]
+    // Extract numeric value from experience strings like "5 years", "5-7 years", "More than 5 years"
+    const numericValue = this.extractNumericValue(fieldValue.toString())
+    return numericValue >= (criteria.minimumValue || 0)
+  }
+
+  private evaluateKeywordRequirement(criteria: any, applicationData: any, cvContent?: string): boolean {
+    const keywords = criteria.keywords || []
+    let searchText = ""
+
+    // Get field value
+    if (criteria.field === "cv_content" && cvContent) {
+      searchText = cvContent.toLowerCase()
+    } else if (criteria.field === "languages") {
+      // Handle languages array
+      const languages = applicationData?.languages || []
+      if (Array.isArray(languages)) {
+        searchText = languages
+          .map((lang: any) => (typeof lang === "string" ? lang : lang.language || ""))
+          .join(" ")
+          .toLowerCase()
+      }
+    } else if (criteria.field === "uae_experience_combined") {
+      // Combine UAE experience from form data and CV content
+      const formUAEExp = this.getFieldValue("uaeExperience", applicationData) || ""
+      const cvUAEContent = cvContent || ""
+      searchText = (formUAEExp + " " + cvUAEContent).toLowerCase()
+      console.log("🇦🇪 UAE Experience search text:", searchText.substring(0, 200) + "...")
+    } else if (criteria.field === "experience_details") {
+      // Combine experience-related fields
+      const experienceData = applicationData?.experienceData || {}
+      searchText = Object.values(experienceData).join(" ").toLowerCase()
+    } else {
+      const fieldValue = this.getFieldValue(criteria.field, applicationData)
+      searchText = fieldValue ? fieldValue.toString().toLowerCase() : ""
+    }
+
+    // Check if any keyword matches
+    const matchedKeywords = keywords.filter((keyword: string) => searchText.includes(keyword.toLowerCase()))
+
+    if (matchedKeywords.length > 0 && criteria.field === "uae_experience_combined") {
+      console.log("🇦🇪 UAE Experience matched keywords:", matchedKeywords)
+    }
+
+    return matchedKeywords.length > 0
+  }
+
+  private evaluateExactRequirement(criteria: any, applicationData: any): boolean {
+    const fieldValue = this.getFieldValue(criteria.field, applicationData)
+    return fieldValue === criteria.value
+  }
+
+  private evaluateBooleanRequirement(criteria: any, applicationData: any): boolean {
+    const fieldValue = this.getFieldValue(criteria.field, applicationData)
+    return Boolean(fieldValue)
+  }
+
+  private getFieldValue(fieldPath: string, applicationData: any): any {
+    // Handle nested field paths like 'formData.email'
+    const paths = fieldPath.split(".")
+    let value = applicationData
+
+    for (const path of paths) {
+      if (value && typeof value === "object") {
+        value = value[path] || value.formData?.[path]
       } else {
-        // Try to find in nested objects
-        if (current && typeof current === "object") {
-          for (const [objKey, objValue] of Object.entries(current)) {
-            if (typeof objValue === "object" && objValue !== null && key in objValue) {
-              current = (objValue as any)[key]
-              break
-            }
-          }
-        }
-        if (typeof current !== "string" && typeof current !== "number") {
-          return ""
-        }
+        return null
       }
     }
 
-    return String(current || "")
+    return value
+  }
+
+  private extractNumericValue(text: string): number {
+    // Extract numbers from text like "5 years", "5-7 years", "More than 5 years"
+    const matches = text.match(/(\d+)/g)
+    if (matches && matches.length > 0) {
+      return Number.parseInt(matches[0], 10)
+    }
+    return 0
+  }
+
+  private generateFeedback(qualified: boolean, percentage: number, matched: string[], missed: string[]): string {
+    if (qualified) {
+      return `Congratulations! Your application meets our requirements with a ${percentage}% match. Your profile demonstrates strong qualifications in: ${matched.slice(0, 3).join(", ")}.`
+    } else {
+      return `We will review your application. Your profile does not fully match our requirements, but we will keep it for future opportunities.`
+    }
+  }
+
+  // Enhanced CV parsing using server-side Parsee.ai API
+  async extractCVContent(cvFile: File): Promise<string> {
+    try {
+      console.log("🤖 Extracting CV content using Parsee.ai:", cvFile.name, cvFile.type)
+
+      // First try Parsee.ai via our server-side API route
+      const parseeResult = await this.parseWithParseeAI(cvFile)
+
+      if (parseeResult.success && parseeResult.data) {
+        console.log("✅ Parsee.ai parsing successful")
+        return this.processParseeData(parseeResult.data)
+      } else {
+        console.log("⚠️ Parsee.ai parsing failed, falling back to basic extraction")
+        console.log("Parsee error:", parseeResult.error)
+        return await this.fallbackCVExtraction(cvFile)
+      }
+    } catch (error) {
+      console.error("❌ Error in CV extraction:", error)
+      return await this.fallbackCVExtraction(cvFile)
+    }
+  }
+
+  // Parse CV using our server-side Parsee.ai API route
+  private async parseWithParseeAI(cvFile: File): Promise<ParseeResponse> {
+    try {
+      const formData = new FormData()
+      formData.append("file", cvFile)
+
+      console.log("📤 Sending CV to server-side Parsee.ai API...")
+
+      const response = await fetch("/api/parsee", {
+        method: "POST",
+        body: formData,
+      })
+
+      console.log("📥 Server API response status:", response.status)
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error("Server API error:", response.status, errorData)
+        return {
+          success: false,
+          error: `Server API Error: ${response.status} - ${errorData.error || "Unknown error"}`,
+        }
+      }
+
+      const result = await response.json()
+      console.log("📊 Server API result received")
+
+      return result
+    } catch (error) {
+      console.error("Server API call failed:", error)
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown API error",
+      }
+    }
+  }
+
+  // Process structured data from Parsee.ai
+  private processParseeData(data: any): string {
+    let extractedContent = ""
+
+    // Extract raw text
+    if (data.text) {
+      extractedContent += data.text + " "
+    }
+
+    // Extract structured data
+    if (data.structured_data) {
+      const structured = data.structured_data
+
+      // Personal information
+      if (structured.personal_info) {
+        extractedContent += JSON.stringify(structured.personal_info) + " "
+      }
+
+      // Experience
+      if (structured.experience && Array.isArray(structured.experience)) {
+        structured.experience.forEach((exp: any) => {
+          extractedContent += JSON.stringify(exp) + " "
+        })
+      }
+
+      // Education
+      if (structured.education && Array.isArray(structured.education)) {
+        structured.education.forEach((edu: any) => {
+          extractedContent += JSON.stringify(edu) + " "
+        })
+      }
+
+      // Skills
+      if (structured.skills && Array.isArray(structured.skills)) {
+        extractedContent += structured.skills.join(" ") + " "
+      }
+
+      // Certifications
+      if (structured.certifications && Array.isArray(structured.certifications)) {
+        structured.certifications.forEach((cert: any) => {
+          extractedContent += JSON.stringify(cert) + " "
+        })
+      }
+
+      // Languages
+      if (structured.languages && Array.isArray(structured.languages)) {
+        extractedContent += structured.languages.join(" ") + " "
+      }
+    }
+
+    // Enhance the extracted content
+    const enhancedContent = this.enhanceTextExtraction(extractedContent)
+
+    console.log("🎯 Parsee.ai enhanced content length:", enhancedContent.length)
+    console.log("📝 Sample content:", enhancedContent.substring(0, 300) + "...")
+
+    return enhancedContent
+  }
+
+  // Fallback CV extraction for when Parsee.ai fails
+  private async fallbackCVExtraction(cvFile: File): Promise<string> {
+    try {
+      console.log("🔄 Using fallback CV extraction for:", cvFile.name, cvFile.type)
+
+      if (cvFile.type === "text/plain") {
+        const text = await cvFile.text()
+        return this.enhanceTextExtraction(text)
+      } else if (cvFile.type === "application/pdf") {
+        console.log("PDF parsing - using basic text extraction")
+        try {
+          const arrayBuffer = await cvFile.arrayBuffer()
+          const text = new TextDecoder().decode(arrayBuffer)
+          const extractedText = this.extractTextFromPDFContent(text)
+          return this.enhanceTextExtraction(extractedText)
+        } catch (error) {
+          console.log("PDF text extraction failed, using filename analysis")
+          return this.analyzeFileName(cvFile.name)
+        }
+      } else if (
+        cvFile.type === "application/msword" ||
+        cvFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
+        console.log("Word document parsing - using basic text extraction")
+        try {
+          const text = await cvFile.text()
+          return this.enhanceTextExtraction(text)
+        } catch (error) {
+          console.log("Word document text extraction failed, using filename analysis")
+          return this.analyzeFileName(cvFile.name)
+        }
+      } else {
+        console.log("Unsupported file type for CV parsing:", cvFile.type)
+        return this.analyzeFileName(cvFile.name)
+      }
+    } catch (error) {
+      console.error("Error in fallback CV extraction:", error)
+      return ""
+    }
+  }
+
+  // Helper method to enhance text extraction with keyword detection
+  private enhanceTextExtraction(text: string): string {
+    if (!text) return ""
+
+    // Clean and normalize the text
+    const cleanText = text
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+
+    // Add common variations and synonyms for better matching
+    const enhancedText = cleanText + " " + this.addKeywordVariations(cleanText)
+
+    return enhancedText
+  }
+
+  // Helper method to extract text from PDF content
+  private extractTextFromPDFContent(pdfContent: string): string {
+    // Basic PDF text extraction - look for readable text patterns
+    const textMatches = pdfContent.match(/[a-zA-Z\s]{10,}/g) || []
+    return textMatches.join(" ").toLowerCase()
+  }
+
+  // Helper method to analyze filename for keywords
+  private analyzeFileName(filename: string): string {
+    const nameKeywords = filename
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .split(/\s+/)
+      .filter((word) => word.length > 2)
+
+    return nameKeywords.join(" ")
+  }
+
+  // Helper method to add keyword variations for better matching
+  private addKeywordVariations(text: string): string {
+    const variations: Record<string, string[]> = {
+      engineer: ["engineering", "eng", "technical"],
+      manager: ["management", "mgr", "lead", "supervisor"],
+      project: ["proj", "construction", "building"],
+      experience: ["exp", "years", "work"],
+      civil: ["construction", "structural", "infrastructure"],
+      government: ["govt", "public", "municipal", "federal"],
+      uae: ["emirates", "dubai", "abu dhabi", "middle east", "gulf", "gcc"],
+      arabic: ["arab", "middle eastern"],
+      leadership: ["lead", "manage", "supervise", "coordinate"],
+      dubai: ["dxb", "emirates", "uae"],
+      sharjah: ["shj", "emirates", "uae"],
+      "abu dhabi": ["auh", "capital", "emirates", "uae"],
+    }
+
+    let additionalKeywords = ""
+
+    for (const [key, synonyms] of Object.entries(variations)) {
+      if (text.includes(key)) {
+        additionalKeywords += " " + synonyms.join(" ")
+      }
+    }
+
+    return additionalKeywords
+  }
+
+  // Method to update job requirements dynamically
+  updateJobRequirements(newRequirements: JobRequirement[]): void {
+    this.jobRequirements = newRequirements
+  }
+
+  // Method to update qualification threshold
+  updateQualificationThreshold(threshold: number): void {
+    this.qualificationThreshold = threshold
+  }
+
+  // Get current requirements (for admin interface)
+  getJobRequirements(): JobRequirement[] {
+    return [...this.jobRequirements]
   }
 }
 
-// Export both the class and an instance
-export { ApplicationScreeningService }
+// Export the service instance as a named export
 export const screeningService = new ApplicationScreeningService()
