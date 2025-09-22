@@ -23,6 +23,22 @@ export interface ScreeningResult {
   feedback: string
 }
 
+export interface ParseeResponse {
+  success: boolean
+  data?: {
+    text?: string
+    structured_data?: {
+      personal_info?: any
+      experience?: any[]
+      education?: any[]
+      skills?: string[]
+      certifications?: any[]
+      languages?: string[]
+    }
+  }
+  error?: string
+}
+
 export class ApplicationScreeningService {
   private jobRequirements: JobRequirement[] = [
     {
@@ -400,25 +416,137 @@ export class ApplicationScreeningService {
     }
   }
 
-  // Method to extract text from CV file (enhanced implementation)
+  // Enhanced CV parsing using server-side Parsee.ai API
   async extractCVContent(cvFile: File): Promise<string> {
     try {
-      console.log("Extracting CV content from:", cvFile.name, cvFile.type)
+      console.log("🤖 Extracting CV content using Parsee.ai:", cvFile.name, cvFile.type)
+
+      // First try Parsee.ai via our server-side API route
+      const parseeResult = await this.parseWithParseeAI(cvFile)
+
+      if (parseeResult.success && parseeResult.data) {
+        console.log("✅ Parsee.ai parsing successful")
+        return this.processParseeData(parseeResult.data)
+      } else {
+        console.log("⚠️ Parsee.ai parsing failed, falling back to basic extraction")
+        console.log("Parsee error:", parseeResult.error)
+        return await this.fallbackCVExtraction(cvFile)
+      }
+    } catch (error) {
+      console.error("❌ Error in CV extraction:", error)
+      return await this.fallbackCVExtraction(cvFile)
+    }
+  }
+
+  // Parse CV using our server-side Parsee.ai API route
+  private async parseWithParseeAI(cvFile: File): Promise<ParseeResponse> {
+    try {
+      const formData = new FormData()
+      formData.append("file", cvFile)
+
+      console.log("📤 Sending CV to server-side Parsee.ai API...")
+
+      const response = await fetch("/api/parsee", {
+        method: "POST",
+        body: formData,
+      })
+
+      console.log("📥 Server API response status:", response.status)
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error("Server API error:", response.status, errorData)
+        return {
+          success: false,
+          error: `Server API Error: ${response.status} - ${errorData.error || "Unknown error"}`,
+        }
+      }
+
+      const result = await response.json()
+      console.log("📊 Server API result received")
+
+      return result
+    } catch (error) {
+      console.error("Server API call failed:", error)
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown API error",
+      }
+    }
+  }
+
+  // Process structured data from Parsee.ai
+  private processParseeData(data: any): string {
+    let extractedContent = ""
+
+    // Extract raw text
+    if (data.text) {
+      extractedContent += data.text + " "
+    }
+
+    // Extract structured data
+    if (data.structured_data) {
+      const structured = data.structured_data
+
+      // Personal information
+      if (structured.personal_info) {
+        extractedContent += JSON.stringify(structured.personal_info) + " "
+      }
+
+      // Experience
+      if (structured.experience && Array.isArray(structured.experience)) {
+        structured.experience.forEach((exp: any) => {
+          extractedContent += JSON.stringify(exp) + " "
+        })
+      }
+
+      // Education
+      if (structured.education && Array.isArray(structured.education)) {
+        structured.education.forEach((edu: any) => {
+          extractedContent += JSON.stringify(edu) + " "
+        })
+      }
+
+      // Skills
+      if (structured.skills && Array.isArray(structured.skills)) {
+        extractedContent += structured.skills.join(" ") + " "
+      }
+
+      // Certifications
+      if (structured.certifications && Array.isArray(structured.certifications)) {
+        structured.certifications.forEach((cert: any) => {
+          extractedContent += JSON.stringify(cert) + " "
+        })
+      }
+
+      // Languages
+      if (structured.languages && Array.isArray(structured.languages)) {
+        extractedContent += structured.languages.join(" ") + " "
+      }
+    }
+
+    // Enhance the extracted content
+    const enhancedContent = this.enhanceTextExtraction(extractedContent)
+
+    console.log("🎯 Parsee.ai enhanced content length:", enhancedContent.length)
+    console.log("📝 Sample content:", enhancedContent.substring(0, 300) + "...")
+
+    return enhancedContent
+  }
+
+  // Fallback CV extraction for when Parsee.ai fails
+  private async fallbackCVExtraction(cvFile: File): Promise<string> {
+    try {
+      console.log("🔄 Using fallback CV extraction for:", cvFile.name, cvFile.type)
 
       if (cvFile.type === "text/plain") {
         const text = await cvFile.text()
         return this.enhanceTextExtraction(text)
       } else if (cvFile.type === "application/pdf") {
-        // For PDF files, we'll extract basic text content
-        // In a production environment, you would use a proper PDF parsing library
         console.log("PDF parsing - using basic text extraction")
-
-        // Try to read as text (some PDFs might have text content)
         try {
           const arrayBuffer = await cvFile.arrayBuffer()
           const text = new TextDecoder().decode(arrayBuffer)
-
-          // Extract readable text from PDF content
           const extractedText = this.extractTextFromPDFContent(text)
           return this.enhanceTextExtraction(extractedText)
         } catch (error) {
@@ -429,7 +557,6 @@ export class ApplicationScreeningService {
         cvFile.type === "application/msword" ||
         cvFile.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       ) {
-        // For Word documents, try basic text extraction
         console.log("Word document parsing - using basic text extraction")
         try {
           const text = await cvFile.text()
@@ -443,7 +570,7 @@ export class ApplicationScreeningService {
         return this.analyzeFileName(cvFile.name)
       }
     } catch (error) {
-      console.error("Error extracting CV content:", error)
+      console.error("Error in fallback CV extraction:", error)
       return ""
     }
   }
@@ -461,9 +588,6 @@ export class ApplicationScreeningService {
 
     // Add common variations and synonyms for better matching
     const enhancedText = cleanText + " " + this.addKeywordVariations(cleanText)
-
-    console.log("Enhanced CV text length:", enhancedText.length)
-    console.log("Sample CV content:", enhancedText.substring(0, 200) + "...")
 
     return enhancedText
   }
