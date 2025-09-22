@@ -1,73 +1,66 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-export const runtime = "nodejs"
-export const dynamic = "force-dynamic"
-
 const PARSEE_API_KEY = "3c2898a5-d8ed-409e-9bf0-cab76f7d3c55"
 const PARSEE_API_URL = "https://api.parsee.ai/v1/parse"
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("📤 Parsee.ai API route called")
-
     const formData = await request.formData()
     const file = formData.get("file") as File
 
     if (!file) {
-      return NextResponse.json({ success: false, error: "No file provided" }, { status: 400 })
+      return NextResponse.json({ error: "No file provided" }, { status: 400 })
     }
-
-    console.log("📄 Processing file:", file.name, file.type, file.size)
 
     // Create FormData for Parsee.ai API
     const parseeFormData = new FormData()
     parseeFormData.append("file", file)
-    parseeFormData.append("extract_structured_data", "true")
-    parseeFormData.append("extract_text", "true")
+    parseeFormData.append("api_key", PARSEE_API_KEY)
 
-    console.log("🚀 Sending request to Parsee.ai...")
+    console.log("Sending file to Parsee.ai:", file.name, file.type, file.size)
 
-    // Make request to Parsee.ai API
+    // Call Parsee.ai API
     const response = await fetch(PARSEE_API_URL, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${PARSEE_API_KEY}`,
-      },
       body: parseeFormData,
     })
 
-    console.log("📥 Parsee.ai response status:", response.status)
-
     if (!response.ok) {
+      console.error("Parsee.ai API error:", response.status, response.statusText)
       const errorText = await response.text()
-      console.error("❌ Parsee.ai API error:", response.status, errorText)
+      console.error("Parsee.ai error details:", errorText)
 
       return NextResponse.json(
         {
-          success: false,
-          error: `Parsee.ai API Error: ${response.status} - ${errorText}`,
+          error: "Failed to parse CV with Parsee.ai",
+          details: errorText,
+          fallback: true,
         },
         { status: response.status },
       )
     }
 
     const result = await response.json()
-    console.log("✅ Parsee.ai parsing successful")
-    console.log("📊 Result keys:", Object.keys(result))
+    console.log("Parsee.ai response received:", result)
 
     return NextResponse.json({
       success: true,
       data: result,
+      parsedBy: "parsee.ai",
     })
   } catch (error) {
-    console.error("❌ Parsee.ai API route error:", error)
+    console.error("Parsee.ai API call error:", error)
 
     return NextResponse.json(
       {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown server error",
+        error: "Internal server error during CV parsing",
+        details: error instanceof Error ? error.message : "Unknown error",
+        fallback: true,
       },
       { status: 500 },
     )
   }
 }
+
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
