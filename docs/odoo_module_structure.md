@@ -47,7 +47,7 @@ Set these in your Odoo server configuration or environment:
 The module extends hr.applicant model with 20+ new fields for comprehensive job application data.
 \`\`\`
 
-```python file="docs/__manifest__.py"
+\`\`\`python file="docs/__manifest__.py"
 # -*- coding: utf-8 -*-
 {
     'name': 'RCC Career Portal Integration',
