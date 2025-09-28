@@ -18,16 +18,16 @@ export const Careers = (): JSX.Element => {
   ]
 
   return (
-    <div className="bg-white flex flex-row justify-center w-full">
+    <div className="bg-white flex shadow-xl flex-col rounded-none justify-center gap-0 items-center my-0 mx-0 px-0 py-0 w-full">
       <div className="bg-white w-full max-w-[1280px] relative min-h-screen">
         {/* Header/Navigation */}
         <header className="w-full h-[70px] md:h-[91px] bg-white relative z-50">
           <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
             {/* Company Logo */}
             <img
-              className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
+              className="w-[140px] h-[75px] md:w-[250px] md:h-36 px-0 py-3.5 my-px mx-[-64px] border-0"
               alt="EL RACE Logo"
-              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+              src="/images/design-mode/Logonew.gif"
             />
 
             {/* Desktop Navigation */}
@@ -81,7 +81,7 @@ export const Careers = (): JSX.Element => {
         {/* Hero Section */}
         <section className="relative h-[300px] md:h-[500px] w-full">
           <div className="h-[300px] md:h-[500px] bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
-            <div className="h-[300px] md:h-[500px] bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
+            <div className="h-[300px] md:h-[500px] bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full px-0 py-5 my-0 mx-0 bg-ring opacity-85">
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full px-4">
                 <h1 className="font-normal text-white text-[24px] md:text-[48px] tracking-[0] leading-normal mb-4 md:mb-6">
                   <span className="font-bold tracking-wider">EL RACE CAREERS</span>

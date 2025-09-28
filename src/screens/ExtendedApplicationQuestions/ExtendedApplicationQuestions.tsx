@@ -57,9 +57,9 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
         <header className="fixed w-full h-[70px] md:h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px] top-0 left-0 z-50">
           <div className="flex items-center">
             <img
-              className="w-[140px] h-[75px] my-0 mx-[123px] md:h-[105px] md:w-[200px]"
+              className="w-[140px] h-[75px] my-0 ml-[113px] mr-[123px] md:h-[105px] md:w-[200px]"
               alt="EL RACE Logo"
-              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+              src="/images/design-mode/Logonew.gif"
             />
           </div>
 

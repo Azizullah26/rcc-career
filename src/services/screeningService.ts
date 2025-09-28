@@ -23,22 +23,6 @@ export interface ScreeningResult {
   feedback: string
 }
 
-export interface ParseeResponse {
-  success: boolean
-  data?: {
-    text?: string
-    structured_data?: {
-      personal_info?: any
-      experience?: any[]
-      education?: any[]
-      skills?: string[]
-      certifications?: any[]
-      languages?: string[]
-    }
-  }
-  error?: string
-}
-
 export class ApplicationScreeningService {
   private jobRequirements: JobRequirement[] = [
     {
@@ -258,7 +242,7 @@ export class ApplicationScreeningService {
     },
   ]
 
-  private qualificationThreshold = 50 // 50% minimum score to qualify
+  private qualificationThreshold = 0 // Changed from 50 to 0 - no minimum score required
 
   async screenApplication(applicationData: any, cvContent?: string): Promise<ScreeningResult> {
     console.log("🔍 Starting application screening...")
@@ -283,7 +267,8 @@ export class ApplicationScreeningService {
     }
 
     const percentage = Math.round((totalScore / maxScore) * 100)
-    const qualified = percentage >= this.qualificationThreshold
+    // Changed from: percentage >= this.qualificationThreshold
+    const qualified = true
 
     const result: ScreeningResult = {
       score: totalScore,
@@ -295,9 +280,7 @@ export class ApplicationScreeningService {
       feedback: this.generateFeedback(qualified, percentage, matchedRequirements, missedRequirements),
     }
 
-    console.log(
-      `📊 Screening Result: ${percentage}% (${totalScore}/${maxScore}) - ${qualified ? "QUALIFIED" : "NOT QUALIFIED"}`,
-    )
+    console.log(`📊 Screening Result: ${percentage}% (${totalScore}/${maxScore}) - SUBMITTED TO ODOO`)
 
     return result
   }
@@ -409,129 +392,17 @@ export class ApplicationScreeningService {
   }
 
   private generateFeedback(qualified: boolean, percentage: number, matched: string[], missed: string[]): string {
-    if (qualified) {
-      return `Congratulations! Your application meets our requirements with a ${percentage}% match. Your profile demonstrates strong qualifications in: ${matched.slice(0, 3).join(", ")}.`
-    } else {
-      return `We will review your application. Your profile does not fully match our requirements, but we will keep it for future opportunities.`
-    }
+    return `Thank you for your application! Your profile shows a ${percentage}% match with our requirements. We have submitted your application to our HR team for review. ${matched.length > 0 ? `Your strengths include: ${matched.slice(0, 3).join(", ")}.` : ""}`
   }
 
-  // Enhanced CV parsing using server-side Parsee.ai API
   async extractCVContent(cvFile: File): Promise<string> {
     try {
-      console.log("🤖 Extracting CV content using Parsee.ai:", cvFile.name, cvFile.type)
-
-      // First try Parsee.ai via our server-side API route
-      const parseeResult = await this.parseWithParseeAI(cvFile)
-
-      if (parseeResult.success && parseeResult.data) {
-        console.log("✅ Parsee.ai parsing successful")
-        return this.processParseeData(parseeResult.data)
-      } else {
-        console.log("⚠️ Parsee.ai parsing failed, falling back to basic extraction")
-        console.log("Parsee error:", parseeResult.error)
-        return await this.fallbackCVExtraction(cvFile)
-      }
+      console.log("🤖 Extracting CV content using fallback method:", cvFile.name, cvFile.type)
+      return await this.fallbackCVExtraction(cvFile)
     } catch (error) {
       console.error("❌ Error in CV extraction:", error)
-      return await this.fallbackCVExtraction(cvFile)
+      return ""
     }
-  }
-
-  // Parse CV using our server-side Parsee.ai API route
-  private async parseWithParseeAI(cvFile: File): Promise<ParseeResponse> {
-    try {
-      const formData = new FormData()
-      formData.append("file", cvFile)
-
-      console.log("📤 Sending CV to server-side Parsee.ai API...")
-
-      const response = await fetch("/api/parsee", {
-        method: "POST",
-        body: formData,
-      })
-
-      console.log("📥 Server API response status:", response.status)
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        console.error("Server API error:", response.status, errorData)
-        return {
-          success: false,
-          error: `Server API Error: ${response.status} - ${errorData.error || "Unknown error"}`,
-        }
-      }
-
-      const result = await response.json()
-      console.log("📊 Server API result received")
-
-      return result
-    } catch (error) {
-      console.error("Server API call failed:", error)
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown API error",
-      }
-    }
-  }
-
-  // Process structured data from Parsee.ai
-  private processParseeData(data: any): string {
-    let extractedContent = ""
-
-    // Extract raw text
-    if (data.text) {
-      extractedContent += data.text + " "
-    }
-
-    // Extract structured data
-    if (data.structured_data) {
-      const structured = data.structured_data
-
-      // Personal information
-      if (structured.personal_info) {
-        extractedContent += JSON.stringify(structured.personal_info) + " "
-      }
-
-      // Experience
-      if (structured.experience && Array.isArray(structured.experience)) {
-        structured.experience.forEach((exp: any) => {
-          extractedContent += JSON.stringify(exp) + " "
-        })
-      }
-
-      // Education
-      if (structured.education && Array.isArray(structured.education)) {
-        structured.education.forEach((edu: any) => {
-          extractedContent += JSON.stringify(edu) + " "
-        })
-      }
-
-      // Skills
-      if (structured.skills && Array.isArray(structured.skills)) {
-        extractedContent += structured.skills.join(" ") + " "
-      }
-
-      // Certifications
-      if (structured.certifications && Array.isArray(structured.certifications)) {
-        structured.certifications.forEach((cert: any) => {
-          extractedContent += JSON.stringify(cert) + " "
-        })
-      }
-
-      // Languages
-      if (structured.languages && Array.isArray(structured.languages)) {
-        extractedContent += structured.languages.join(" ") + " "
-      }
-    }
-
-    // Enhance the extracted content
-    const enhancedContent = this.enhanceTextExtraction(extractedContent)
-
-    console.log("🎯 Parsee.ai enhanced content length:", enhancedContent.length)
-    console.log("📝 Sample content:", enhancedContent.substring(0, 300) + "...")
-
-    return enhancedContent
   }
 
   // Fallback CV extraction for when Parsee.ai fails

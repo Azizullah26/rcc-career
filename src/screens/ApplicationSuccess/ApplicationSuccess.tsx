@@ -21,9 +21,10 @@ function ApplicationSuccessContent() {
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const resultParam = searchParams.get("result")
+
   useEffect(() => {
     // Get screening result from URL params
-    const resultParam = searchParams.get("result")
     if (resultParam) {
       try {
         const result = JSON.parse(decodeURIComponent(resultParam))
@@ -33,7 +34,7 @@ function ApplicationSuccessContent() {
       }
     }
     setLoading(false)
-  }, [searchParams])
+  }, [resultParam]) // Use resultParam instead of searchParams to prevent infinite re-renders
 
   if (loading) {
     return (
@@ -54,7 +55,7 @@ function ApplicationSuccessContent() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <img
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
                 alt="RCC Logo"
                 className="w-[200px] h-[90px] object-contain"
               />
@@ -266,7 +267,7 @@ function ApplicationSuccessContent() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <img
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
                 alt="RCC Logo"
                 className="w-[140px] h-[65px] object-contain mb-4"
               />

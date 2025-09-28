@@ -131,39 +131,17 @@ export const AddExperience = (): JSX.Element => {
 
     const result = await submitApplication(jobId, combinedFormData, uploadedFile, jobTitle, jobName)
 
-    if (result.success && result.qualified) {
-      console.log("Application submitted successfully and qualified!")
+    if (result.success && result.screeningResult) {
+      console.log("Application submitted successfully with screening results!")
       // Clear stored data
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
       localStorage.removeItem("jobTitle")
       localStorage.removeItem("jobName")
 
-      // Redirect to success page with screening results
+      // Redirect to success page with screening results - no longer checking qualification status
       const params = new URLSearchParams({
-        qualified: "true",
-        score: result.screeningResult?.score?.toString() || "0",
-        percentage: result.screeningResult?.percentage?.toString() || "0",
-        applicantId: result.applicantId?.toString() || "",
-        matched: result.screeningResult?.matchedRequirements?.join(",") || "",
-        missed: result.screeningResult?.missedRequirements?.join(",") || "",
-      })
-      router.push(`/application-success?${params.toString()}`)
-    } else if (!result.qualified && result.screeningResult) {
-      console.log("Application screened but not qualified")
-      // Clear stored data
-      localStorage.removeItem("personalInfo")
-      localStorage.removeItem("extendedQuestions")
-      localStorage.removeItem("jobTitle")
-      localStorage.removeItem("jobName")
-
-      // Redirect to success page with screening feedback
-      const params = new URLSearchParams({
-        qualified: "false",
-        score: result.screeningResult.score.toString(),
-        percentage: result.screeningResult.percentage.toString(),
-        matched: result.screeningResult.matchedRequirements.join(","),
-        missed: result.screeningResult.missedRequirements.join(","),
+        result: encodeURIComponent(JSON.stringify(result.screeningResult)),
       })
       router.push(`/application-success?${params.toString()}`)
     } else {
@@ -197,7 +175,7 @@ export const AddExperience = (): JSX.Element => {
               <img
                 className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
               />
             </div>
 
@@ -492,7 +470,7 @@ export const AddExperience = (): JSX.Element => {
                 <img
                   className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] mb-4 object-contain"
                   alt="EL RACE Logo"
-                  src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                  src="/images/design-mode/Logonew.gif"
                 />
                 <p className="text-sm text-gray-300 leading-relaxed">
                   Leading construction and contracting company in the UAE, delivering excellence in every project.
