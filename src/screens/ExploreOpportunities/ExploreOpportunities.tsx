@@ -173,7 +173,7 @@ export const ExploreOpportunities = (): JSX.Element => {
             <img
               className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
               alt="EL RACE Logo"
-              src="/images/design-mode/Logonew.gif"
+              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
             />
 
             {/* Desktop Navigation */}

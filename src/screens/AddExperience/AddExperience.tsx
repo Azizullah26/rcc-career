@@ -175,7 +175,7 @@ export const AddExperience = (): JSX.Element => {
               <img
                 className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
-                src="/images/design-mode/Logonew.gif"
+                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
               />
             </div>
 
@@ -470,7 +470,7 @@ export const AddExperience = (): JSX.Element => {
                 <img
                   className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] mb-4 object-contain"
                   alt="EL RACE Logo"
-                  src="/images/design-mode/Logonew.gif"
+                  src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
                 />
                 <p className="text-sm text-gray-300 leading-relaxed">
                   Leading construction and contracting company in the UAE, delivering excellence in every project.

@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 
 // Add runtime configuration for Vercel
 export const runtime = "nodejs"
-export const dynamic = "force_dynamic"
+export const dynamic = "force-dynamic"
 
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
@@ -197,12 +197,10 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
+      // Extract name safely
       const firstName = formData.firstName || formData.fullName?.split(" ")[0] || ""
       const lastName = formData.lastName || formData.fullName?.split(" ").slice(1).join(" ") || ""
       const fullName = formData.fullName || `${firstName} ${lastName}`.trim()
-
-      // Use actual name or fallback to email if no name provided
-      const applicantName = fullName || formData.email?.split("@")[0] || "Applicant"
 
       // Get a valid job ID or use null
       const validJobId = await this.getValidJobId()
@@ -223,12 +221,12 @@ AUTOMATED SCREENING RESULTS:
 `
         : ""
 
+      // Prepare applicant data with only standard fields
       const applicantData: any = {
-        name: applicantName,
-        partner_name: applicantName,
+        name: fullName || "Unknown Applicant",
+        partner_name: fullName || "Unknown Applicant",
         email_from: formData.email || "",
         partner_phone: formData.phone || "",
-        website_career: true, // Add website career field for hr.job
 
         // Enhanced description field with screening results
         description: `
