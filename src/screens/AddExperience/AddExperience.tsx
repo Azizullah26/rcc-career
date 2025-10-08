@@ -44,21 +44,51 @@ export const AddExperience = (): JSX.Element => {
       return
     }
 
-    console.log("Starting application submission with screening...")
+    console.log("[v0] Starting application submission with screening...")
 
     // Get form data from localStorage (stored from previous steps)
     const personalInfo = JSON.parse(localStorage.getItem("personalInfo") || "{}")
     const extendedQuestions = JSON.parse(localStorage.getItem("extendedQuestions") || "{}")
 
+    const cvFileBase64 = localStorage.getItem("cvFile")
     const cvFileName = localStorage.getItem("cvFileName")
-    const cvFileSize = localStorage.getItem("cvFileSize")
     const cvFileType = localStorage.getItem("cvFileType")
 
-    const uploadedFile = null
-    if (cvFileName && cvFileSize && cvFileType) {
-      // Create a placeholder file object for submission
-      console.log("CV file info retrieved:", { cvFileName, cvFileSize, cvFileType })
+    console.log("[v0] CV data from localStorage:", {
+      hasBase64: !!cvFileBase64,
+      base64Length: cvFileBase64?.length || 0,
+      fileName: cvFileName,
+      fileType: cvFileType,
+    })
+
+    let uploadedFile: File | null = null
+    if (cvFileBase64 && cvFileName && cvFileType) {
+      try {
+        console.log("[v0] Attempting to reconstruct CV file from base64...")
+        // Convert base64 back to File object
+        const base64Response = await fetch(cvFileBase64)
+        const blob = await base64Response.blob()
+        uploadedFile = new File([blob], cvFileName, { type: cvFileType })
+        console.log("[v0] CV file reconstructed successfully:", cvFileName, uploadedFile.size, "bytes")
+      } catch (error) {
+        console.error("[v0] Error reconstructing CV file:", error)
+        console.error("[v0] Error details:", {
+          message: error instanceof Error ? error.message : "Unknown error",
+          base64Preview: cvFileBase64?.substring(0, 50) + "...",
+        })
+      }
+    } else {
+      console.log("[v0] No CV file found in localStorage - missing data:", {
+        hasBase64: !!cvFileBase64,
+        hasFileName: !!cvFileName,
+        hasFileType: !!cvFileType,
+      })
     }
+
+    console.log(
+      "[v0] Final uploadedFile before submission:",
+      uploadedFile ? `${uploadedFile.name} (${uploadedFile.size} bytes)` : "null",
+    )
 
     // Combine all form data with additional fields for screening
     const combinedFormData = {
@@ -111,11 +141,11 @@ export const AddExperience = (): JSX.Element => {
       console.log("Application submitted successfully with screening results!")
       const jobReferenceNumber = localStorage.getItem("jobReferenceNumber") || ""
 
-      // Clear stored data
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
       localStorage.removeItem("jobTitle")
       localStorage.removeItem("jobName")
+      localStorage.removeItem("cvFile")
       localStorage.removeItem("cvFileName")
       localStorage.removeItem("cvFileSize")
       localStorage.removeItem("cvFileType")
