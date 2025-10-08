@@ -197,9 +197,10 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
-      const timestamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] // Format: YYYYMMDDTHHMMSS
-      const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase()
-      const referenceNumber = `RCC-${timestamp}-${randomSuffix}`
+      // Generate a sequential reference number based on timestamp
+      const timestamp = Date.now()
+      const sequentialNumber = timestamp.toString().slice(-4) // Use last 4 digits of timestamp
+      const referenceNumber = `RCC${sequentialNumber.padStart(4, "0")}`
       console.log("Generated reference number:", referenceNumber)
 
       // Try multiple sources for the name

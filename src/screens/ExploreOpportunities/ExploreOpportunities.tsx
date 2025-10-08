@@ -19,6 +19,7 @@ import { Card } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import { Separator } from "../../components/ui/separator" // Import Separator component
+import type { JSX } from "react"
 
 export const ExploreOpportunities = (): JSX.Element => {
   const router = useRouter()
@@ -40,6 +41,7 @@ export const ExploreOpportunities = (): JSX.Element => {
   const jobListings = [
     {
       id: 1,
+      referenceNumber: "RCC0001",
       title: "Senior Civil Engineer",
       department: "Engineering",
       location: "Abu Dhabi, UAE",
@@ -57,6 +59,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 2,
+      referenceNumber: "RCC0002",
       title: "Project Manager",
       department: "Operations",
       location: "Dubai, UAE",
@@ -74,6 +77,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 3,
+      referenceNumber: "RCC0003",
       title: "Construction Supervisor",
       department: "Construction",
       location: "Al Ain, UAE",
@@ -91,6 +95,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 4,
+      referenceNumber: "RCC0004",
       title: "Quality Control Engineer",
       department: "Quality Assurance",
       location: "Dubai, UAE",
@@ -108,6 +113,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 5,
+      referenceNumber: "RCC0005",
       title: "Safety Officer",
       department: "Health & Safety",
       location: "Abu Dhabi, UAE",
@@ -139,7 +145,8 @@ export const ExploreOpportunities = (): JSX.Element => {
         (job) =>
           job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           job.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          job.description.toLowerCase().includes(searchTerm.toLowerCase()),
+          job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          job.referenceNumber.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     }
 
@@ -400,9 +407,12 @@ export const ExploreOpportunities = (): JSX.Element => {
                 >
                   <div className="w-full h-full">
                     <div className="w-full [font-family:'Arimo_Hebrew_Subset-Bold',Helvetica]">
-                      <h3 className="font-bold text-black text-[18px] md:text-[24.2px] mb-2 leading-tight">
-                        {job.title}
-                      </h3>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-bold text-black text-[18px] md:text-[24.2px] leading-tight">{job.title}</h3>
+                        <span className="text-[#151d61] font-semibold text-[12px] md:text-[14px] bg-blue-50 px-3 py-1 rounded-full">
+                          {job.referenceNumber}
+                        </span>
+                      </div>
 
                       <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[12px] md:text-base mb-2 md:mb-3">
                         Location: {job.location}&nbsp;&nbsp;Posting Date: {job.postingDate}&nbsp;&nbsp;

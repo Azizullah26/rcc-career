@@ -20,6 +20,14 @@ export const JobDetails = (): JSX.Element => {
     { name: "CAREERS", href: "/" },
   ]
 
+  const jobReferenceNumbers: Record<number, string> = {
+    1: "RCC0001",
+    2: "RCC0002",
+    3: "RCC0003",
+    4: "RCC0004",
+    5: "RCC0005",
+  }
+
   // Job data based on jobId
   const jobData = {
     1: {
@@ -138,11 +146,16 @@ export const JobDetails = (): JSX.Element => {
 
   React.useEffect(() => {
     if (job && job.title) {
+      const currentJobId = Number.parseInt(jobId || "1")
+      const referenceNumber = jobReferenceNumbers[currentJobId] || "RCC0001"
+
       localStorage.setItem("jobTitle", job.title)
       localStorage.setItem("jobName", job.title)
+      localStorage.setItem("jobReferenceNumber", referenceNumber)
       console.log("[v0] Stored job title in localStorage:", job.title)
+      console.log("[v0] Stored job reference number in localStorage:", referenceNumber)
     }
-  }, [job])
+  }, [job, jobId])
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">

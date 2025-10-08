@@ -2,13 +2,12 @@
 
 import React from "react"
 import { useRouter, useParams } from "next/navigation"
-import { ArrowLeft, Menu, X } from "lucide-react"
+import { ArrowLeft, Menu, X, PlusIcon, Loader2 } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { useJobApplication } from "../../hooks/useJobApplication"
 import Link from "next/link"
-import { PlusIcon } from "lucide-react"
 import type { JSX } from "react/jsx-runtime"
 
 export const AddExperience = (): JSX.Element => {
@@ -110,6 +109,8 @@ export const AddExperience = (): JSX.Element => {
 
     if (result.success && result.screeningResult) {
       console.log("Application submitted successfully with screening results!")
+      const jobReferenceNumber = localStorage.getItem("jobReferenceNumber") || ""
+
       // Clear stored data
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
@@ -118,10 +119,12 @@ export const AddExperience = (): JSX.Element => {
       localStorage.removeItem("cvFileName")
       localStorage.removeItem("cvFileSize")
       localStorage.removeItem("cvFileType")
+      localStorage.removeItem("jobReferenceNumber")
 
       const params = new URLSearchParams({
         result: encodeURIComponent(JSON.stringify(result.screeningResult)),
         referenceNumber: result.referenceNumber || "",
+        jobReferenceNumber: jobReferenceNumber,
       })
       router.push(`/application-success?${params.toString()}`)
     } else {
@@ -316,19 +319,6 @@ export const AddExperience = (): JSX.Element => {
               </div>
             </Button>
 
-            {/* Bottom Action Buttons */}
-            <div className="flex justify-center mt-[20px] md:mt-[40px]">
-              <Button
-                onClick={handleSubmit}
-                disabled={isSubmitting || isScreening}
-                className="w-full max-w-[180px] h-[35px] md:h-[50px] bg-[#151d61] rounded-[16px] hover:bg-[#1a2470] transition-colors disabled:opacity-50"
-              >
-                <span className="[font-family:'Tajawal',Helvetica] font-bold text-white text-[16px] md:text-[20px]">
-                  {isSubmitting || isScreening ? "Processing..." : "Apply"}
-                </span>
-              </Button>
-            </div>
-
             {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
           </div>
 
@@ -362,14 +352,19 @@ export const AddExperience = (): JSX.Element => {
             >
               Back
             </Button>
-
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting || isScreening}
-              variant="outline"
-              className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2 disabled:opacity-50"
+              className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border-none hover:bg-[#1a2570] transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isSubmitting || isScreening ? "Processing..." : "Apply"}
+              {isSubmitting || isScreening ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                "Apply"
+              )}
             </Button>
           </div>
         </main>
@@ -421,9 +416,9 @@ export const AddExperience = (): JSX.Element => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Contact</h3>
                 <div className="space-y-2 text-sm text-gray-300">
-                  <p>UAE</p>
-                  <p>Email: careers@elrace.com</p>
-                  <p>Phone: +971 XXX XXXX</p>
+                  <p>EL RACE UAE</p>
+                  <p>600500722</p>
+                  <p>Email: info@elrace.com</p>
                 </div>
               </div>
             </div>

@@ -2,9 +2,9 @@
 
 import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, XCircle, Clock, FileText, Award } from "lucide-react"
+import { CheckCircle, Clock, FileText, Award } from "lucide-react"
 
 interface ScreeningResult {
   score: number
@@ -20,8 +20,10 @@ function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
   const resultParam = searchParams.get("result")
   const referenceNumberParam = searchParams.get("referenceNumber") // Get reference number from URL
+  const jobReferenceNumberParam = searchParams.get("jobReferenceNumber") // Job reference number
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
   const [referenceNumber, setReferenceNumber] = useState<string>("")
+  const [jobReferenceNumber, setJobReferenceNumber] = useState<string>("")
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -36,8 +38,11 @@ function ApplicationSuccessContent() {
     if (referenceNumberParam) {
       setReferenceNumber(referenceNumberParam)
     }
+    if (jobReferenceNumberParam) {
+      setJobReferenceNumber(jobReferenceNumberParam)
+    }
     setLoading(false)
-  }, [resultParam, referenceNumberParam])
+  }, [resultParam, referenceNumberParam, jobReferenceNumberParam])
 
   if (loading) {
     return (
@@ -65,14 +70,14 @@ function ApplicationSuccessContent() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {referenceNumber && (
+        {jobReferenceNumber && (
           <div className="mb-8">
             <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
               <CardContent className="p-6 text-center">
-                <p className="text-sm text-gray-600 mb-2">Your Application Reference Number</p>
-                <p className="text-3xl font-bold text-blue-600 tracking-wider mb-2">{referenceNumber}</p>
+                <p className="text-sm text-gray-600 mb-2">Job Reference Number</p>
+                <p className="text-3xl font-bold text-blue-600 tracking-wider mb-2">{jobReferenceNumber}</p>
                 <p className="text-xs text-gray-500">
-                  Please save this reference number for tracking your application status
+                  This is the reference number for the job position you applied for
                 </p>
               </CardContent>
             </Card>
@@ -96,12 +101,12 @@ function ApplicationSuccessContent() {
           <div className="space-y-6">
             {/* Overall Score */}
             <Card>
-              <CardHeader>
+              <div className="p-6 pb-0">
                 <CardTitle className="flex items-center gap-2">
                   <Award className="h-5 w-5" />
                   Application Assessment
                 </CardTitle>
-              </CardHeader>
+              </div>
               <CardContent>
                 <div className="text-center mb-6">
                   <div className="text-4xl font-bold mb-2">{screeningResult.percentage}%</div>
@@ -138,12 +143,12 @@ function ApplicationSuccessContent() {
             {/* Matched Requirements */}
             {screeningResult.matchedRequirements.length > 0 && (
               <Card>
-                <CardHeader>
+                <div className="p-6 pb-0">
                   <CardTitle className="flex items-center gap-2 text-green-700">
                     <CheckCircle className="h-5 w-5" />
                     Matched Requirements ({screeningResult.matchedRequirements.length})
                   </CardTitle>
-                </CardHeader>
+                </div>
                 <CardContent>
                   <div className="grid gap-2">
                     {screeningResult.matchedRequirements.map((requirement, index) => (
@@ -156,37 +161,15 @@ function ApplicationSuccessContent() {
                 </CardContent>
               </Card>
             )}
-
-            {/* Missed Requirements */}
-            {screeningResult.missedRequirements.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-orange-700">
-                    <XCircle className="h-5 w-5" />
-                    Areas for Development ({screeningResult.missedRequirements.length})
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-2">
-                    {screeningResult.missedRequirements.map((requirement, index) => (
-                      <div key={index} className="flex items-center gap-2 p-2 bg-orange-50 rounded">
-                        <XCircle className="h-4 w-4 text-orange-600 flex-shrink-0" />
-                        <span className="text-sm text-orange-800">{requirement}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
           </div>
         )}
 
         {/* Next Steps */}
         <Card className="mt-8">
-          <CardHeader>
+          <div className="p-6">
             <CardTitle>What Happens Next?</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          </div>
+          <CardContent className="space-y-4 pt-0">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
                 1
@@ -248,55 +231,59 @@ function ApplicationSuccessContent() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-2">
-              <img
-                src="/images/design-mode/Logonew.gif"
-                alt="RCC Logo"
-                className="w-[140px] h-[65px] object-contain mb-4"
-              />
-              <p className="text-gray-300 text-sm">Building careers in construction and engineering across the UAE.</p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <a href="/" className="text-gray-300 hover:text-white">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="/explore-opportunities" className="text-gray-300 hover:text-white">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://ae.indeed.com/cmp/Elrace-Constructions-and-General-Contracting-Co.-LLC/jobs"
-                    className="text-gray-300 hover:text-white"
-                  >
-                    Indeed Jobs
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li>Dubai, UAE</li>
-                <li>hr@rcccareer.com</li>
-                <li>+971 4 XXX XXXX</li>
-              </ul>
+      <footer className="w-full bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12 mt-auto">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div>
+            <img
+              className="w-[80px] h-[36px] md:w-[120px] md:h-[54px] mb-3 md:mb-4 brightness-0 invert"
+              alt="EL RACE Logo"
+              src="/pre-comp-2-1.svg"
+            />
+            <p className="text-[11px] md:text-[14px] text-gray-300 leading-relaxed">
+              Building UAE's future with over 40 years of excellence in construction and infrastructure development.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">Quick Links</h3>
+            <ul className="space-y-1 md:space-y-2">
+              <li>
+                <a href="/" className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://ae.indeed.com/cmp/Elrace-Constructions-and-General-Contracting-Co.-LLC/jobs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors"
+                >
+                  Indeed Jobs
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-[11px] md:text-[14px] text-gray-300 hover:text-white transition-colors">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-[14px] md:text-[18px] mb-3 md:mb-4">Contact Info</h3>
+            <div className="space-y-1 md:space-y-2 text-[11px] md:text-[14px] text-gray-300">
+              <p>EL RACE UAE</p>
+              <p>600500722</p>
+              <p>info@elrace.com</p>
             </div>
           </div>
-
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; 2024 RCC Career Portal. All rights reserved.</p>
-          </div>
+        </div>
+        <div className="max-w-[1280px] mx-auto border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
+          <p className="text-[10px] md:text-[14px] text-gray-300">© 2025 EL RACE. All rights reserved.</p>
         </div>
       </footer>
     </div>
