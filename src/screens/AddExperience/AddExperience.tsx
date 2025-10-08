@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useRouter, useParams } from "next/navigation"
-import { ArrowLeft, Menu, X, Plus } from "lucide-react"
+import { ArrowLeft, Menu, X } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -16,9 +16,7 @@ export const AddExperience = (): JSX.Element => {
   const { jobId } = useParams<{ jobId: string }>()
   const { submitApplication, isSubmitting, isScreening, error: submitError } = useJobApplication()
 
-  // State for managing experience cards
-  const [experienceCards, setExperienceCards] = React.useState([1, 2])
-  const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
+  const [experienceCards, setExperienceCards] = React.useState([1])
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const [experienceData, setExperienceData] = React.useState<Record<string, string>>({})
   const [currentlyWorkingStatus, setCurrentlyWorkingStatus] = React.useState<Record<number, boolean>>({})
@@ -41,31 +39,6 @@ export const AddExperience = (): JSX.Element => {
     setExperienceCards([...experienceCards, experienceCards.length + 1])
   }
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      // Validate file type (PDF, DOC, DOCX)
-      const allowedTypes = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "text/plain",
-      ]
-      if (allowedTypes.includes(file.type)) {
-        setUploadedFile(file)
-        console.log("File uploaded:", file.name)
-      } else {
-        alert("Please upload a PDF, DOC, DOCX, or text file.")
-        event.target.value = ""
-      }
-    }
-  }
-
-  const triggerFileUpload = () => {
-    const fileInput = document.getElementById("cv-upload") as HTMLInputElement
-    fileInput?.click()
-  }
-
   const handleSubmit = async () => {
     if (!jobId) {
       alert("Job ID is missing")
@@ -78,11 +51,15 @@ export const AddExperience = (): JSX.Element => {
     const personalInfo = JSON.parse(localStorage.getItem("personalInfo") || "{}")
     const extendedQuestions = JSON.parse(localStorage.getItem("extendedQuestions") || "{}")
 
-    console.log("Personal Info:", personalInfo)
-    console.log("Extended Questions:", extendedQuestions)
-    console.log("Experience Data:", experienceData)
-    console.log("Currently Working Status:", currentlyWorkingStatus)
-    console.log("Uploaded File:", uploadedFile)
+    const cvFileName = localStorage.getItem("cvFileName")
+    const cvFileSize = localStorage.getItem("cvFileSize")
+    const cvFileType = localStorage.getItem("cvFileType")
+
+    const uploadedFile = null
+    if (cvFileName && cvFileSize && cvFileType) {
+      // Create a placeholder file object for submission
+      console.log("CV file info retrieved:", { cvFileName, cvFileSize, cvFileType })
+    }
 
     // Combine all form data with additional fields for screening
     const combinedFormData = {
@@ -138,10 +115,13 @@ export const AddExperience = (): JSX.Element => {
       localStorage.removeItem("extendedQuestions")
       localStorage.removeItem("jobTitle")
       localStorage.removeItem("jobName")
+      localStorage.removeItem("cvFileName")
+      localStorage.removeItem("cvFileSize")
+      localStorage.removeItem("cvFileType")
 
-      // Redirect to success page with screening results - no longer checking qualification status
       const params = new URLSearchParams({
         result: encodeURIComponent(JSON.stringify(result.screeningResult)),
+        referenceNumber: result.referenceNumber || "",
       })
       router.push(`/application-success?${params.toString()}`)
     } else {
@@ -175,7 +155,7 @@ export const AddExperience = (): JSX.Element => {
               <img
                 className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
               />
             </div>
 
@@ -244,57 +224,11 @@ export const AddExperience = (): JSX.Element => {
           <Card className="w-full border-none shadow-none mb-4 md:mb-8">
             <CardContent className="p-0 text-center">
               <h1 className="font-sans font-bold text-[14px] md:text-[33.6px] text-[#151d61] tracking-normal leading-tight my-0 px-0 py-2.5">
-                Add Your Experience & Upload CV
+                Add Your Experience
               </h1>
               <p className="font-sans font-medium text-[10px] md:text-[24.6px] text-[#909090] underline mt-1">
                 Tell us about your work experience
               </p>
-            </CardContent>
-          </Card>
-
-          {/* CV Upload Section */}
-          <Card className="w-full mb-6 md:mb-8">
-            <CardContent className="p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-semibold text-[#151d61] mb-4">Upload Your CV</h2>
-              <div className="space-y-4">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <input
-                    type="file"
-                    id="cv-upload"
-                    accept=".pdf,.doc,.docx,.txt"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <label htmlFor="cv-upload" className="cursor-pointer flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 bg-[#151d61] rounded-full flex items-center justify-center">
-                      <Plus className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-[#151d61] font-medium">Click to upload your CV</p>
-                      <p className="text-sm text-gray-500">PDF, Word, or Text files (max 10MB)</p>
-                    </div>
-                  </label>
-                </div>
-
-                {uploadedFile && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
-                          <span className="text-green-600 text-sm">📄</span>
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-green-800">{uploadedFile.name}</p>
-                          <p className="text-xs text-green-600">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                        </div>
-                      </div>
-                      <button onClick={() => setUploadedFile(null)} className="text-red-500 hover:text-red-700">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
             </CardContent>
           </Card>
 
@@ -383,28 +317,7 @@ export const AddExperience = (): JSX.Element => {
             </Button>
 
             {/* Bottom Action Buttons */}
-            <div className="flex flex-col w-full max-w-[244px] items-center gap-[12px] md:gap-[20px] mt-[20px] md:mt-[40px]">
-              {/* Hidden file input */}
-              <input
-                id="cv-upload"
-                type="file"
-                accept=".pdf,.doc,.docx,.txt"
-                onChange={handleFileUpload}
-                style={{ display: "none" }}
-              />
-
-              <Button
-                onClick={triggerFileUpload}
-                variant="outline"
-                className="h-[30px] md:h-[40px] w-full rounded-[47px] border-[3px] border-solid border-[#151d61] text-[#151d61] hover:bg-[#151d61] hover:text-white transition-colors bg-transparent"
-              >
-                <span className="[font-family:'Inter',Helvetica] font-bold text-[12px] md:text-[16px] text-center">
-                  {uploadedFile
-                    ? `CV: ${uploadedFile.name.length > 15 ? uploadedFile.name.substring(0, 15) + "..." : uploadedFile.name}`
-                    : "Upload Your CV"}
-                </span>
-              </Button>
-
+            <div className="flex justify-center mt-[20px] md:mt-[40px]">
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || isScreening}
@@ -414,9 +327,9 @@ export const AddExperience = (): JSX.Element => {
                   {isSubmitting || isScreening ? "Processing..." : "Apply"}
                 </span>
               </Button>
-
-              {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
             </div>
+
+            {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
           </div>
 
           {/* Error Display */}
@@ -470,7 +383,7 @@ export const AddExperience = (): JSX.Element => {
                 <img
                   className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] mb-4 object-contain"
                   alt="EL RACE Logo"
-                  src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                  src="/images/design-mode/Logonew.gif"
                 />
                 <p className="text-sm text-gray-300 leading-relaxed">
                   Leading construction and contracting company in the UAE, delivering excellence in every project.

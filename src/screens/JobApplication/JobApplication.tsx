@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useRouter, useParams } from "next/navigation"
-import { ArrowLeft, Menu, X } from "lucide-react"
+import { ArrowLeft, Menu, X, Plus } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -239,6 +239,7 @@ export const JobApplication = (): JSX.Element => {
   const router = useRouter()
   const { jobId } = useParams<{ jobId: string }>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
 
   // Simple state management without form validation
   const [formData, setFormData] = React.useState({
@@ -250,16 +251,11 @@ export const JobApplication = (): JSX.Element => {
     gender: "",
     maritalStatus: "",
     totalExperience: "",
-    egyptExperience: "",
     currentLocation: "",
     expectedSalary: "",
     joiningPossibility: "",
     egyptDrivingLicense: "yes",
-    relocationPossibility: "yes",
-    languages: [
-      { id: 1, language: "arabic", proficiency: "native" },
-      { id: 2, language: "english", proficiency: "fluent" },
-    ],
+    languages: [{ id: 1, language: "arabic", proficiency: "native" }],
   })
 
   // Navigation menu items
@@ -278,11 +274,29 @@ export const JobApplication = (): JSX.Element => {
     { id: "gender", label: "Gender", type: "text", required: true },
     { id: "maritalStatus", label: "Marital Status", type: "text", required: true },
     { id: "totalExperience", label: "Total Experience", type: "text", required: true },
-    { id: "egyptExperience", label: "UAE Experience", type: "text", required: true },
     { id: "currentLocation", label: "Current Location", type: "text", required: true },
     { id: "expectedSalary", label: "Expected Salary", type: "text", required: true },
     { id: "joiningPossibility", label: "Joining Possibility", type: "text", required: true },
   ]
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain",
+      ]
+      if (allowedTypes.includes(file.type)) {
+        setUploadedFile(file)
+        console.log("File uploaded:", file.name)
+      } else {
+        alert("Please upload a PDF, DOC, DOCX, or text file.")
+        event.target.value = ""
+      }
+    }
+  }
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -313,6 +327,12 @@ export const JobApplication = (): JSX.Element => {
   }
 
   const onSubmit = () => {
+    if (uploadedFile) {
+      localStorage.setItem("cvFileName", uploadedFile.name)
+      localStorage.setItem("cvFileSize", uploadedFile.size.toString())
+      localStorage.setItem("cvFileType", uploadedFile.type)
+    }
+
     // Store personal information in localStorage for later use
     localStorage.setItem("personalInfo", JSON.stringify(formData))
     console.log("Form submitted:", formData)
@@ -331,7 +351,7 @@ export const JobApplication = (): JSX.Element => {
               <img
                 className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
               />
             </div>
 
@@ -426,10 +446,55 @@ export const JobApplication = (): JSX.Element => {
             </CardContent>
           </Card>
 
+          <Card className="w-full mb-6 md:mb-8">
+            <CardContent className="p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-semibold text-[#151d61] mb-4">Upload Your CV</h2>
+              <div className="space-y-4">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <input
+                    type="file"
+                    id="cv-upload"
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <label htmlFor="cv-upload" className="cursor-pointer flex flex-col items-center gap-2">
+                    <div className="w-12 h-12 bg-[#151d61] rounded flex items-center justify-center">
+                      <Plus className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-[#151d61] font-medium">Click to upload your CV</p>
+                      <p className="text-sm text-gray-500">PDF, Word, or Text files (max 10MB)</p>
+                    </div>
+                  </label>
+                </div>
+
+                {uploadedFile && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
+                          <span className="text-green-600 text-sm">📄</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-green-800">{uploadedFile.name}</p>
+                          <p className="text-xs text-green-600">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                      </div>
+                      <button onClick={() => setUploadedFile(null)} className="text-red-500 hover:text-red-700">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Application Form */}
           <div className="space-y-2 md:space-y-4">
             <div className="flex flex-col w-full items-start gap-2 md:gap-[15px] relative">
-              {formFields.map((field) => {
+              {formFields.map((field, index) => {
                 if (field.id === "nationality") {
                   return (
                     <div
@@ -437,7 +502,7 @@ export const JobApplication = (): JSX.Element => {
                       className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
                     >
                       <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
-                        {field.label}
+                        {index + 1}- {field.label}
                         {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
                       </Label>
                       <Select
@@ -464,7 +529,7 @@ export const JobApplication = (): JSX.Element => {
                       className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
                     >
                       <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
-                        {field.label}
+                        {index + 1}- {field.label}
                         {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
                       </Label>
                       <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
@@ -482,6 +547,34 @@ export const JobApplication = (): JSX.Element => {
                       </Select>
                     </div>
                   )
+                } else if (field.id === "maritalStatus") {
+                  return (
+                    <div
+                      key={field.id}
+                      className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
+                    >
+                      <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                        {index + 1}- {field.label}
+                        {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
+                      </Label>
+                      <Select
+                        value={formData.maritalStatus}
+                        onValueChange={(value) => handleInputChange("maritalStatus", value)}
+                      >
+                        <SelectTrigger className="self-stretch w-full h-8 md:h-10 bg-white rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font">
+                          <SelectValue placeholder="Choose option" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Single" className="form-input-font">
+                            Single
+                          </SelectItem>
+                          <SelectItem value="Married" className="form-input-font">
+                            Married
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )
                 } else {
                   return (
                     <div
@@ -489,7 +582,7 @@ export const JobApplication = (): JSX.Element => {
                       className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
                     >
                       <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
-                        {field.label}
+                        {index + 1}- {field.label}
                         {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
                       </Label>
                       <Input
@@ -507,7 +600,7 @@ export const JobApplication = (): JSX.Element => {
                 {/* UAE Driving license toggle */}
                 <div className="flex flex-col items-start gap-1 md:gap-3 relative self-stretch w-full">
                   <Label className="flex-1 self-stretch form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
-                    UAE Driving License
+                    12- UAE Driving License
                     <span className="text-red-asterisk">{textRedAsterisk}</span>
                   </Label>
                   <ToggleGroup
@@ -531,37 +624,10 @@ export const JobApplication = (): JSX.Element => {
                   </ToggleGroup>
                 </div>
 
-                {/* Relocation Possibility toggle */}
-                <div className="flex flex-col items-start gap-1 md:gap-3 relative self-stretch w-full">
-                  <Label className="flex-1 self-stretch form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
-                    Relocation Possibility
-                    <span className="text-red-asterisk">{textRedAsterisk}</span>
-                  </Label>
-                  <ToggleGroup
-                    type="single"
-                    value={formData.relocationPossibility}
-                    onValueChange={(value) => handleInputChange("relocationPossibility", value)}
-                    className="flex w-full max-w-[140px] md:max-w-[160px] h-[25px] md:h-[32px] items-center gap-2 md:gap-3 relative"
-                  >
-                    <ToggleGroupItem
-                      value="yes"
-                      className="flex-1 h-[25px] md:h-[32px] rounded-[20px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
-                    >
-                      Yes
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      value="no"
-                      className="flex-1 h-[25px] md:h-[32px] rounded-[20px] flex items-center justify-center bg-[#d9d9d9] form-input-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal] data-[state=on]:bg-[#151d61] data-[state=on]:text-white"
-                    >
-                      No
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </div>
-
                 {/* Languages section */}
                 <div className="flex flex-col items-start gap-1 md:gap-2 relative self-stretch w-full">
                   <Label className="self-stretch form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
-                    Languages
+                    13- Languages
                     <span className="text-red-asterisk">{textRedAsterisk}</span>
                   </Label>
 

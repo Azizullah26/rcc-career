@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
+import type { JSX } from "react/jsx-runtime"
 
 // JobDetails Component
 export const JobDetails = (): JSX.Element => {
@@ -135,6 +136,14 @@ export const JobDetails = (): JSX.Element => {
 
   const job = jobData[Number.parseInt(jobId || "1")] || jobData[1]
 
+  React.useEffect(() => {
+    if (job && job.title) {
+      localStorage.setItem("jobTitle", job.title)
+      localStorage.setItem("jobName", job.title)
+      console.log("[v0] Stored job title in localStorage:", job.title)
+    }
+  }, [job])
+
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1282px] relative min-h-[973px]">
@@ -146,7 +155,7 @@ export const JobDetails = (): JSX.Element => {
               <img
                 className="w-[140px] h-[75px] md:w-[200px] md:h-[105px] mx-[134px]"
                 alt="EL RACE Logo"
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
               />
             </div>
 

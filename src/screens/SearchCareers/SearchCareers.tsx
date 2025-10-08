@@ -60,7 +60,7 @@ export const SearchCareers = (): JSX.Element => {
             <img
               className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
               alt="EL RACE Logo"
-              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+              src="/images/design-mode/Logonew.gif"
             />
 
             {/* Desktop Navigation */}

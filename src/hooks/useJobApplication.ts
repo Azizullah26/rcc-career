@@ -57,6 +57,7 @@ export interface ApplicationSubmissionResult {
   qualified?: boolean
   screeningResult?: ScreeningResult
   applicantId?: number
+  referenceNumber?: string // Add reference number to result interface
   error?: string
   message?: string
 }
@@ -175,6 +176,7 @@ export function useJobApplication() {
         qualified: true,
         screeningResult: screening,
         applicantId: result.applicantId,
+        referenceNumber: result.referenceNumber,
         message: `Application submitted successfully! ${screening.feedback}`,
       }
     } catch (error) {

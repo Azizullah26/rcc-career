@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, XCircle, Clock, FileText, Award, MapPin } from "lucide-react"
+import { CheckCircle, XCircle, Clock, FileText, Award } from "lucide-react"
 
 interface ScreeningResult {
   score: number
@@ -18,12 +18,13 @@ interface ScreeningResult {
 
 function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
+  const resultParam = searchParams.get("result")
+  const referenceNumberParam = searchParams.get("referenceNumber") // Get reference number from URL
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
+  const [referenceNumber, setReferenceNumber] = useState<string>("")
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get screening result from URL params
-    const resultParam = searchParams.get("result")
     if (resultParam) {
       try {
         const result = JSON.parse(decodeURIComponent(resultParam))
@@ -32,8 +33,11 @@ function ApplicationSuccessContent() {
         console.error("Error parsing screening result:", error)
       }
     }
+    if (referenceNumberParam) {
+      setReferenceNumber(referenceNumberParam)
+    }
     setLoading(false)
-  }, [searchParams])
+  }, [resultParam, referenceNumberParam])
 
   if (loading) {
     return (
@@ -53,11 +57,7 @@ function ApplicationSuccessContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
-                alt="RCC Logo"
-                className="w-[200px] h-[90px] object-contain"
-              />
+              <img src="/images/design-mode/Logonew.gif" alt="RCC Logo" className="w-[200px] h-[90px] object-contain" />
             </div>
           </div>
         </div>
@@ -65,6 +65,20 @@ function ApplicationSuccessContent() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {referenceNumber && (
+          <div className="mb-8">
+            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
+              <CardContent className="p-6 text-center">
+                <p className="text-sm text-gray-600 mb-2">Your Application Reference Number</p>
+                <p className="text-3xl font-bold text-blue-600 tracking-wider mb-2">{referenceNumber}</p>
+                <p className="text-xs text-gray-500">
+                  Please save this reference number for tracking your application status
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         <div className="text-center mb-8">
           {screeningResult?.qualified ? (
             <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
@@ -221,33 +235,6 @@ function ApplicationSuccessContent() {
           </CardContent>
         </Card>
 
-        {/* Contact Information */}
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
-              Contact Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-2">HR Department</h4>
-                <p className="text-gray-600">Email: hr@rcccareer.com</p>
-                <p className="text-gray-600">Phone: +971 4 XXX XXXX</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-2">Office Address</h4>
-                <p className="text-gray-600">
-                  RCC Career Portal
-                  <br />
-                  Dubai, United Arab Emirates
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <Button onClick={() => (window.location.href = "/")} className="bg-blue-600 hover:bg-blue-700">
@@ -266,7 +253,7 @@ function ApplicationSuccessContent() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <img
-                src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+                src="/images/design-mode/Logonew.gif"
                 alt="RCC Logo"
                 className="w-[140px] h-[65px] object-contain mb-4"
               />

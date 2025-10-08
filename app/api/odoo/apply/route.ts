@@ -197,20 +197,49 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
-      // Extract name safely
-      const firstName = formData.firstName || formData.fullName?.split(" ")[0] || ""
-      const lastName = formData.lastName || formData.fullName?.split(" ").slice(1).join(" ") || ""
-      const fullName = formData.fullName || `${firstName} ${lastName}`.trim()
+      const timestamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] // Format: YYYYMMDDTHHMMSS
+      const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase()
+      const referenceNumber = `RCC-${timestamp}-${randomSuffix}`
+      console.log("Generated reference number:", referenceNumber)
+
+      // Try multiple sources for the name
+      let fullName = ""
+
+      // First try fullName field
+      if (formData.fullName && formData.fullName.trim()) {
+        fullName = formData.fullName.trim()
+      }
+      // Then try firstName + lastName
+      else if (formData.firstName || formData.lastName) {
+        const firstName = (formData.firstName || "").trim()
+        const lastName = (formData.lastName || "").trim()
+        fullName = `${firstName} ${lastName}`.trim()
+      }
+
+      // Log the extracted name for debugging
+      console.log("[v0] Extracted applicant name:", fullName)
+      console.log("[v0] Form data name fields:", {
+        fullName: formData.fullName,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+      })
+
+      const jobTitle = applicationData.jobTitle || applicationData.jobName || `Job ID: ${applicationData.jobId}`
+      console.log("[v0] Job title for application:", jobTitle)
+
+      // Use the actual applicant name, or fallback to "Applicant" if truly empty
+      const applicantName = fullName || "Applicant"
+      const applicantNameWithJob = `${applicantName} - ${jobTitle}`
+
+      console.log("[v0] Final applicant name with job:", applicantNameWithJob)
 
       // Get a valid job ID or use null
       const validJobId = await this.getValidJobId()
 
-      // Get job title/name for description
-      const jobTitle = applicationData.jobTitle || applicationData.jobName || `Job ID: ${applicationData.jobId}`
-
-      // Prepare enhanced description with screening results
       const screeningInfo = formData.screeningScore
         ? `
+APPLICATION REFERENCE NUMBER: ${referenceNumber}
+
 AUTOMATED SCREENING RESULTS:
 - Screening Score: ${formData.screeningScore}/${formData.screeningPercentage ? Math.round((formData.screeningScore / formData.screeningPercentage) * 100) : 100}
 - Match Percentage: ${formData.screeningPercentage}%
@@ -219,20 +248,23 @@ AUTOMATED SCREENING RESULTS:
 - Status: QUALIFIED (Passed automated screening)
 
 `
-        : ""
+        : `
+APPLICATION REFERENCE NUMBER: ${referenceNumber}
 
-      // Prepare applicant data with only standard fields
+`
+
       const applicantData: any = {
-        name: fullName || "Unknown Applicant",
-        partner_name: fullName || "Unknown Applicant",
+        name: applicantNameWithJob,
+        partner_name: applicantNameWithJob,
         email_from: formData.email || "",
         partner_phone: formData.phone || "",
 
-        // Enhanced description field with screening results
         description: `
+JOB APPLIED FOR: ${jobTitle}
+Job ID: ${applicationData.jobId}
+
 ${screeningInfo}APPLICATION DETAILS:
-- Applied for Job: ${jobTitle}
-- Job ID: ${applicationData.jobId}
+- Applicant Name: ${applicantName}
 - Date of Birth: ${formData.dateOfBirth || formData.dob || "Not provided"}
 - Nationality: ${formData.nationality || "Not provided"}
 - Gender: ${formData.gender || "Not provided"}
@@ -352,7 +384,7 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         await this.uploadCV(applicantId, cvFile)
       }
 
-      return { success: true, applicantId }
+      return { success: true, applicantId, referenceNumber }
     } catch (error) {
       console.error("Error creating applicant:", error)
       throw error
@@ -706,6 +738,7 @@ export async function POST(request: NextRequest) {
         success: true,
         message: "Qualified application submitted successfully to Odoo",
         applicantId: result.applicantId,
+        referenceNumber: result.referenceNumber,
         timestamp: new Date().toISOString(),
       },
       {

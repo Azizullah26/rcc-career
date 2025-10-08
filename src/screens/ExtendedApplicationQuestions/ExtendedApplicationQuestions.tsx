@@ -59,7 +59,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
             <img
               className="w-[140px] h-[75px] my-0 mx-[123px] md:h-[105px] md:w-[200px]"
               alt="EL RACE Logo"
-              src="https://elrace.com/RCC4/Requirements/IMG/Logonew.gif"
+              src="/images/design-mode/Logonew.gif"
             />
           </div>
 
