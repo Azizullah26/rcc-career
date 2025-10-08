@@ -328,16 +328,27 @@ export const JobApplication = (): JSX.Element => {
 
   const onSubmit = () => {
     if (uploadedFile) {
-      localStorage.setItem("cvFileName", uploadedFile.name)
-      localStorage.setItem("cvFileSize", uploadedFile.size.toString())
-      localStorage.setItem("cvFileType", uploadedFile.type)
-    }
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64String = reader.result as string
+        localStorage.setItem("cvFile", base64String)
+        localStorage.setItem("cvFileName", uploadedFile.name)
+        localStorage.setItem("cvFileSize", uploadedFile.size.toString())
+        localStorage.setItem("cvFileType", uploadedFile.type)
+        console.log("[v0] CV file converted to base64 and stored in localStorage")
 
-    // Store personal information in localStorage for later use
-    localStorage.setItem("personalInfo", JSON.stringify(formData))
-    console.log("Form submitted:", formData)
-    // Navigate directly to extended application questions page
-    router.push(`/extended-application-questions/${jobId}`)
+        // Store personal information and navigate
+        localStorage.setItem("personalInfo", JSON.stringify(formData))
+        console.log("Form submitted:", formData)
+        router.push(`/extended-application-questions/${jobId}`)
+      }
+      reader.readAsDataURL(uploadedFile)
+    } else {
+      // No CV file, just store personal info and navigate
+      localStorage.setItem("personalInfo", JSON.stringify(formData))
+      console.log("Form submitted:", formData)
+      router.push(`/extended-application-questions/${jobId}`)
+    }
   }
 
   return (

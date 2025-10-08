@@ -84,17 +84,31 @@ export function useJobApplication() {
       console.log("🚀 Starting application submission process...")
       console.log("Job ID:", jobId)
       console.log("Job title/name:", jobTitle || jobName || "Not provided")
+      console.log(
+        "[v0] CV file received in submitApplication:",
+        cvFile
+          ? {
+              name: cvFile.name,
+              size: cvFile.size,
+              type: cvFile.type,
+            }
+          : "No CV file provided",
+      )
 
       // Validate required data
       if (!jobId || !applicationData) {
         throw new Error("Missing required data: jobId and applicationData are required")
       }
 
+      const jobReferenceNumber = localStorage.getItem("jobReferenceNumber") || ""
+      console.log("Job reference number:", jobReferenceNumber)
+
       // Step 1: Extract CV content if available
       let cvContent = ""
       if (cvFile) {
         console.log("📄 Extracting CV content...")
         cvContent = await screeningService.extractCVContent(cvFile)
+        console.log("[v0] CV content extracted, length:", cvContent.length)
       }
 
       // Step 2: Screen the application
@@ -126,11 +140,11 @@ export function useJobApplication() {
 
       const formData = new FormData()
 
-      // Add application data with job title/name and screening results
       const payload = {
         jobId,
         jobTitle,
         jobName,
+        jobReferenceNumber, // Include job reference number
         formData: {
           ...applicationData,
           // Add screening metadata to the application
@@ -147,6 +161,10 @@ export function useJobApplication() {
       if (cvFile) {
         formData.append("cv", cvFile)
         console.log("📎 CV file attached:", cvFile.name, cvFile.size, "bytes")
+        console.log("[v0] FormData keys after appending CV:", Array.from(formData.keys()))
+        console.log("[v0] CV file in FormData:", formData.get("cv"))
+      } else {
+        console.log("[v0] No CV file to attach")
       }
 
       console.log("📤 Sending qualified application to Odoo...")

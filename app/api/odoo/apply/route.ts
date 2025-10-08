@@ -194,6 +194,16 @@ class OdooService {
 
     try {
       console.log("Creating applicant in Odoo...")
+      console.log(
+        "[v0] createApplicant received CV file:",
+        cvFile
+          ? {
+              name: cvFile.name,
+              size: cvFile.size,
+              type: cvFile.type,
+            }
+          : "No CV file",
+      )
 
       const formData = applicationData.formData || {}
 
@@ -380,7 +390,10 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
 
       // Handle CV file upload if provided
       if (cvFile && applicantId) {
+        console.log("[v0] Calling uploadCV with applicantId:", applicantId)
         await this.uploadCV(applicantId, cvFile)
+      } else {
+        console.log("[v0] Skipping CV upload - cvFile:", !!cvFile, "applicantId:", !!applicantId)
       }
 
       return { success: true, applicantId, referenceNumber }
@@ -392,8 +405,9 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
 
   async uploadCV(applicantId: number, cvFile: File): Promise<void> {
     try {
-      console.log("Uploading CV for applicant:", applicantId)
-      console.log("CV file details:", {
+      console.log("[v0] === Starting CV Upload Process ===")
+      console.log("[v0] Uploading CV for applicant:", applicantId)
+      console.log("[v0] CV file details:", {
         name: cvFile.name,
         size: cvFile.size,
         type: cvFile.type,
@@ -410,7 +424,8 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
       const arrayBuffer = await cvFile.arrayBuffer()
       const base64String = Buffer.from(arrayBuffer).toString("base64")
 
-      console.log("Base64 string length:", base64String.length)
+      console.log("[v0] Base64 string length:", base64String.length)
+      console.log("[v0] Creating attachment in Odoo...")
 
       // Create attachment using JSON-RPC with base64 string
       const attachmentData = {
@@ -445,7 +460,7 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         headers.Cookie = (headers.Cookie ? headers.Cookie + "; " : "") + `session_id=${this.sessionId}`
       }
 
-      console.log("Uploading CV with attachment payload...")
+      console.log("[v0] Uploading CV with attachment payload...")
 
       const uploadResponse = await fetch(`${ODOO_URL}/jsonrpc`, {
         method: "POST",
@@ -453,8 +468,8 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         body: JSON.stringify(attachmentPayload),
       })
 
-      console.log("CV upload response status:", uploadResponse.status)
-      console.log("CV upload response headers:", Object.fromEntries(uploadResponse.headers.entries()))
+      console.log("[v0] CV upload response status:", uploadResponse.status)
+      console.log("[v0] CV upload response headers:", Object.fromEntries(uploadResponse.headers.entries()))
 
       if (!uploadResponse.ok) {
         console.error("Failed to upload CV:", uploadResponse.status, uploadResponse.statusText)
@@ -483,18 +498,18 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         throw new Error("Invalid JSON response from Odoo server")
       }
 
-      console.log("CV upload response:", uploadData)
+      console.log("[v0] CV upload response:", uploadData)
 
       if (uploadData.error) {
-        console.error("CV upload Odoo error:", uploadData.error)
+        console.error("[v0] CV upload Odoo error:", uploadData.error)
         throw new Error(uploadData.error.data?.message || uploadData.error.message || "Failed to upload CV")
       }
 
-      console.log("CV uploaded successfully with attachment ID:", uploadData.result)
+      console.log("[v0] CV uploaded successfully with attachment ID:", uploadData.result)
     } catch (error) {
-      console.error("Error uploading CV:", error)
+      console.error("[v0] Error uploading CV:", error)
       // Don't throw here as the applicant was already created
-      console.log("CV upload failed, but applicant was created successfully")
+      console.log("[v0] CV upload failed, but applicant was created successfully")
     }
   }
 
@@ -627,8 +642,26 @@ export async function POST(request: NextRequest) {
 
     const cvFile = formData.get("cv") as File | null
 
-    console.log("Application data string length:", applicationDataString?.length || 0)
-    console.log("CV file:", cvFile ? `${cvFile.name} (${cvFile.size} bytes)` : "No CV file")
+    console.log("[v0] Application data string length:", applicationDataString?.length || 0)
+    console.log(
+      "[v0] CV file from FormData:",
+      cvFile
+        ? {
+            name: cvFile.name,
+            size: cvFile.size,
+            type: cvFile.type,
+            constructor: cvFile.constructor.name,
+          }
+        : "No CV file in FormData",
+    )
+    console.log("[v0] All FormData entries:")
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`[v0]   ${key}: File(${value.name}, ${value.size} bytes, ${value.type})`)
+      } else {
+        console.log(`[v0]   ${key}: ${typeof value} (length: ${String(value).length})`)
+      }
+    }
 
     if (!applicationDataString) {
       console.error("Missing application data. Available keys:", Array.from(formData.keys()))
@@ -728,6 +761,7 @@ export async function POST(request: NextRequest) {
 
     // Create applicant (only qualified applications reach this point)
     console.log("Creating qualified applicant in Odoo...")
+    console.log("[v0] Passing CV file to createApplicant:", cvFile ? "YES" : "NO")
     const result = await odooService.createApplicant(applicationData, cvFile || undefined)
 
     console.log("Qualified application submitted successfully:", result)
