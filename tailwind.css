@@ -1,15 +1,7 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
-@layer components {
-  .all-\[unset\] {
-    all: unset;
-  }
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@custom-variant dark (&:is(.dark *));
 
 @layer base {
   :root {
@@ -76,6 +68,12 @@
     --ring: 216 34% 17%;
 
     --radius: 0.5rem;
+  }
+}
+
+@layer components {
+  .all-\[unset\] {
+    all: unset;
   }
 }
 
