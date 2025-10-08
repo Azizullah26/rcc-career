@@ -240,6 +240,7 @@ export const JobApplication = (): JSX.Element => {
   const { jobId } = useParams<{ jobId: string }>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   // Simple state management without form validation
   const [formData, setFormData] = React.useState({
@@ -327,27 +328,58 @@ export const JobApplication = (): JSX.Element => {
   }
 
   const onSubmit = () => {
-    if (uploadedFile) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const base64String = reader.result as string
-        localStorage.setItem("cvFile", base64String)
-        localStorage.setItem("cvFileName", uploadedFile.name)
-        localStorage.setItem("cvFileSize", uploadedFile.size.toString())
-        localStorage.setItem("cvFileType", uploadedFile.type)
-        console.log("[v0] CV file converted to base64 and stored in localStorage")
+    if (isSubmitting) {
+      console.log("[v0] Already submitting, ignoring click")
+      return
+    }
 
-        // Store personal information and navigate
-        localStorage.setItem("personalInfo", JSON.stringify(formData))
-        console.log("Form submitted:", formData)
-        router.push(`/extended-application-questions/${jobId}`)
+    setIsSubmitting(true)
+    console.log("[v0] Next button clicked, starting submission process")
+
+    if (uploadedFile) {
+      console.log("[v0] CV file detected, converting to base64...")
+      const reader = new FileReader()
+
+      reader.onerror = (error) => {
+        console.error("[v0] FileReader error:", error)
+        setIsSubmitting(false)
+        alert("Error reading CV file. Please try again.")
       }
+
+      reader.onloadend = () => {
+        try {
+          const base64String = reader.result as string
+          localStorage.setItem("cvFile", base64String)
+          localStorage.setItem("cvFileName", uploadedFile.name)
+          localStorage.setItem("cvFileSize", uploadedFile.size.toString())
+          localStorage.setItem("cvFileType", uploadedFile.type)
+          console.log("[v0] CV file converted to base64 and stored in localStorage")
+
+          // Store personal information
+          localStorage.setItem("personalInfo", JSON.stringify(formData))
+          console.log("[v0] Personal info stored, navigating to next page...")
+
+          // Navigate to next page
+          const nextUrl = `/extended-application-questions/${jobId}`
+          console.log("[v0] Navigating to:", nextUrl)
+          router.push(nextUrl)
+        } catch (error) {
+          console.error("[v0] Error in onloadend handler:", error)
+          setIsSubmitting(false)
+          alert("Error processing CV file. Please try again.")
+        }
+      }
+
       reader.readAsDataURL(uploadedFile)
     } else {
+      console.log("[v0] No CV file, proceeding without CV...")
       // No CV file, just store personal info and navigate
       localStorage.setItem("personalInfo", JSON.stringify(formData))
-      console.log("Form submitted:", formData)
-      router.push(`/extended-application-questions/${jobId}`)
+      console.log("[v0] Personal info stored, navigating to next page...")
+
+      const nextUrl = `/extended-application-questions/${jobId}`
+      console.log("[v0] Navigating to:", nextUrl)
+      router.push(nextUrl)
     }
   }
 
@@ -421,10 +453,11 @@ export const JobApplication = (): JSX.Element => {
 
                   <Button
                     onClick={onSubmit}
+                    disabled={isSubmitting}
                     variant="outline"
-                    className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2"
+                    className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Next
+                    {isSubmitting ? "Processing..." : "Next"}
                   </Button>
                 </div>
               </nav>
@@ -744,10 +777,11 @@ export const JobApplication = (): JSX.Element => {
 
                 <Button
                   onClick={onSubmit}
+                  disabled={isSubmitting}
                   variant="outline"
-                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2"
+                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Next
+                  {isSubmitting ? "Processing..." : "Next"}
                 </Button>
               </div>
             </div>
