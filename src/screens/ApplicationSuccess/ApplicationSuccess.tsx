@@ -19,10 +19,8 @@ interface ScreeningResult {
 function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
   const resultParam = searchParams.get("result")
-  const referenceNumberParam = searchParams.get("referenceNumber") // Get reference number from URL
-  const jobReferenceNumberParam = searchParams.get("jobReferenceNumber") // Job reference number
+  const jobReferenceNumberParam = searchParams.get("jobReferenceNumber") // Job reference number from explore-opportunities
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
-  const [referenceNumber, setReferenceNumber] = useState<string>("")
   const [jobReferenceNumber, setJobReferenceNumber] = useState<string>("")
   const [loading, setLoading] = useState(true)
 
@@ -35,14 +33,11 @@ function ApplicationSuccessContent() {
         console.error("Error parsing screening result:", error)
       }
     }
-    if (referenceNumberParam) {
-      setReferenceNumber(referenceNumberParam)
-    }
     if (jobReferenceNumberParam) {
       setJobReferenceNumber(jobReferenceNumberParam)
     }
     setLoading(false)
-  }, [resultParam, referenceNumberParam, jobReferenceNumberParam])
+  }, [resultParam, jobReferenceNumberParam])
 
   if (loading) {
     return (
@@ -139,28 +134,6 @@ function ApplicationSuccessContent() {
                 </div>
               </CardContent>
             </Card>
-
-            {/* Matched Requirements */}
-            {screeningResult.matchedRequirements.length > 0 && (
-              <Card>
-                <div className="p-6 pb-0">
-                  <CardTitle className="flex items-center gap-2 text-green-700">
-                    <CheckCircle className="h-5 w-5" />
-                    Matched Requirements ({screeningResult.matchedRequirements.length})
-                  </CardTitle>
-                </div>
-                <CardContent>
-                  <div className="grid gap-2">
-                    {screeningResult.matchedRequirements.map((requirement, index) => (
-                      <div key={index} className="flex items-center gap-2 p-2 bg-green-50 rounded">
-                        <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
-                        <span className="text-sm text-green-800">{requirement}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
           </div>
         )}
 

@@ -197,11 +197,9 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
-      // Generate a sequential reference number based on timestamp
-      const timestamp = Date.now()
-      const sequentialNumber = timestamp.toString().slice(-4) // Use last 4 digits of timestamp
-      const referenceNumber = `RCC${sequentialNumber.padStart(4, "0")}`
-      console.log("Generated reference number:", referenceNumber)
+      const jobReferenceNumber = (applicationData as any).jobReferenceNumber || ""
+      const referenceNumber = jobReferenceNumber || `RCC${Date.now().toString().slice(-4).padStart(4, "0")}`
+      console.log("Using reference number:", referenceNumber)
 
       // Try multiple sources for the name
       let fullName = ""

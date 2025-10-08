@@ -21,11 +21,11 @@ export const JobDetails = (): JSX.Element => {
   ]
 
   const jobReferenceNumbers: Record<number, string> = {
-    1: "RCC0001",
-    2: "RCC0002",
-    3: "RCC0003",
-    4: "RCC0004",
-    5: "RCC0005",
+    1: "RCC1001",
+    2: "RCC1002",
+    3: "RCC1003",
+    4: "RCC1004",
+    5: "RCC1005",
   }
 
   // Job data based on jobId
@@ -147,7 +147,7 @@ export const JobDetails = (): JSX.Element => {
   React.useEffect(() => {
     if (job && job.title) {
       const currentJobId = Number.parseInt(jobId || "1")
-      const referenceNumber = jobReferenceNumbers[currentJobId] || "RCC0001"
+      const referenceNumber = jobReferenceNumbers[currentJobId] || "RCC1001" // Updated default from RCC0001 to RCC1001
 
       localStorage.setItem("jobTitle", job.title)
       localStorage.setItem("jobName", job.title)
