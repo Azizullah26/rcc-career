@@ -41,7 +41,7 @@ export const ExploreOpportunities = (): JSX.Element => {
   const jobListings = [
     {
       id: 1,
-      referenceNumber: "RCC0001",
+      referenceNumber: "RCC1001", // Updated from RCC0001 to RCC1001
       title: "Senior Civil Engineer",
       department: "Engineering",
       location: "Abu Dhabi, UAE",
@@ -59,7 +59,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 2,
-      referenceNumber: "RCC0002",
+      referenceNumber: "RCC1002", // Updated from RCC0002 to RCC1002
       title: "Project Manager",
       department: "Operations",
       location: "Dubai, UAE",
@@ -77,7 +77,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 3,
-      referenceNumber: "RCC0003",
+      referenceNumber: "RCC1003", // Updated from RCC0003 to RCC1003
       title: "Construction Supervisor",
       department: "Construction",
       location: "Al Ain, UAE",
@@ -95,7 +95,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 4,
-      referenceNumber: "RCC0004",
+      referenceNumber: "RCC1004", // Updated from RCC0004 to RCC1004
       title: "Quality Control Engineer",
       department: "Quality Assurance",
       location: "Dubai, UAE",
@@ -113,7 +113,7 @@ export const ExploreOpportunities = (): JSX.Element => {
     },
     {
       id: 5,
-      referenceNumber: "RCC0005",
+      referenceNumber: "RCC1005", // Updated from RCC0005 to RCC1005
       title: "Safety Officer",
       department: "Health & Safety",
       location: "Abu Dhabi, UAE",
