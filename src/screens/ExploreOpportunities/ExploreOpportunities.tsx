@@ -10,8 +10,9 @@ import {
   SearchIcon,
   Menu,
   X,
+  Loader2,
 } from "lucide-react"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
@@ -20,6 +21,19 @@ import { Input } from "../../components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import { Separator } from "../../components/ui/separator" // Import Separator component
 import type { JSX } from "react"
+
+interface Job {
+  id: number
+  referenceNumber: string
+  title: string
+  department: string
+  location: string
+  type: string
+  experience: string
+  postingDate: string
+  description: string
+  requirements: string[]
+}
 
 export const ExploreOpportunities = (): JSX.Element => {
   const router = useRouter()
@@ -31,107 +45,52 @@ export const ExploreOpportunities = (): JSX.Element => {
   const [selectedLocation, setSelectedLocation] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+  const [jobListings, setJobListings] = useState<Job[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
   // Navigation menu items
   const navItems = [
     { label: "SEARCH CAREERS", href: "/search-careers" },
     { label: "CAREERS", href: "/" },
   ]
 
-  // Job listings data
-  const jobListings = [
-    {
-      id: 1,
-      referenceNumber: "RCC1001", // Updated from RCC0001 to RCC1001
-      title: "Senior Civil Engineer",
-      department: "Engineering",
-      location: "Abu Dhabi, UAE",
-      type: "Full-time",
-      experience: "5+ years",
-      postingDate: "07/04/2025",
-      description:
-        "Lead major infrastructure projects and manage engineering teams in delivering government contracts. This function is to ensure exceptional project delivery in a highly empowered environment.",
-      requirements: [
-        "Bachelor's degree in Civil Engineering",
-        "5+ years of experience in construction projects",
-        "Project management certification preferred",
-        "Strong leadership and communication skills",
-      ],
-    },
-    {
-      id: 2,
-      referenceNumber: "RCC1002", // Updated from RCC0002 to RCC1002
-      title: "Project Manager",
-      department: "Operations",
-      location: "Dubai, UAE",
-      type: "Full-time",
-      experience: "7+ years",
-      postingDate: "07/04/2025",
-      description:
-        "Oversee large-scale government projects from planning to completion, ensuring quality and timely delivery. Represent our brand throughout the project journey.",
-      requirements: [
-        "Bachelor's degree in Engineering or related field",
-        "7+ years of project management experience",
-        "PMP certification required",
-        "Experience with government contracts",
-      ],
-    },
-    {
-      id: 3,
-      referenceNumber: "RCC1003", // Updated from RCC0003 to RCC1003
-      title: "Construction Supervisor",
-      department: "Construction",
-      location: "Al Ain, UAE",
-      type: "Full-time",
-      experience: "3+ years",
-      postingDate: "07/04/2025",
-      description:
-        "Supervise on-site construction activities and ensure compliance with safety and quality standards. This function is to ensure exceptional project execution.",
-      requirements: [
-        "Diploma in Construction or related field",
-        "3+ years of construction supervision experience",
-        "Knowledge of safety regulations",
-        "Strong problem-solving skills",
-      ],
-    },
-    {
-      id: 4,
-      referenceNumber: "RCC1004", // Updated from RCC0004 to RCC1004
-      title: "Quality Control Engineer",
-      department: "Quality Assurance",
-      location: "Dubai, UAE",
-      type: "Full-time",
-      experience: "4+ years",
-      postingDate: "07/04/2025",
-      description:
-        "Ensure all construction work meets quality standards and regulatory requirements. Deliver a flawless project experience from start to finish.",
-      requirements: [
-        "Bachelor's degree in Engineering",
-        "4+ years of quality control experience",
-        "Knowledge of construction standards",
-        "Attention to detail and analytical skills",
-      ],
-    },
-    {
-      id: 5,
-      referenceNumber: "RCC1005", // Updated from RCC0005 to RCC1005
-      title: "Safety Officer",
-      department: "Health & Safety",
-      location: "Abu Dhabi, UAE",
-      type: "Full-time",
-      experience: "3+ years",
-      postingDate: "07/04/2025",
-      description:
-        "Implement and monitor safety protocols across all construction sites to ensure worker safety. This function is to ensure exceptional safety standards in a highly empowered environment.",
-      requirements: [
-        "Bachelor's degree in Safety Engineering or related field",
-        "3+ years of safety management experience",
-        "NEBOSH certification preferred",
-        "Knowledge of safety regulations",
-      ],
-    },
-  ]
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+        console.log("[v0] Fetching jobs from API...")
+
+        const response = await fetch("/api/odoo/jobs")
+        const data = await response.json()
+
+        console.log("[v0] Jobs API response:", data)
+
+        if (data.success && data.jobs) {
+          setJobListings(data.jobs)
+          console.log(`[v0] Loaded ${data.jobs.length} jobs from Odoo`)
+        } else {
+          setError(data.error || "Failed to load jobs")
+          console.error("[v0] Failed to load jobs:", data.error)
+        }
+      } catch (err) {
+        console.error("[v0] Error fetching jobs:", err)
+        setError("Failed to connect to server")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchJobs()
+  }, [])
 
   const handleJobClick = (jobId: number) => {
+    const selectedJob = jobListings.find((job) => job.id === jobId)
+    if (selectedJob) {
+      localStorage.setItem("selectedJobData", JSON.stringify(selectedJob))
+      console.log("[v0] Stored job data in localStorage:", selectedJob)
+    }
     router.push(`/job-details/${jobId}`)
   }
 
@@ -392,13 +351,29 @@ export const ExploreOpportunities = (): JSX.Element => {
           {/* Results count */}
           <div className="px-4 md:px-0 md:ml-[103px] mt-4">
             <p className="[font-family:'Inter',Helvetica] font-normal text-[#4d4d4d] text-[14px] md:text-[16px]">
-              Showing {filteredAndSortedJobs.length} of {jobListings.length} jobs
+              {isLoading ? "Loading jobs..." : `Showing ${filteredAndSortedJobs.length} of ${jobListings.length} jobs`}
             </p>
           </div>
 
           {/* Job Details Section */}
           <section className="flex flex-col w-full max-w-[1056px] items-start gap-4 md:gap-7 mx-auto mt-6 md:mt-8 px-4 mb-12 md:mb-16">
-            {filteredAndSortedJobs.length > 0 ? (
+            {isLoading ? (
+              <div className="w-full text-center py-12 md:py-16">
+                <Loader2 className="w-12 h-12 animate-spin mx-auto text-[#151d61] mb-4" />
+                <p className="[font-family:'Inter',Helvetica] font-normal text-[#4d4d4d] text-[14px] md:text-[18px]">
+                  Loading job opportunities
+                </p>
+              </div>
+            ) : error ? (
+              <div className="w-full text-center py-12 md:py-16">
+                <p className="[font-family:'Inter',Helvetica] font-normal text-red-600 text-[14px] md:text-[18px] px-4 mb-4">
+                  {error}
+                </p>
+                <Button onClick={() => window.location.reload()} className="bg-[#151d61] hover:bg-[#0f1547] text-white">
+                  Retry
+                </Button>
+              </div>
+            ) : filteredAndSortedJobs.length > 0 ? (
               filteredAndSortedJobs.map((job, index) => (
                 <button
                   key={index}
@@ -422,7 +397,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                         About the Job
                       </h4>
 
-                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-black text-[11px] md:text-[15px] line-clamp-3 md:line-clamp-none leading-relaxed">
+                      <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-black text-[11px] md:text-[15px] line-clamp-2 leading-relaxed">
                         {job.description}
                       </p>
                     </div>
@@ -506,7 +481,7 @@ export const ExploreOpportunities = (): JSX.Element => {
           </div>
           <div className="border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
             <p className="[font-family:'Tajawal',Helvetica] text-[10px] md:text-[14px] text-gray-300">
-              © 2024 EL RACE. All rights reserved.
+              © 2025 EL RACE. All rights reserved.
             </p>
           </div>
         </footer>

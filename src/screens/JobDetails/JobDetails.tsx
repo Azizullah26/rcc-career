@@ -13,6 +13,7 @@ export const JobDetails = (): JSX.Element => {
   const { jobId } = useParams<{ jobId: string }>()
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [jobData, setJobData] = React.useState<any>(null)
 
   // Navigation menu items
   const navItems = [
@@ -28,8 +29,7 @@ export const JobDetails = (): JSX.Element => {
     5: "RCC1005",
   }
 
-  // Job data based on jobId
-  const jobData = {
+  const hardcodedJobData = {
     1: {
       title: "Senior Civil Engineer",
       location: "Abu Dhabi, UAE",
@@ -142,12 +142,30 @@ export const JobDetails = (): JSX.Element => {
     },
   }
 
-  const job = jobData[Number.parseInt(jobId || "1")] || jobData[1]
+  React.useEffect(() => {
+    const storedJobData = localStorage.getItem("selectedJobData")
+    if (storedJobData) {
+      try {
+        const parsedJob = JSON.parse(storedJobData)
+        console.log("[v0] Loaded job data from localStorage:", parsedJob)
+        setJobData(parsedJob)
+      } catch (error) {
+        console.error("[v0] Error parsing job data:", error)
+        // Use fallback hardcoded data
+        setJobData(hardcodedJobData[Number.parseInt(jobId || "1")] || hardcodedJobData[1])
+      }
+    } else {
+      // Use fallback hardcoded data
+      console.log("[v0] No job data in localStorage, using fallback")
+      setJobData(hardcodedJobData[Number.parseInt(jobId || "1")] || hardcodedJobData[1])
+    }
+  }, [jobId])
+
+  const job = jobData || hardcodedJobData[1]
 
   React.useEffect(() => {
     if (job && job.title) {
-      const currentJobId = Number.parseInt(jobId || "1")
-      const referenceNumber = jobReferenceNumbers[currentJobId] || "RCC1001" // Updated default from RCC0001 to RCC1001
+      const referenceNumber = job.referenceNumber || jobReferenceNumbers[Number.parseInt(jobId || "1")] || "RCC1001"
 
       localStorage.setItem("jobTitle", job.title)
       localStorage.setItem("jobName", job.title)
@@ -156,6 +174,14 @@ export const JobDetails = (): JSX.Element => {
       console.log("[v0] Stored job reference number in localStorage:", referenceNumber)
     }
   }, [job, jobId])
+
+  if (!jobData) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">Loading job details...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
@@ -251,41 +277,59 @@ export const JobDetails = (): JSX.Element => {
             </h2>
 
             <p className="font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] leading-relaxed">
-              <span className="font-semibold">About the Position</span>
-              <br />
               {job.description}
             </p>
 
-            <div className="mb-3 md:mb-6">
-              <p className="font-light text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px]">
-                <strong>Department:</strong> {job.department} | <strong>Type:</strong> {job.type} |{" "}
-                <strong>Experience:</strong> {job.experience}
-              </p>
-            </div>
-
-            <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 sm:text-[12px] md:text-[14px] lg:text-[16px] font-semibold text-sm">
-              What you will need to Success
+            <h2 className="font-bold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] mb-2 md:mb-3">
+              About the Job
             </h2>
 
             <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
-              {job.requirements.map((requirement, index) => (
-                <li key={index} className="mb-1">
-                  {requirement}
-                </li>
-              ))}
+              <li className="mb-1">
+                <strong>Department:</strong> {job.department}
+              </li>
+              <li className="mb-1">
+                <strong>Type:</strong> {job.type}
+              </li>
+              <li className="mb-1">
+                <strong>Experience:</strong> {job.experience}
+              </li>
+              <li className="mb-1">
+                <strong>Location:</strong> {job.location}
+              </li>
             </ul>
 
-            <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] font-semibold">
-              Key Responsibilities
-            </h2>
+            {job.requirements && job.requirements.length > 0 && (
+              <>
+                <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 sm:text-[12px] md:text-[14px] lg:text-[18px] font-semibold text-sm">
+                  What you will need to Success
+                </h2>
 
-            <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
-              {job.responsibilities.map((responsibility, index) => (
-                <li key={index} className="mb-1">
-                  {responsibility}
-                </li>
-              ))}
-            </ul>
+                <ul className="list-disc pl-4 md:pl-6 font-light mb-3 md:mb-6 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
+                  {job.requirements.map((requirement: string, index: number) => (
+                    <li key={index} className="mb-1">
+                      {requirement}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            {job.responsibilities && job.responsibilities.length > 0 && (
+              <>
+                <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] font-bold">
+                  Key Responsibilities
+                </h2>
+
+                <ul className="list-disc pl-4 md:pl-6 font-light mb-4 md:mb-8 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] space-y-1">
+                  {job.responsibilities.map((responsibility: string, index: number) => (
+                    <li key={index} className="mb-1">
+                      {responsibility}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
 
             {/* Apply Button */}
             <div className="flex justify-center mt-4 md:mt-8">
