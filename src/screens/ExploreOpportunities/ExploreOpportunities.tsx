@@ -382,11 +382,8 @@ export const ExploreOpportunities = (): JSX.Element => {
                 >
                   <div className="w-full h-full">
                     <div className="w-full [font-family:'Arimo_Hebrew_Subset-Bold',Helvetica]">
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="mb-2">
                         <h3 className="font-bold text-black text-[18px] md:text-[24.2px] leading-tight">{job.title}</h3>
-                        <span className="text-[#151d61] font-semibold text-[12px] md:text-[14px] bg-blue-50 px-3 py-1 rounded-full">
-                          {job.referenceNumber}
-                        </span>
                       </div>
 
                       <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[12px] md:text-base mb-2 md:mb-3">

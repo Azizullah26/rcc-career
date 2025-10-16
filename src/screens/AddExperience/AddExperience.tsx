@@ -139,7 +139,7 @@ export const AddExperience = (): JSX.Element => {
 
     if (result.success && result.screeningResult) {
       console.log("Application submitted successfully with screening results!")
-      const jobReferenceNumber = localStorage.getItem("jobReferenceNumber") || ""
+      const applicantReferenceNumber = result.referenceNumber || ""
 
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
@@ -153,8 +153,7 @@ export const AddExperience = (): JSX.Element => {
 
       const params = new URLSearchParams({
         result: encodeURIComponent(JSON.stringify(result.screeningResult)),
-        referenceNumber: result.referenceNumber || "",
-        jobReferenceNumber: jobReferenceNumber,
+        referenceNumber: applicantReferenceNumber,
       })
       router.push(`/application-success?${params.toString()}`)
     } else {
@@ -454,7 +453,7 @@ export const AddExperience = (): JSX.Element => {
             </div>
 
             <div className="border-t border-gray-600 mt-8 pt-8 text-center">
-              <p className="text-sm text-gray-300">© 2024 EL RACE Construction. All rights reserved.</p>
+              <p className="text-sm text-gray-300">© 2025 EL RACE Construction. All rights reserved.</p>
             </div>
           </div>
         </footer>

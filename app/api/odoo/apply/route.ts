@@ -207,8 +207,14 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
+      // Use timestamp to ensure uniqueness across multiple submissions
+      const timestamp = Date.now()
+      const sequentialNumber = 1000 + (timestamp % 9000) // Generates numbers from 1000-9999
+      const applicantReferenceNumber = `RCC${sequentialNumber}`
+      console.log("[v0] Generated applicant reference number:", applicantReferenceNumber)
+
       const jobReferenceNumber = (applicationData as any).jobReferenceNumber || ""
-      const referenceNumber = jobReferenceNumber || `RCC${Date.now().toString().slice(-4).padStart(4, "0")}`
+      const referenceNumber = jobReferenceNumber || applicantReferenceNumber
       console.log("Using reference number:", referenceNumber)
 
       // Try multiple sources for the name
@@ -242,12 +248,13 @@ class OdooService {
 
       console.log("[v0] Final applicant name with job:", applicantNameWithJob)
 
-      // Get a valid job ID or use null
-      const validJobId = await this.getValidJobId()
+      const jobId =
+        typeof applicationData.jobId === "string" ? Number.parseInt(applicationData.jobId, 10) : applicationData.jobId
+      console.log("[v0] Using job ID from application:", jobId)
 
       const screeningInfo = formData.screeningScore
         ? `
-APPLICATION REFERENCE NUMBER: ${referenceNumber}
+APPLICATION REFERENCE NUMBER: ${applicantReferenceNumber}
 
 AUTOMATED SCREENING RESULTS:
 - Screening Score: ${formData.screeningScore}/${formData.screeningPercentage ? Math.round((formData.screeningScore / formData.screeningPercentage) * 100) : 100}
@@ -258,7 +265,7 @@ AUTOMATED SCREENING RESULTS:
 
 `
         : `
-APPLICATION REFERENCE NUMBER: ${referenceNumber}
+APPLICATION REFERENCE NUMBER: ${applicantReferenceNumber}
 
 `
 
@@ -267,7 +274,7 @@ APPLICATION REFERENCE NUMBER: ${referenceNumber}
         partner_name: applicantNameWithJob,
         email_from: formData.email || "",
         partner_phone: formData.phone || "",
-
+        job_id: jobId,
         description: `
 JOB APPLIED FOR: ${jobTitle}
 Job ID: ${applicationData.jobId}
@@ -316,15 +323,7 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         `.trim(),
       }
 
-      // Only add job_id if we have a valid one
-      if (validJobId) {
-        applicantData.job_id = validJobId
-        console.log("Using valid job_id:", validJobId)
-      } else {
-        console.log("Creating applicant without job_id (will be assigned manually)")
-      }
-
-      console.log("Applicant data prepared:", applicantData)
+      console.log("Applicant data prepared with job_id:", applicantData.job_id)
 
       // Use the JSON-RPC execute_kw method with proper authentication
       const createPayload = {
@@ -396,7 +395,7 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         console.log("[v0] Skipping CV upload - cvFile:", !!cvFile, "applicantId:", !!applicantId)
       }
 
-      return { success: true, applicantId, referenceNumber }
+      return { success: true, applicantId, referenceNumber: applicantReferenceNumber }
     } catch (error) {
       console.error("Error creating applicant:", error)
       throw error

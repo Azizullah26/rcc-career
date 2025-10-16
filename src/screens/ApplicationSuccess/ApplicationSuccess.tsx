@@ -19,9 +19,9 @@ interface ScreeningResult {
 function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
   const resultParam = searchParams.get("result")
-  const jobReferenceNumberParam = searchParams.get("jobReferenceNumber") // Job reference number from explore-opportunities
+  const applicantReferenceNumberParam = searchParams.get("referenceNumber")
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
-  const [jobReferenceNumber, setJobReferenceNumber] = useState<string>("")
+  const [applicantReferenceNumber, setApplicantReferenceNumber] = useState<string>("")
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -33,11 +33,11 @@ function ApplicationSuccessContent() {
         console.error("Error parsing screening result:", error)
       }
     }
-    if (jobReferenceNumberParam) {
-      setJobReferenceNumber(jobReferenceNumberParam)
+    if (applicantReferenceNumberParam) {
+      setApplicantReferenceNumber(applicantReferenceNumberParam)
     }
     setLoading(false)
-  }, [resultParam, jobReferenceNumberParam])
+  }, [resultParam, applicantReferenceNumberParam])
 
   if (loading) {
     return (
@@ -65,14 +65,14 @@ function ApplicationSuccessContent() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {jobReferenceNumber && (
+        {applicantReferenceNumber && (
           <div className="mb-8">
             <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
               <CardContent className="p-6 text-center">
-                <p className="text-sm text-gray-600 mb-2">Job Reference Number</p>
-                <p className="text-3xl font-bold text-blue-600 tracking-wider mb-2">{jobReferenceNumber}</p>
+                <p className="text-sm text-gray-600 mb-2">Application Reference Number</p>
+                <p className="text-3xl font-bold text-blue-600 tracking-wider mb-2">{applicantReferenceNumber}</p>
                 <p className="text-xs text-gray-500">
-                  This is the reference number for the job position you applied for
+                  Please save this reference number for tracking your application status
                 </p>
               </CardContent>
             </Card>
