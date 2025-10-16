@@ -92,6 +92,7 @@ class OdooJobService {
                 "no_of_recruitment",
                 "description",
                 "requirements",
+                "x_requirements",
                 "create_date",
                 "write_date",
               ],
@@ -135,20 +136,31 @@ class OdooJobService {
       const jobs = data.result || []
       console.log(`[v0] Fetched ${jobs.length} jobs from Odoo`)
 
-      return jobs.map((job: any, index: number) => ({
-        id: job.id,
-        referenceNumber: `RCC${(1001 + index).toString()}`, // Generate sequential reference numbers
-        title: job.name || "Untitled Position",
-        department: job.department_id ? job.department_id[1] : "General",
-        location: "UAE", // Default location, can be customized
-        type: "Full-time",
-        experience: "As per requirements",
-        postingDate: job.create_date
-          ? new Date(job.create_date).toLocaleDateString("en-GB")
-          : new Date().toLocaleDateString("en-GB"),
-        description: job.description || "No description available",
-        requirements: job.requirements ? job.requirements.split("\n").filter((r: string) => r.trim()) : [],
-      }))
+      return jobs.map((job: any, index: number) => {
+        const requirementsText = job.requirements || job.x_requirements || ""
+
+        // Log if requirements field is empty to help with debugging
+        if (!requirementsText) {
+          console.log(`[v0] Job "${job.name}" (ID: ${job.id}) has no requirements data`)
+        }
+
+        const requirementsArray = requirementsText ? requirementsText.split("\n").filter((r: string) => r.trim()) : []
+
+        return {
+          id: job.id,
+          referenceNumber: `RCC${(1001 + index).toString()}`, // Generate sequential reference numbers
+          title: job.name || "Untitled Position",
+          department: job.department_id ? job.department_id[1] : "General",
+          location: "UAE", // Default location, can be customized
+          type: "Full-time",
+          experience: "As per requirements",
+          postingDate: job.create_date
+            ? new Date(job.create_date).toLocaleDateString("en-GB")
+            : new Date().toLocaleDateString("en-GB"),
+          description: job.description || "No description available",
+          requirements: requirementsArray,
+        }
+      })
     } catch (error) {
       console.error("[v0] Error fetching jobs:", error)
       return []
