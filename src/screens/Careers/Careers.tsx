@@ -107,7 +107,7 @@ export const Careers = (): JSX.Element => {
                 meaningful.
               </p>
               <Button
-                onClick={() => router.push("/search-careers")}
+                onClick={() => router.push("/explore-opportunities")}
                 className="bg-[#ce363a] hover:bg-[#b8303a] text-white rounded-lg h-[45px] md:h-[60px] px-6 md:px-12 font-semibold text-[16px] md:text-[20px] flex items-center gap-2 mx-auto"
               >
                 Explore Opportunities

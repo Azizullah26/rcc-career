@@ -67,7 +67,7 @@ function ApplicationSuccessContent() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {applicantReferenceNumber && (
           <div className="mb-8">
-            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
+            <Card className="bg-linear-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
               <CardContent className="p-6 text-center">
                 <p className="text-sm text-gray-600 mb-2">Application Reference Number</p>
                 <p className="text-3xl font-bold text-blue-600 tracking-wider mb-2">{applicantReferenceNumber}</p>

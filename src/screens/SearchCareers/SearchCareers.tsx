@@ -2,6 +2,7 @@
 
 import { SearchIcon, Menu, X, ArrowLeft } from "lucide-react"
 import React from "react"
+import type { JSX } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
@@ -42,7 +43,8 @@ export const SearchCareers = (): JSX.Element => {
 
     // Navigate to explore opportunities with search parameters
     const queryString = searchParams.toString()
-    router.push(`/explore-opportunities${queryString ? `?${queryString}` : ""}`)
+    const url = queryString ? `/explore-opportunities?${queryString}` : "/explore-opportunities"
+    router.push(url)
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -70,7 +72,7 @@ export const SearchCareers = (): JSX.Element => {
                   <Link
                     key={index}
                     href={item.href}
-                    className={`[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap ${
+                    className={`font-medium text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap ${
                       item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
                     } transition-colors`}
                   >
@@ -102,7 +104,7 @@ export const SearchCareers = (): JSX.Element => {
                   <Link
                     key={index}
                     href={item.href}
-                    className={`py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[16px] md:text-[18px] transition-colors ${
+                    className={`py-3 px-2 font-medium text-[16px] md:text-[18px] transition-colors ${
                       item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}

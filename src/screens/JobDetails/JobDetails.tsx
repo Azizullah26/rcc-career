@@ -317,7 +317,7 @@ export const JobDetails = (): JSX.Element => {
 
             {job.responsibilities && job.responsibilities.length > 0 && (
               <>
-                <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] font-bold">
+                <h2 className="mt-3 md:mt-4 mb-2 md:mb-3 text-[10px] sm:text-[12px] md:text-[14px] lg:text-[18px] font-bold">
                   Key Responsibilities
                 </h2>
 
@@ -332,10 +332,10 @@ export const JobDetails = (): JSX.Element => {
             )}
 
             {/* Apply Button */}
-            <div className="flex justify-center mt-4 md:mt-8">
+            <div className="flex justify-center mt-0 md:mt-2 mb-8 md:mb-12">
               <Button
                 onClick={() => router.push(`/job-application/${jobId}`)}
-                className="w-[110px] md:w-[160px] h-[35px] md:h-[50px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[16px] md:text-[28px] hover:bg-[#1a2470] transition-colors"
+                className="w-[90px] md:w-[130px] h-[30px] md:h-[40px] bg-[#151d61] rounded-[16.04px] [font-family:'Tajawal',Helvetica] font-bold text-white text-[14px] md:text-[20px] hover:bg-[#1a2470] transition-colors"
               >
                 Apply
               </Button>

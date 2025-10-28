@@ -9,6 +9,25 @@ const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
 const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "272127212721"
 
+function sanitizeText(text: string | null | undefined): string {
+  if (!text) return ""
+
+  // Remove HTML tags
+  let sanitized = text.replace(/<[^>]*>/g, "")
+
+  // Replace problematic characters
+  sanitized = sanitized
+    .replace(/[\u0000-\u001F\u007F-\u009F]/g, "") // Remove control characters
+    .replace(/\r\n/g, " ") // Replace Windows line breaks
+    .replace(/\n/g, " ") // Replace Unix line breaks
+    .replace(/\r/g, " ") // Replace Mac line breaks
+    .replace(/\t/g, " ") // Replace tabs
+    .replace(/\s+/g, " ") // Replace multiple spaces with single space
+    .trim()
+
+  return sanitized
+}
+
 class OdooJobService {
   private sessionId: string | null = null
   private uid: number | null = null
@@ -144,20 +163,25 @@ class OdooJobService {
           console.log(`[v0] Job "${job.name}" (ID: ${job.id}) has no requirements data`)
         }
 
-        const requirementsArray = requirementsText ? requirementsText.split("\n").filter((r: string) => r.trim()) : []
+        const requirementsArray = requirementsText
+          ? requirementsText
+              .split("\n")
+              .filter((r: string) => r.trim())
+              .map((r: string) => sanitizeText(r))
+          : []
 
         return {
           id: job.id,
-          referenceNumber: `RCC${(1001 + index).toString()}`, // Generate sequential reference numbers
-          title: job.name || "Untitled Position",
-          department: job.department_id ? job.department_id[1] : "General",
-          location: "UAE", // Default location, can be customized
+          referenceNumber: `RCC${String(1001 + index)}`,
+          title: sanitizeText(job.name) || "Untitled Position",
+          department: job.department_id ? sanitizeText(job.department_id[1]) : "General",
+          location: "UAE",
           type: "Full-time",
           experience: "As per requirements",
           postingDate: job.create_date
             ? new Date(job.create_date).toLocaleDateString("en-GB")
             : new Date().toLocaleDateString("en-GB"),
-          description: job.description || "No description available",
+          description: sanitizeText(job.description) || "No description available",
           requirements: requirementsArray,
         }
       })

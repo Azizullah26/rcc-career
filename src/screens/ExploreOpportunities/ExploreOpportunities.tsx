@@ -1,7 +1,6 @@
 "use client"
 
 import {
-  ArrowLeft,
   ArrowDownIcon,
   ArrowUpIcon,
   ListIcon,
@@ -194,18 +193,6 @@ export const ExploreOpportunities = (): JSX.Element => {
         <section className="relative h-28 md:h-48 w-full">
           <div className="h-28 md:h-48 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
             <div className="h-28 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
-              <div className="absolute top-4 md:top-6 left-4 md:left-[103px]">
-                <Link
-                  href="/search-careers"
-                  className="flex items-center gap-2 md:gap-3 text-white hover:text-gray-200 transition-colors"
-                >
-                  <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
-                  <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">
-                    Back to Search
-                  </span>
-                </Link>
-              </div>
-
               <h1 className="absolute top-[35px] md:top-[60px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[16px] md:text-[36px] tracking-[0] leading-normal text-center px-4">
                 <span className="font-bold tracking-wider whitespace-nowrap">EXPLORE OPPORTUNITIES</span>
               </h1>
@@ -387,7 +374,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                       </div>
 
                       <p className="[font-family:'Tajawal_Medium-Regular',Helvetica] text-[#2d2d2d] text-[12px] md:text-base mb-2 md:mb-3">
-                        Location: {job.location}&nbsp;&nbsp;Posting Date: {job.postingDate}&nbsp;&nbsp;
+                        Location: {job.location} • Posting Date: {job.postingDate}
                       </p>
 
                       <h4 className="[font-family:'Arimo',Helvetica] font-bold text-black text-[12px] md:text-[15px] mt-2 md:mt-4 mb-1 md:mb-2">
