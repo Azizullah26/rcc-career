@@ -1,13 +1,14 @@
 "use client"
 
-import { ArrowLeft, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
 import { cn } from "../../lib/utils"
-import { Button } from "../../../components/ui/button"
-import { Input } from "../../../components/ui/input"
-import { ToggleGroup, ToggleGroupItem } from "../../../components/ui/toggle-group"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "../../../components/ui/textarea"
 import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
 
 export const ExtendedApplicationQuestions = (): JSX.Element => {
@@ -111,58 +112,47 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
         {/* Main Content */}
         <main className="px-4 md:px-[80px] pt-[80px] md:pt-[100px] pb-[50px] md:pb-[80px]">
-          {/* Back Button */}
-          <div className="mb-6">
-            <button
-              onClick={() => router.back()}
-              className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="[font-family:'Tajawal',Helvetica] font-normal text-[12px] md:text-[16px]">Back</span>
-            </button>
+          {/* Page Title */}
+          <div className="mb-8 md:mb-10">
+            <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[9px] md:text-[18px]">
+              APPLICATION QUESTIONS
+            </h1>
           </div>
-
-          <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[9px] md:text-[18px] mb-[20px] md:mb-[60px]">
-            APPLICATION QUESTIONS
-          </h1>
 
           {/* Previous Work Question */}
           <section className="mb-[20px] md:mb-[40px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[12px] md:mb-[20px]">
+            <Label className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[12px] md:mb-[20px]">
               Have you previously worked with EL RACE
-            </h2>
+            </Label>
 
-            <ToggleGroup
-              type="single"
-              value={previousWork}
-              onValueChange={setPreviousWork}
-              className="flex gap-[12px] md:gap-[20px]"
-            >
-              <ToggleGroupItem
-                value="yes"
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+            <div className="flex gap-[12px] md:gap-[20px]">
+              <Button
+                variant={previousWork === "yes" ? "default" : "outline"}
+                onClick={() => setPreviousWork("yes")}
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
               >
-                yes
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="no"
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                Yes
+              </Button>
+              <Button
+                variant={previousWork === "no" ? "default" : "outline"}
+                onClick={() => setPreviousWork("no")}
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
               >
                 No
-              </ToggleGroupItem>
-            </ToggleGroup>
+              </Button>
+            </div>
           </section>
 
           {/* Conditional Work Details Section */}
           {previousWork === "yes" && (
             <section className="mb-[30px] md:mb-[60px]">
-              <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[6px] md:mb-[10px]">
+              <Label className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[6px] md:mb-[10px]">
                 Please give details about your work with EL RACE
-              </h2>
-              <Input
+              </Label>
+              <Textarea
                 value={workDetails}
                 onChange={(e) => setWorkDetails(e.target.value)}
-                className="w-full h-[40px] md:h-[60px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base px-4 md:px-6"
+                className="w-full h-[80px] md:h-[120px] bg-white rounded-[79px] border border-solid border-[#d9d9d9] text-sm md:text-base px-4 md:px-6"
                 placeholder="Describe your previous work experience with EL RACE..."
               />
             </section>
@@ -170,36 +160,33 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
           {/* Relatives/Friends Question */}
           <section className="mb-[30px] md:mb-[60px]">
-            <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[12px] md:mb-[20px]">
+            <Label className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[12px] md:mb-[20px]">
               Do you have any Relatives/Friends working with EL RACE
-            </h2>
+            </Label>
 
-            <ToggleGroup
-              type="single"
-              value={relativesOrFriends}
-              onValueChange={setRelativesOrFriends}
-              className="flex gap-[12px] md:gap-[20px]"
-            >
-              <ToggleGroupItem
-                value="yes"
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+            <div className="flex gap-[12px] md:gap-[20px]">
+              <Button
+                variant={relativesOrFriends === "yes" ? "default" : "outline"}
+                onClick={() => setRelativesOrFriends("yes")}
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
               >
-                yes
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="no"
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] data-[state=on]:bg-[#151d61] data-[state=on]:text-white hover:bg-[#c9c9c9] data-[state=on]:hover:bg-[#1a2470]"
+                Yes
+              </Button>
+              <Button
+                variant={relativesOrFriends === "no" ? "default" : "outline"}
+                onClick={() => setRelativesOrFriends("no")}
+                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
               >
                 No
-              </ToggleGroupItem>
-            </ToggleGroup>
+              </Button>
+            </div>
 
             {/* Conditional Names and Relationship Section */}
             {relativesOrFriends === "yes" && (
               <div className="mt-[20px] md:mt-[40px]">
-                <h2 className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[6px] md:mb-[10px]">
+                <Label className="[font-family:'Inter',Helvetica] font-semibold text-black text-[13px] md:text-[16px] mb-[6px] md:mb-[10px]">
                   Please specify the names of Relatives/Friends
-                </h2>
+                </Label>
                 <Input
                   value={names}
                   onChange={(e) => setNames(e.target.value)}
@@ -209,9 +196,9 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
                 {/* Relationship Section */}
                 <div className="mt-[20px] md:mt-[40px]">
-                  <h2 className="[font-family:'Inter',Helvetica] font-normal text-black text-[13px] md:text-[16px] mb-[12px] md:mb-[20px]">
+                  <Label className="[font-family:'Inter',Helvetica] font-normal text-black text-[13px] md:text-[16px] mb-[12px] md:mb-[20px]">
                     Relationship
-                  </h2>
+                  </Label>
 
                   <div className="flex flex-wrap gap-[10px] md:gap-[20px]">
                     {relationshipOptions.map((option, index) => (

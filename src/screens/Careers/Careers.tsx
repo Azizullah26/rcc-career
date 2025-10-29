@@ -23,8 +23,8 @@ export const Careers = (): JSX.Element => {
   const navItems = [
     { name: "HOME", href: "https://elrace.com/" },
     { name: "PROJECTS", href: "https://elrace.com/projects" },
-    { name: "SEARCH CAREERS", href: "/search-careers" },
     { name: "CAREERS", href: "/" },
+    { name: "CONTACT", href: "https://elrace.com/" },
   ]
 
   return (
@@ -43,7 +43,7 @@ export const Careers = (): JSX.Element => {
       {/* ✅ ALL CONTENT — ABOVE BACKGROUND */}
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="relative w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm">
+        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <img
               className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
@@ -93,7 +93,7 @@ export const Careers = (): JSX.Element => {
         </header>
 
         {/* Hero */}
-        <main className="flex-grow flex flex-col pt-24">
+        <main className="flex-grow flex flex-col pt-[70px] md:pt-[91px]">
           <section className="h-[300px] md:h-[500px] w-full flex items-center justify-center px-4">
             <div className="text-center max-w-[800px]">
               <h1 className="font-normal text-white text-[24px] md:text-[48px] mb-4 md:mb-6">
@@ -173,7 +173,7 @@ export const Careers = (): JSX.Element => {
             </div>
           </div>
           <div className="max-w-[1280px] mx-auto border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
-            <p className="text-[10px] md:text-[14px] text-gray-300">© 2024 EL RACE. All rights reserved.</p>
+            <p className="text-[10px] md:text-[14px] text-gray-300">© 2025 EL RACE. All rights reserved.</p>
           </div>
         </footer>
       </div>

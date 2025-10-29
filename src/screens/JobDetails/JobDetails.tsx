@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowLeft, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import React from "react"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
@@ -15,10 +15,11 @@ export const JobDetails = (): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const [jobData, setJobData] = React.useState<any>(null)
 
-  // Navigation menu items
   const navItems = [
-    { name: "SEARCH CAREERS", href: "/search-careers" },
+    { name: "HOME", href: "https://elrace.com/" },
+    { name: "PROJECTS", href: "https://elrace.com/projects" },
     { name: "CAREERS", href: "/" },
+    { name: "CONTACT", href: "https://elrace.com/" },
   ]
 
   const jobReferenceNumbers: Record<number, string> = {
@@ -186,40 +187,26 @@ export const JobDetails = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1282px] relative min-h-[973px]">
-        {/* Header/Navigation */}
-        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-[#ebebeb] z-50">
-          <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
-            {/* Logo and Back Button */}
-            <div className="flex items-center">
-              <img
-                className="w-[140px] h-[75px] md:w-[200px] md:h-[105px] mx-[134px]"
-                alt="EL RACE Logo"
-                src="/images/design-mode/Logonew.gif"
-              />
+        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-white/90 backdrop-blur-sm z-50">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
+            <img
+              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
+              alt="EL RACE Logo"
+              src="/images/design-mode/Logonew.gif"
+            />
+            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-between">
-              <nav className="flex items-center gap-[20px] md:gap-[34px]">
-                {navItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
-
-              <div className="flex items-center gap-[29px] ml-[60px]">
-                {/* Removed Sign In and Arabic Language buttons */}
-              </div>
-            </div>
-
-            {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 z-50 relative"
+              className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -231,36 +218,23 @@ export const JobDetails = (): JSX.Element => {
             </button>
           </div>
 
-          {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="flex flex-col p-4">
+            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+              <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
                 ))}
-                {/* Removed Sign In and Arabic Language buttons */}
               </nav>
             </div>
           )}
         </header>
-
-        {/* Back Button */}
-        <div className="absolute top-[80px] md:top-[100px] left-4 md:left-[85px] z-10">
-          <button
-            onClick={() => router.back()}
-            className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
-            <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
-          </button>
-        </div>
 
         {/* Job Title */}
         <h1 className="absolute top-[100px] md:top-[136px] left-0 right-0 mx-auto [font-family:'Inter',Helvetica] font-bold text-black text-[14px] md:text-[30.8px] text-center tracking-[0] leading-tight px-4">

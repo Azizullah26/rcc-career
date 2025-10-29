@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useRouter, useParams } from "next/navigation"
-import { ArrowLeft, Menu, X, PlusIcon, Loader2 } from "lucide-react"
+import { Menu, X, PlusIcon, Loader2 } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -20,13 +20,13 @@ export const AddExperience = (): JSX.Element => {
   const [experienceData, setExperienceData] = React.useState<Record<string, string>>({})
   const [currentlyWorkingStatus, setCurrentlyWorkingStatus] = React.useState<Record<number, boolean>>({})
 
-  // Navigation menu items
   const navItems = [
-    { name: "SEARCH CAREERS", href: "/search-careers" },
+    { name: "HOME", href: "https://elrace.com/" },
+    { name: "PROJECTS", href: "https://elrace.com/projects" },
     { name: "CAREERS", href: "/" },
+    { name: "CONTACT", href: "https://elrace.com/" },
   ]
 
-  // Form fields for each experience card
   const formFields = [
     { label: "Company Name<span class='text-red-500'>*</span>", id: "company-name", type: "text" },
     { label: "Job Title<span class='text-red-500'>*</span>", id: "job-title", type: "text" },
@@ -180,35 +180,32 @@ export const AddExperience = (): JSX.Element => {
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative min-h-screen">
         {/* Header/Navigation */}
-        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-[#ebebeb] z-50">
-          <div className="flex items-center justify-between px-4 md:px-[68px] h-full">
-            {/* Logo */}
-            <div className="flex items-center">
+        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+          <div className="flex items-center justify-between px-4 md:px-[68px] h-full relative">
+            <div className="absolute left-[10px] top-[-8px]">
               <img
-                className="w-[140px] h-[75px] my-0 mx-20 md:w-[200px] md:h-[105px]"
+                className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
                 alt="EL RACE Logo"
                 src="/images/design-mode/Logonew.gif"
               />
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-between gap-10">
-              <nav className="flex items-center gap-[34px]">
-                {navItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[18.7px] tracking-[0] leading-normal whitespace-nowrap text-[#656565] hover:text-[#151d61] transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
+            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 z-50 relative"
+              className="lg:hidden p-2 z-50 relative ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -228,7 +225,7 @@ export const AddExperience = (): JSX.Element => {
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -242,12 +239,11 @@ export const AddExperience = (): JSX.Element => {
         {/* Main Content */}
         <main className="pt-[90px] md:pt-[120px] px-4 md:px-[85px] pb-10">
           {/* Back Button */}
-          <div className="mb-6">
+          <div className="mb-6 hidden">
             <button
               onClick={() => router.back()}
               className="flex items-center gap-1 md:gap-2 text-[#656565] hover:text-[#151d61] transition-colors"
             >
-              <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
               <span className="[font-family:'Tajawal',Helvetica] font-normal text-[14px] md:text-[18px]">Back</span>
             </button>
           </div>

@@ -18,10 +18,11 @@ export const SearchCareers = (): JSX.Element => {
   const [jobSearch, setJobSearch] = React.useState("")
   const [selectedCity, setSelectedCity] = React.useState("")
 
-  // Navigation menu items
   const navItems = [
-    { label: "SEARCH CAREERS", href: "/search-careers", active: true },
+    { label: "HOME", href: "https://elrace.com/" },
+    { label: "PROJECTS", href: "https://elrace.com/projects" },
     { label: "CAREERS", href: "/" },
+    { label: "CONTACT", href: "https://elrace.com/" },
   ]
 
   // Available cities for selection
@@ -55,36 +56,26 @@ export const SearchCareers = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative">
-        {/* Header/Navigation */}
-        <header className="w-full h-[70px] md:h-[91px] bg-white relative z-50">
-          <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
-            {/* Company Logo */}
+        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <img
-              className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
+              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
               alt="EL RACE Logo"
               src="/images/design-mode/Logonew.gif"
             />
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-between">
-              <nav className="flex items-center gap-[34px] mr-[29px]">
-                {navItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className={`font-medium text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap ${
-                      item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
-                    } transition-colors`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
+            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
-
-            {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 z-50 relative"
+              className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -96,17 +87,14 @@ export const SearchCareers = (): JSX.Element => {
             </button>
           </div>
 
-          {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="flex flex-col p-4">
+            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+              <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className={`py-3 px-2 font-medium text-[16px] md:text-[18px] transition-colors ${
-                      item.active ? "text-[#151d61]" : "text-[#656565] hover:text-[#151d61]"
-                    }`}
+                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -118,7 +106,7 @@ export const SearchCareers = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="w-full max-w-[1052px] mx-auto px-4">
+        <main className="w-full max-w-[1052px] mx-auto px-4 pt-[70px] md:pt-[91px]">
           {/* Banner Image Section */}
           <section className="flex flex-col w-full items-center gap-[13.66px] mb-[40px] md:mb-[60px]">
             <div className="relative w-full h-[200px] md:h-[326.26px] bg-[url(/image.png)] bg-cover bg-center rounded-lg overflow-hidden">
@@ -356,7 +344,7 @@ export const SearchCareers = (): JSX.Element => {
           </div>
           <div className="border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
             <p className="[font-family:'Tajawal',Helvetica] text-[10px] md:text-[14px] text-gray-300">
-              © 2024 EL RACE. All rights reserved.
+              © 2025 EL RACE. All rights reserved.
             </p>
           </div>
         </footer>

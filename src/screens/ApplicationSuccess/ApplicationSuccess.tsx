@@ -2,9 +2,10 @@
 
 import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
+import Link from "next/link"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, Clock, FileText, Award } from "lucide-react"
+import { CheckCircle, Clock, FileText, Award, Menu, X } from "lucide-react"
 
 interface ScreeningResult {
   score: number
@@ -23,6 +24,14 @@ function ApplicationSuccessContent() {
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
   const [applicantReferenceNumber, setApplicantReferenceNumber] = useState<string>("")
   const [loading, setLoading] = useState(true)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const navItems = [
+    { name: "HOME", href: "https://elrace.com/" },
+    { name: "PROJECTS", href: "https://elrace.com/projects" },
+    { name: "CAREERS", href: "/" },
+    { name: "CONTACT", href: "https://elrace.com/" },
+  ]
 
   useEffect(() => {
     if (resultParam) {
@@ -53,18 +62,61 @@ function ApplicationSuccessContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <img src="/images/design-mode/Logonew.gif" alt="RCC Logo" className="w-[200px] h-[90px] object-contain" />
-            </div>
+      <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+        <div className="relative h-full flex items-center justify-between px-4">
+          {/* Logo */}
+          <Link href="/" className="absolute left-[10px] top-[-8px]">
+            <img
+              className="w-[160px] h-[105px] md:w-[296px] md:h-[152px] object-contain"
+              alt="RCC Logo"
+              src="/images/design-mode/Logonew.gif"
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+            {navItems.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden ml-auto p-2 text-[#656565] hover:text-[#151d61] transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-sm shadow-lg border-t border-gray-200">
+              <div className="flex flex-col py-4">
+                {navItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="px-6 py-3 font-medium text-[#656565] text-[16px] hover:text-[#151d61] hover:bg-gray-50 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-[100px]">
         {applicantReferenceNumber && (
           <div className="mb-8">
             <Card className="bg-linear-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">

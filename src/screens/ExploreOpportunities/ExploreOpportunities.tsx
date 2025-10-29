@@ -1,24 +1,12 @@
 "use client"
 
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  ListIcon,
-  MapPinIcon,
-  ChevronDownIcon,
-  SearchIcon,
-  Menu,
-  X,
-  Loader2,
-} from "lucide-react"
+import { SearchIcon, Menu, X, Loader2 } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Card } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
-import { Separator } from "../../components/ui/separator" // Import Separator component
 import type { JSX } from "react"
 
 interface Job {
@@ -39,7 +27,6 @@ export const ExploreOpportunities = (): JSX.Element => {
 
   // State for filters
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
-  const [viewMode, setViewMode] = useState<"list" | "map">("list")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLocation, setSelectedLocation] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -48,10 +35,11 @@ export const ExploreOpportunities = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Navigation menu items
   const navItems = [
-    { label: "SEARCH CAREERS", href: "/search-careers" },
-    { label: "CAREERS", href: "/" },
+    { name: "HOME", href: "https://elrace.com/" },
+    { name: "PROJECTS", href: "https://elrace.com/projects" },
+    { name: "CAREERS", href: "/" },
+    { name: "CONTACT", href: "https://elrace.com/" },
   ]
 
   useEffect(() => {
@@ -124,41 +112,29 @@ export const ExploreOpportunities = (): JSX.Element => {
     return sorted
   }, [searchTerm, selectedLocation, sortOrder, jobListings])
 
-  const handleSortToggle = () => {
-    setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-  }
-
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] flex flex-col">
-        {/* Header/Navigation */}
-        <header className="w-full h-[70px] md:h-[91px] bg-white relative z-50">
-          <div className="flex items-center justify-between px-4 md:px-[103px] h-full">
-            {/* Company Logo */}
+        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <img
-              className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
+              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
               alt="EL RACE Logo"
               src="/images/design-mode/Logonew.gif"
             />
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-between">
-              <nav className="flex items-center gap-[34px] mr-[29px]">
-                {navItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] tracking-[0] leading-[normal] whitespace-nowrap hover:text-[#151d61] transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
+            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+              {navItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
-
-            {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 z-50 relative"
+              className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -170,18 +146,17 @@ export const ExploreOpportunities = (): JSX.Element => {
             </button>
           </div>
 
-          {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="flex flex-col p-4">
+            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+              <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {item.label}
+                    {item.name}
                   </Link>
                 ))}
               </nav>
@@ -190,7 +165,7 @@ export const ExploreOpportunities = (): JSX.Element => {
         </header>
 
         {/* Page Header */}
-        <section className="relative h-28 md:h-48 w-full">
+        <section className="relative h-28 md:h-48 w-full mt-[70px] md:mt-[91px]">
           <div className="h-28 md:h-48 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
             <div className="h-28 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
               <h1 className="absolute top-[35px] md:top-[60px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[16px] md:text-[36px] tracking-[0] leading-normal text-center px-4">
@@ -208,7 +183,7 @@ export const ExploreOpportunities = (): JSX.Element => {
         {/* Main content area */}
         <main className="w-full flex flex-col">
           {/* Search Filter Section */}
-          <div className="w-full max-w-[550px] mx-auto mt-4 md:mt-6 px-2">
+          <div className="w-full max-w-[550px] mx-auto mt-4 md:mt-6 px-2 hidden">
             <Card className="rounded-[9px] border-2 border-[#6b6b6b] overflow-hidden shadow-lg">
               {/* Mobile Layout */}
               <div className="md:hidden">
@@ -223,25 +198,6 @@ export const ExploreOpportunities = (): JSX.Element => {
                       className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[16px] tracking-[0] placeholder:text-black focus-visible:ring-0"
                       placeholder="Job title, skill, keyword"
                     />
-                  </div>
-                  <Separator orientation="horizontal" className="h-[1px]" />
-                  <div className="flex flex-col px-4 py-4">
-                    <div className="flex items-center justify-between">
-                      <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[14px] tracking-[0]">
-                        NEAR LOCATIONS
-                      </div>
-                      <ChevronDownIcon className="w-[12.99px] h-[11.25px] text-[#6b6b6b]" />
-                    </div>
-                    <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                      <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[13px] tracking-[0] focus-visible:ring-0 bg-transparent">
-                        <SelectValue placeholder="city" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="abu-dhabi">Abu Dhabi</SelectItem>
-                        <SelectItem value="dubai">Dubai</SelectItem>
-                        <SelectItem value="al-ain">Al Ain</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
                   <Button
                     onClick={() => {
@@ -268,24 +224,6 @@ export const ExploreOpportunities = (): JSX.Element => {
                     placeholder="Job title, skill, keyword"
                   />
                 </div>
-                <Separator orientation="vertical" className="h-[40px] my-auto" />
-                <div className="flex-1 flex flex-col justify-center px-[25px]">
-                  <div className="flex items-center justify-between">
-                    <div className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#6b6b6b] text-[14px] tracking-[0]">
-                      Near locations
-                    </div>
-                  </div>
-                  <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                    <SelectTrigger className="mt-2 border-none p-0 h-auto shadow-none bg-white [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-black text-[13px] tracking-[0] focus-visible:ring-0 bg-transparent">
-                      <SelectValue placeholder="city" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="abu-dhabi">Abu Dhabi</SelectItem>
-                      <SelectItem value="dubai">Dubai</SelectItem>
-                      <SelectItem value="al-ain">Al Ain</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
                 <Button
                   onClick={() => {
                     console.log("Search triggered with:", { searchTerm, selectedLocation })
@@ -299,46 +237,10 @@ export const ExploreOpportunities = (): JSX.Element => {
             </Card>
           </div>
 
-          {/* Filter controls */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-[19.29px] px-4 md:px-0 md:ml-auto md:mr-[103px] mt-6 md:mt-8 relative">
-            <button
-              onClick={handleSortToggle}
-              className="flex items-end gap-[10.39px] hover:opacity-80 transition-opacity"
-            >
-              <div className="[font-family:'Inter',Helvetica] font-normal text-[#4d4d4d] text-[14px] md:text-[17.8px]">
-                Posting Date {sortOrder === "desc" ? "(Newest First)" : "(Oldest First)"}
-              </div>
-              {sortOrder === "desc" ? (
-                <ArrowDownIcon className="w-[10.93px] h-[18.55px] text-[#4d4d4d]" />
-              ) : (
-                <ArrowUpIcon className="w-[10.93px] h-[18.55px] text-[#4d4d4d]" />
-              )}
-            </button>
-
-            <div className="h-[40.07px] rounded-[8.91px] border-[1.48px] border-solid border-[#a4a4a4] flex">
-              <button
-                onClick={() => setViewMode("list")}
-                className={`w-[60px] md:w-[67px] h-10 rounded-[8.91px_0px_0px_8.91px] flex items-center justify-center transition-colors ${
-                  viewMode === "list" ? "bg-[#d9d9d9]" : "bg-transparent hover:bg-[#d9d9d9]"
-                }`}
-              >
-                <ListIcon className="w-[18px] md:w-[21px] h-[18px] md:h-[21px]" />
-              </button>
-              <button
-                onClick={() => setViewMode("map")}
-                className={`w-[60px] md:w-[67px] h-10 flex items-center justify-center transition-colors ${
-                  viewMode === "map" ? "bg-[#d9d9d9]" : "bg-transparent hover:bg-[#d9d9d9]"
-                }`}
-              >
-                <MapPinIcon className="w-[18px] md:w-[21px] h-[18px] md:h-[21px]" />
-              </button>
-            </div>
-          </div>
-
           {/* Results count */}
           <div className="px-4 md:px-0 md:ml-[103px] mt-4">
             <p className="[font-family:'Inter',Helvetica] font-normal text-[#4d4d4d] text-[14px] md:text-[16px]">
-              {isLoading ? "Loading jobs..." : `Showing ${filteredAndSortedJobs.length} of ${jobListings.length} jobs`}
+              {isLoading ? "Loading jobs..." : "Showing 10 jobs"}
             </p>
           </div>
 
