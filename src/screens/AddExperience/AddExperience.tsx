@@ -184,7 +184,7 @@ export const AddExperience = (): JSX.Element => {
           <div className="flex items-center justify-between px-4 md:px-[68px] h-full relative">
             <div className="absolute left-[10px] top-[-8px]">
               <img
-                className="w-[140px] h-[75px] md:w-[200px] md:h-[105px]"
+                className="w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
                 alt="EL RACE Logo"
                 src="/images/design-mode/Logonew.gif"
               />

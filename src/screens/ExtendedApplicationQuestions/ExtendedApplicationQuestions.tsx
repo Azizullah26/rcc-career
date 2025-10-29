@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "../../../components/ui/textarea"
-import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
+import type { JSX } from "react/jsx-runtime"
 
 export const ExtendedApplicationQuestions = (): JSX.Element => {
   const router = useRouter()
@@ -22,10 +22,11 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   const [names, setNames] = useState("")
   const [selectedRelationship, setSelectedRelationship] = useState("")
 
-  // Navigation items data
   const navItems = [
-    { name: "SEARCH CAREERS", href: "/search-careers" },
+    { name: "HOME", href: "https://elrace.com/" },
+    { name: "PROJECTS", href: "https://elrace.com/projects" },
     { name: "CAREERS", href: "/" },
+    { name: "CONTACT", href: "https://elrace.com/" },
   ]
 
   // Relationship options data
@@ -43,7 +44,6 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
       names,
       selectedRelationship,
     }
-    // Store extended questions in localStorage
     localStorage.setItem("extendedQuestions", JSON.stringify(formData))
     console.log("Extended application questions submitted:", formData)
     router.push(`/add-experience/${jobId}`)
@@ -54,57 +54,55 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   return (
     <div className="flex flex-row justify-center w-full bg-white">
       <div className="bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_100%)] w-[1280px] relative">
-        {/* Header/Navigation Bar */}
-        <header className="fixed w-full h-[70px] md:h-[91px] bg-[#ebebeb] flex items-center justify-between px-4 md:px-[68px] top-0 left-0 z-50">
-          <div className="flex items-center">
+        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <img
-              className="w-[140px] h-[75px] my-0 mx-[123px] md:h-[105px] md:w-[200px]"
+              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
               alt="EL RACE Logo"
               src="/images/design-mode/Logonew.gif"
             />
-          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-between">
-            <nav className="flex items-center gap-[34px] mr-[29px]">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="[font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[18.7px] whitespace-nowrap hover:text-[#151d61] transition-colors"
+                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
                 >
                   {item.name}
                 </Link>
               ))}
-            </nav>
-          </div>
+            </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 z-50 relative"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6 text-[#151d61]" /> : <Menu className="w-6 h-6 text-[#151d61]" />}
-          </button>
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden p-2 ml-auto"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-[#151d61]" />
+              ) : (
+                <Menu className="w-6 h-6 text-[#151d61]" />
+              )}
+            </button>
+          </div>
 
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="flex flex-col p-4">
+            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+              <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 [font-family:'Tajawal_Medium-Regular',Helvetica] font-normal text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-                  {/* Removed Sign In and Arabic Language buttons */}
-                </div>
               </nav>
             </div>
           )}
