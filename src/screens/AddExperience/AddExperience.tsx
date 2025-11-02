@@ -180,23 +180,26 @@ export const AddExperience = (): JSX.Element => {
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative min-h-screen">
         {/* Header/Navigation */}
-        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
-          <div className="flex items-center justify-between px-4 md:px-[68px] h-full relative">
-            <div className="absolute left-[10px] top-[-8px]">
+        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
+          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
+            <Link
+              href="/"
+              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+            >
               <img
-                className="w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
+                className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
                 alt="EL RACE Logo"
                 src="/images/design-mode/Logonew.gif"
               />
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.name}
                 </Link>
@@ -205,7 +208,7 @@ export const AddExperience = (): JSX.Element => {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 z-50 relative ml-auto"
+              className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -219,13 +222,13 @@ export const AddExperience = (): JSX.Element => {
 
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] md:top-[91px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="flex flex-col p-4">
+            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+              <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] transition-colors hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#484848] text-[16px] md:text-[18px] hover:text-[#ce363a] transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -237,7 +240,7 @@ export const AddExperience = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[85px] pb-10">
+        <main className="pt-[105px] md:pt-[140px] px-4 md:px-[85px] pb-10">
           {/* Back Button */}
           <div className="mb-6 hidden">
             <button
@@ -384,8 +387,8 @@ export const AddExperience = (): JSX.Element => {
             >
               {isSubmitting || isScreening ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Submitting...</span>
+                  <Loader2 className="w-3 h-3 md:w-4 md:h-4 animate-spin" />
+                  <span className="text-[10px] md:text-[14px]">Submit</span>
                 </>
               ) : (
                 "Apply"

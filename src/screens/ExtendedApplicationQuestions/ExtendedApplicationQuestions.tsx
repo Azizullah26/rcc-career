@@ -54,21 +54,26 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   return (
     <div className="flex flex-row justify-center w-full bg-white">
       <div className="bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_100%)] w-[1280px] relative">
-        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
-            <img
-              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
-              alt="EL RACE Logo"
-              src="/images/design-mode/Logonew.gif"
-            />
+            <Link
+              href="/"
+              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+            >
+              <img
+                className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
+                alt="EL RACE Logo"
+                src="/images/design-mode/Logonew.gif"
+              />
+            </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.name}
                 </Link>
@@ -91,13 +96,13 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#484848] text-[16px] md:text-[18px] hover:text-[#ce363a] transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -109,7 +114,7 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
         </header>
 
         {/* Main Content */}
-        <main className="px-4 md:px-[80px] pt-[80px] md:pt-[100px] pb-[50px] md:pb-[80px]">
+        <main className="px-4 md:px-[80px] pt-[105px] md:pt-[130px] pb-[50px] md:pb-[80px]">
           {/* Page Title */}
           <div className="mb-8 md:mb-10">
             <h1 className="w-full text-center [font-family:'Inter',Helvetica] font-bold text-[#151d61] text-[9px] md:text-[18px]">

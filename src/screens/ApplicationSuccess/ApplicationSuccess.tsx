@@ -62,24 +62,27 @@ function ApplicationSuccessContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
-        <div className="relative h-full flex items-center justify-between px-4">
+      <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
+        <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
           {/* Logo */}
-          <Link href="/" className="absolute left-[10px] top-[-8px]">
+          <Link
+            href="/"
+            className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+          >
             <img
-              className="w-[160px] h-[105px] md:w-[296px] md:h-[152px] object-contain"
+              className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
               alt="RCC Logo"
               src="/images/design-mode/Logonew.gif"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+          <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
             {navItems.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
-                className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
               >
                 {item.name}
               </Link>
@@ -98,12 +101,12 @@ function ApplicationSuccessContent() {
           {/* Mobile Menu Dropdown */}
           {isMobileMenuOpen && (
             <div className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-sm shadow-lg border-t border-gray-200">
-              <div className="flex flex-col py-4">
+              <div className="max-w-[1280px] mx-auto flex flex-col py-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="px-6 py-3 font-medium text-[#656565] text-[16px] hover:text-[#151d61] hover:bg-gray-50 transition-colors"
+                    className="px-6 py-3 font-medium text-[#484848] text-[16px] hover:text-[#ce363a] hover:bg-gray-50 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -116,7 +119,7 @@ function ApplicationSuccessContent() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-[100px]">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-[115px] md:pt-[140px]">
         {applicantReferenceNumber && (
           <div className="mb-8">
             <Card className="bg-linear-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">

@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useRouter, useParams } from "next/navigation"
-import { Menu, X, Plus } from "lucide-react"
+import { Menu, X, Plus, Loader2 } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -240,7 +240,7 @@ export const JobApplication = (): JSX.Element => {
   const { jobId } = useParams<{ jobId: string }>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const [isProcessing, setIsProcessing] = React.useState(false)
 
   // Simple state management without form validation
   const [formData, setFormData] = React.useState({
@@ -255,7 +255,7 @@ export const JobApplication = (): JSX.Element => {
     currentLocation: "",
     expectedSalary: "",
     joiningPossibility: "",
-    egyptDrivingLicense: "yes",
+    egyptDrivingLicense: "",
     languages: [{ id: 1, language: "arabic", proficiency: "native" }],
   })
 
@@ -275,7 +275,7 @@ export const JobApplication = (): JSX.Element => {
     { id: "nationality", label: "Nationality", type: "text", required: true },
     { id: "gender", label: "Gender", type: "text", required: true },
     { id: "maritalStatus", label: "Marital Status", type: "text", required: true },
-    { id: "totalExperience", label: "Total Experience", type: "text", required: true },
+    { id: "totalExperience", label: "Total Experience", type: "number", required: true },
     { id: "currentLocation", label: "Current Location", type: "text", required: true },
     { id: "expectedSalary", label: "Expected Salary", type: "text", required: true },
     { id: "joiningPossibility", label: "Joining Possibility", type: "text", required: true },
@@ -328,14 +328,14 @@ export const JobApplication = (): JSX.Element => {
     }
   }
 
-  const onSubmit = () => {
-    if (isSubmitting) {
-      console.log("[v0] Already submitting, ignoring click")
+  const handleNext = () => {
+    if (isProcessing) {
+      console.log("[v0] Already processing, ignoring click")
       return
     }
 
-    setIsSubmitting(true)
-    console.log("[v0] Next button clicked, starting submission process")
+    setIsProcessing(true)
+    console.log("[v0] Next button clicked, starting processing")
 
     if (uploadedFile) {
       console.log("[v0] CV file detected, converting to base64...")
@@ -343,7 +343,7 @@ export const JobApplication = (): JSX.Element => {
 
       reader.onerror = (error) => {
         console.error("[v0] FileReader error:", error)
-        setIsSubmitting(false)
+        setIsProcessing(false)
         alert("Error reading CV file. Please try again.")
       }
 
@@ -366,7 +366,7 @@ export const JobApplication = (): JSX.Element => {
           router.push(nextUrl)
         } catch (error) {
           console.error("[v0] Error in onloadend handler:", error)
-          setIsSubmitting(false)
+          setIsProcessing(false)
           alert("Error processing CV file. Please try again.")
         }
       }
@@ -387,19 +387,24 @@ export const JobApplication = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative min-h-screen">
-        <header className="fixed w-full h-[70px] md:h-[91px] top-0 left-0 bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed w-full h-[85px] md:h-[110px] top-0 left-0 bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
-            <img
-              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
-              alt="EL RACE Logo"
-              src="/images/design-mode/Logonew.gif"
-            />
-            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+            <Link
+              href="/"
+              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+            >
+              <img
+                className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
+                alt="EL RACE Logo"
+                src="/images/design-mode/Logonew.gif"
+              />
+            </Link>
+            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.name}
                 </Link>
@@ -419,13 +424,13 @@ export const JobApplication = (): JSX.Element => {
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#484848] text-[16px] md:text-[18px] hover:text-[#ce363a] transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -435,9 +440,8 @@ export const JobApplication = (): JSX.Element => {
             </div>
           )}
         </header>
-
         {/* Main Content */}
-        <main className="pt-[90px] md:pt-[120px] px-4 md:px-[85px] pb-10">
+        <main className="pt-[105px] md:pt-[140px] px-4 md:px-[85px] pb-10">
           {/* Page Title */}
           <Card className="w-full border-none shadow-none mb-4 md:mb-8">
             <CardContent className="p-0 text-center">
@@ -577,6 +581,24 @@ export const JobApplication = (): JSX.Element => {
                           </SelectItem>
                         </SelectContent>
                       </Select>
+                    </div>
+                  )
+                } else if (field.id === "totalExperience") {
+                  return (
+                    <div
+                      key={field.id}
+                      className="flex flex-col items-center gap-1 md:gap-2 relative self-stretch w-full"
+                    >
+                      <Label className="self-stretch h-auto form-label-font text-black text-[12px] md:text-[16px] tracking-[0] leading-[normal]">
+                        {index + 1}- {field.label}
+                        {field.required && <span className="text-red-asterisk">{textRedAsterisk}</span>}
+                      </Label>
+                      <Input
+                        type={field.type}
+                        value={formData[field.id as keyof typeof formData]}
+                        onChange={(e) => handleInputChange(field.id, e.target.value)}
+                        className="self-stretch w-full h-8 md:h-10 bg-white rounded-[47px] border border-solid border-black text-xs md:text-sm form-input-font placeholder:text-gray-500"
+                      />
                     </div>
                   )
                 } else {
@@ -729,19 +751,23 @@ export const JobApplication = (): JSX.Element => {
                 <Button
                   type="button"
                   onClick={() => router.back()}
-                  variant="outline"
-                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
+                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-white rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-[#151d61] text-[14px] md:text-[20px] border border-[#151d61] hover:bg-gray-50 transition-colors order-2 md:order-1"
                 >
-                  Cancel
+                  Back
                 </Button>
-
                 <Button
-                  onClick={onSubmit}
-                  disabled={isSubmitting}
-                  variant="outline"
-                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border border-transparent hover:bg-white hover:text-[#151d61] hover:border-black transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleNext}
+                  disabled={isProcessing}
+                  className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border-none hover:bg-[#1a2570] transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? "Processing..." : "Next"}
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="w-3 h-3 md:w-4 md:h-4 animate-spin" />
+                      <span className="text-[10px] md:text-[14px]">Process</span>
+                    </>
+                  ) : (
+                    "Next"
+                  )}
                 </Button>
               </div>
             </div>

@@ -207,9 +207,50 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
-      // Use timestamp to ensure uniqueness across multiple submissions
-      const timestamp = Date.now()
-      const sequentialNumber = 1000 + (timestamp % 9000) // Generates numbers from 1000-9999
+      let sequentialNumber = 1001 // Default starting number
+
+      try {
+        // Query Odoo to get the count of existing applicants
+        const countPayload = {
+          jsonrpc: "2.0",
+          method: "call",
+          params: {
+            service: "object",
+            method: "execute_kw",
+            args: [ODOO_DB, this.uid, ODOO_PASSWORD, "hr.applicant", "search_count", [[]]],
+          },
+          id: Math.floor(Math.random() * 1000000),
+        }
+
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        }
+
+        if (this.cookies.length > 0) {
+          headers.Cookie = this.cookies.join("; ")
+        }
+
+        if (this.sessionId) {
+          headers.Cookie = (headers.Cookie ? headers.Cookie + "; " : "") + `session_id=${this.sessionId}`
+        }
+
+        const countResponse = await fetch(`${ODOO_URL}/jsonrpc`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(countPayload),
+        })
+
+        if (countResponse.ok) {
+          const countData = await countResponse.json()
+          if (countData.result !== undefined) {
+            sequentialNumber = 1001 + countData.result
+            console.log("[v0] Existing applicants count:", countData.result)
+          }
+        }
+      } catch (error) {
+        console.error("[v0] Error getting applicant count, using default:", error)
+      }
+
       const applicantReferenceNumber = `RCC${sequentialNumber}`
       console.log("[v0] Generated applicant reference number:", applicantReferenceNumber)
 

@@ -56,19 +56,24 @@ export const SearchCareers = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative">
-        <header className="fixed top-0 left-0 w-full h-[70px] md:h-[91px] bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
-            <img
-              className="absolute left-[10px] top-[-8px] w-[160px] h-[105px] object-contain md:w-[296px] md:h-[152px]"
-              alt="EL RACE Logo"
-              src="/images/design-mode/Logonew.gif"
-            />
-            <div className="hidden lg:flex items-center gap-[34px] mr-[29px] ml-auto">
+            <Link
+              href="/"
+              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+            >
+              <img
+                className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
+                alt="EL RACE Logo"
+                src="/images/design-mode/Logonew.gif"
+              />
+            </Link>
+            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#656565] text-[18.7px] hover:text-[#151d61] transition-colors"
+                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.label}
                 </Link>
@@ -88,13 +93,13 @@ export const SearchCareers = (): JSX.Element => {
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[70px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="py-3 px-2 font-medium text-[#656565] text-[16px] md:text-[18px] hover:text-[#151d61]"
+                    className="py-3 px-2 font-medium text-[#484848] text-[16px] md:text-[18px] hover:text-[#ce363a] transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -104,9 +109,8 @@ export const SearchCareers = (): JSX.Element => {
             </div>
           )}
         </header>
-
         {/* Main Content */}
-        <main className="w-full max-w-[1052px] mx-auto px-4 pt-[70px] md:pt-[91px]">
+        <main className="w-full max-w-[1052px] mx-auto px-4 pt-[85px] md:pt-[110px]">
           {/* Banner Image Section */}
           <section className="flex flex-col w-full items-center gap-[13.66px] mb-[40px] md:mb-[60px]">
             <div className="relative w-full h-[200px] md:h-[326.26px] bg-[url(/image.png)] bg-cover bg-center rounded-lg overflow-hidden">
