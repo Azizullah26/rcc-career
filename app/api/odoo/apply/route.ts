@@ -207,7 +207,7 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
-      let sequentialNumber = 1001 // Default starting number
+      let sequentialNumber = 1000 // Default starting number
 
       try {
         // Query Odoo to get the count of existing applicants
@@ -243,7 +243,7 @@ class OdooService {
         if (countResponse.ok) {
           const countData = await countResponse.json()
           if (countData.result !== undefined) {
-            sequentialNumber = 1001 + countData.result
+            sequentialNumber = 1000 + countData.result
             console.log("[v0] Existing applicants count:", countData.result)
           }
         }
@@ -253,6 +253,7 @@ class OdooService {
 
       const applicantReferenceNumber = `RCC${sequentialNumber}`
       console.log("[v0] Generated applicant reference number:", applicantReferenceNumber)
+      console.log("[v0] Sequential number for applicantId:", sequentialNumber)
 
       const jobReferenceNumber = (applicationData as any).jobReferenceNumber || ""
       const referenceNumber = jobReferenceNumber || applicantReferenceNumber
@@ -425,18 +426,18 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
         throw new Error(createData.error.data?.message || createData.error.message || "Failed to create applicant")
       }
 
-      const applicantId = createData.result
-      console.log("Applicant created with ID:", applicantId)
+      const odooInternalId = createData.result
+      console.log("Applicant created with Odoo internal ID:", odooInternalId)
 
       // Handle CV file upload if provided
-      if (cvFile && applicantId) {
-        console.log("[v0] Calling uploadCV with applicantId:", applicantId)
-        await this.uploadCV(applicantId, cvFile)
+      if (cvFile && odooInternalId) {
+        console.log("[v0] Calling uploadCV with Odoo internal ID:", odooInternalId)
+        await this.uploadCV(odooInternalId, cvFile)
       } else {
-        console.log("[v0] Skipping CV upload - cvFile:", !!cvFile, "applicantId:", !!applicantId)
+        console.log("[v0] Skipping CV upload - cvFile:", !!cvFile, "odooInternalId:", !!odooInternalId)
       }
 
-      return { success: true, applicantId, referenceNumber: applicantReferenceNumber }
+      return { success: true, applicantId: sequentialNumber, referenceNumber: applicantReferenceNumber }
     } catch (error) {
       console.error("Error creating applicant:", error)
       throw error
