@@ -7,7 +7,14 @@ export const dynamic = "force-dynamic"
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "272127212721"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "@as123451odoo"
+
+console.log("[v0] Environment variables check:")
+console.log("[v0] ODOO_URL:", ODOO_URL)
+console.log("[v0] ODOO_DB:", ODOO_DB)
+console.log("[v0] ODOO_USERNAME:", ODOO_USERNAME)
+console.log("[v0] ODOO_PASSWORD exists:", !!process.env.ODOO_PASSWORD)
+console.log("[v0] Using password:", ODOO_PASSWORD ? "***configured***" : "missing")
 
 function sanitizeText(text: string | null | undefined): string {
   if (!text) return ""
@@ -36,6 +43,7 @@ class OdooJobService {
   async authenticate(): Promise<boolean> {
     try {
       console.log("[v0] Authenticating with Odoo for jobs...")
+      console.log("[v0] Auth params - DB:", ODOO_DB, "User:", ODOO_USERNAME)
 
       const authResponse = await fetch(`${ODOO_URL}/web/session/authenticate`, {
         method: "POST",
@@ -55,7 +63,7 @@ class OdooJobService {
       })
 
       if (!authResponse.ok) {
-        console.error("[v0] Authentication failed:", authResponse.status)
+        console.error("[v0] Authentication failed:", authResponse.status, authResponse.statusText)
         return false
       }
 
@@ -66,13 +74,25 @@ class OdooJobService {
 
       const authData = await authResponse.json()
 
+      console.log("[v0] Auth response received:", {
+        hasResult: !!authData.result,
+        hasUid: !!(authData.result && authData.result.uid),
+        hasError: !!authData.error,
+      })
+
+      if (authData.error) {
+        console.error("[v0] Odoo authentication error:", authData.error)
+        return false
+      }
+
       if (authData.result && authData.result.uid) {
         this.uid = authData.result.uid
         this.sessionId = authData.result.session_id
-        console.log("[v0] Authentication successful for jobs")
+        console.log("[v0] Authentication successful for jobs, UID:", this.uid)
         return true
       }
 
+      console.error("[v0] Authentication response missing uid")
       return false
     } catch (error) {
       console.error("[v0] Authentication error:", error)
