@@ -47,7 +47,7 @@ export const Careers = (): JSX.Element => {
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <Link
               href="/"
-              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[33px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -56,7 +56,7 @@ export const Careers = (): JSX.Element => {
               />
             </Link>
             {/* </CHANGE> */}
-            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
@@ -67,6 +67,7 @@ export const Careers = (): JSX.Element => {
                 </Link>
               ))}
             </div>
+            {/* </CHANGE> */}
             <button
               className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
