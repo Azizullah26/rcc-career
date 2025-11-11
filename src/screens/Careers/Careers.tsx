@@ -43,7 +43,7 @@ export const Careers = (): JSX.Element => {
       {/* ✅ ALL CONTENT — ABOVE BACKGROUND */}
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <Link
               href="/"
@@ -55,7 +55,6 @@ export const Careers = (): JSX.Element => {
                 src="/images/design-mode/Logonew.gif"
               />
             </Link>
-            {/* </CHANGE> */}
             <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
@@ -67,7 +66,6 @@ export const Careers = (): JSX.Element => {
                 </Link>
               ))}
             </div>
-            {/* </CHANGE> */}
             <button
               className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -82,7 +80,7 @@ export const Careers = (): JSX.Element => {
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[90px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
@@ -100,7 +98,7 @@ export const Careers = (): JSX.Element => {
         </header>
 
         {/* Hero */}
-        <main className="flex-grow flex flex-col pt-[85px] md:pt-[110px]">
+        <main className="flex-grow flex flex-col pt-[90px] md:pt-[115px]">
           <section className="h-[300px] md:h-[500px] w-full flex items-center justify-center px-4">
             <div className="text-center max-w-[800px]">
               <h1 className="font-normal text-white text-[24px] md:text-[48px] mb-4 md:mb-6">
