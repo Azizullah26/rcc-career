@@ -242,7 +242,7 @@ export class ApplicationScreeningService {
     },
   ]
 
-  private qualificationThreshold = 0 // Changed from 50 to 0 - no minimum score required
+  private qualificationThreshold = 50 // Changed from 0 to 50 - only submit to Odoo if >= 50%
 
   async screenApplication(applicationData: any, cvContent?: string): Promise<ScreeningResult> {
     console.log("🔍 Starting application screening...")
@@ -268,7 +268,7 @@ export class ApplicationScreeningService {
 
     const percentage = Math.round((totalScore / maxScore) * 100)
     // Changed from: percentage >= this.qualificationThreshold
-    const qualified = true
+    const qualified = percentage >= this.qualificationThreshold
 
     const result: ScreeningResult = {
       score: totalScore,
@@ -280,7 +280,9 @@ export class ApplicationScreeningService {
       feedback: this.generateFeedback(qualified, percentage, matchedRequirements, missedRequirements),
     }
 
-    console.log(`📊 Screening Result: ${percentage}% (${totalScore}/${maxScore}) - SUBMITTED TO ODOO`)
+    console.log(
+      `📊 Screening Result: ${percentage}% (${totalScore}/${maxScore}) - ${qualified ? "WILL SUBMIT TO ODOO" : "WILL NOT SUBMIT TO ODOO (Below 50%)"}`,
+    )
 
     return result
   }
@@ -392,7 +394,11 @@ export class ApplicationScreeningService {
   }
 
   private generateFeedback(qualified: boolean, percentage: number, matched: string[], missed: string[]): string {
-    return `Thank you for your application! Your profile shows a ${percentage}% match with our requirements. We have submitted your application to our HR team for review. ${matched.length > 0 ? `Your strengths include: ${matched.slice(0, 3).join(", ")}.` : ""}`
+    if (qualified) {
+      return `Congratulations! Your profile shows a strong ${percentage}% match with our requirements. Your application has been submitted to our HR team for review. ${matched.length > 0 ? `Your key strengths include: ${matched.slice(0, 3).join(", ")}.` : ""} You will be contacted if your profile is selected for the next round.`
+    } else {
+      return `Thank you for your interest! Your profile shows a ${percentage}% match with our requirements. While we appreciate your application, we require at least a 50% match for this position. ${matched.length > 0 ? `We did note your strengths in: ${matched.slice(0, 2).join(", ")}.` : ""} Please feel free to apply for other positions that better match your qualifications.`
+    }
   }
 
   async extractCVContent(cvFile: File): Promise<string> {

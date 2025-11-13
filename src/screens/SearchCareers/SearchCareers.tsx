@@ -56,11 +56,11 @@ export const SearchCareers = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative">
-        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <Link
               href="/"
-              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[35px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -68,7 +68,7 @@ export const SearchCareers = (): JSX.Element => {
                 src="/images/design-mode/Logonew.gif"
               />
             </Link>
-            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
@@ -93,7 +93,7 @@ export const SearchCareers = (): JSX.Element => {
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[90px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
@@ -109,8 +109,7 @@ export const SearchCareers = (): JSX.Element => {
             </div>
           )}
         </header>
-        {/* Main Content */}
-        <main className="w-full max-w-[1052px] mx-auto px-4 pt-[85px] md:pt-[110px]">
+        <main className="w-full max-w-[1052px] mx-auto px-4 pt-[90px] md:pt-[115px]">
           {/* Banner Image Section */}
           <section className="flex flex-col w-full items-center gap-[13.66px] mb-[40px] md:mb-[60px]">
             <div className="relative w-full h-[200px] md:h-[326.26px] bg-[url(/image.png)] bg-cover bg-center rounded-lg overflow-hidden">

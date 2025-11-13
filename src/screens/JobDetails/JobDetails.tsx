@@ -187,11 +187,11 @@ export const JobDetails = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1282px] relative min-h-[973px]">
-        <header className="fixed w-full h-[85px] md:h-[110px] top-0 left-0 bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed w-full h-[90px] md:h-[115px] top-0 left-0 bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <Link
               href="/"
-              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[35px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -199,7 +199,7 @@ export const JobDetails = (): JSX.Element => {
                 src="/images/design-mode/Logonew.gif"
               />
             </Link>
-            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
@@ -224,7 +224,7 @@ export const JobDetails = (): JSX.Element => {
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[90px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link

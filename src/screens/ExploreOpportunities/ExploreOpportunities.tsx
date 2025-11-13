@@ -115,11 +115,11 @@ export const ExploreOpportunities = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] flex flex-col">
-        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <Link
               href="/"
-              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[35px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -127,7 +127,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                 src="/images/design-mode/Logonew.gif"
               />
             </Link>
-            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
@@ -152,7 +152,7 @@ export const ExploreOpportunities = (): JSX.Element => {
           </div>
 
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[90px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
@@ -169,8 +169,7 @@ export const ExploreOpportunities = (): JSX.Element => {
           )}
         </header>
 
-        {/* Page Header */}
-        <section className="relative h-28 md:h-48 w-full mt-[85px] md:mt-[110px]">
+        <section className="relative h-28 md:h-48 w-full mt-[90px] md:mt-[115px]">
           <div className="h-28 md:h-48 bg-[url(/rectangle-1.svg)] bg-cover bg-[50%_50%] absolute w-full">
             <div className="h-28 md:h-48 bg-[linear-gradient(90deg,rgba(0,7,69,0.8)_45%,rgba(84,93,179,0.8)_100%)] absolute w-full">
               <h1 className="absolute top-[35px] md:top-[60px] left-1/2 transform -translate-x-1/2 [font-family:'Times_New_Roman-Regular',Helvetica] font-normal text-white text-[16px] md:text-[36px] tracking-[0] leading-normal text-center px-4">

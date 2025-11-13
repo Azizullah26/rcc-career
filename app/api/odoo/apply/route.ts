@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "272127212721"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "@as123451odoo"
 
 interface JobApplicationData {
   jobId: string
@@ -74,9 +74,11 @@ class OdooService {
 
   async authenticate(): Promise<boolean> {
     try {
-      console.log("Authenticating with Odoo at:", ODOO_URL)
-      console.log("Database:", ODOO_DB)
-      console.log("Username:", ODOO_USERNAME)
+      console.log("[v0] === Starting Odoo Authentication ===")
+      console.log("[v0] Authenticating with Odoo at:", ODOO_URL)
+      console.log("[v0] Database:", ODOO_DB)
+      console.log("[v0] Username:", ODOO_USERNAME)
+      console.log("[v0] Password configured:", ODOO_PASSWORD ? "YES" : "NO")
 
       const authResponse = await fetch(`${ODOO_URL}/web/session/authenticate`, {
         method: "POST",
@@ -95,10 +97,12 @@ class OdooService {
         }),
       })
 
-      console.log("Auth response status:", authResponse.status)
+      console.log("[v0] Auth response status:", authResponse.status)
 
       if (!authResponse.ok) {
-        console.error("Authentication failed:", authResponse.status, authResponse.statusText)
+        console.error("[v0] Authentication HTTP error:", authResponse.status, authResponse.statusText)
+        const errorText = await authResponse.text()
+        console.error("[v0] Error response body:", errorText)
         return false
       }
 
@@ -106,23 +110,29 @@ class OdooService {
       const setCookieHeaders = authResponse.headers.get("set-cookie")
       if (setCookieHeaders) {
         this.cookies = setCookieHeaders.split(", ")
-        console.log("Cookies extracted:", this.cookies)
       }
 
       const authData = await authResponse.json()
-      console.log("Auth response data:", authData)
+
+      if (authData.error) {
+        console.error("[v0] Odoo authentication error:", authData.error.message || authData.error)
+        return false
+      }
 
       if (authData.result && authData.result.uid) {
         this.uid = authData.result.uid
         this.sessionId = authData.result.session_id
-        console.log("Authentication successful, UID:", this.uid, "Session ID:", this.sessionId)
+        console.log("[v0] Authentication successful - UID:", this.uid)
         return true
       }
 
-      console.error("Authentication failed: No UID in response")
+      console.error("[v0] Authentication failed: No UID in response")
       return false
     } catch (error) {
-      console.error("Authentication error:", error)
+      console.error("[v0] Authentication exception:", error)
+      if (error instanceof Error) {
+        console.error("[v0] Error message:", error.message)
+      }
       return false
     }
   }
@@ -207,7 +217,7 @@ class OdooService {
 
       const formData = applicationData.formData || {}
 
-      let sequentialNumber = 1000 // Default starting number
+      let sequentialNumber = 1001 // Default starting number - starts from RCC1001
 
       try {
         // Query Odoo to get the count of existing applicants
@@ -243,7 +253,7 @@ class OdooService {
         if (countResponse.ok) {
           const countData = await countResponse.json()
           if (countData.result !== undefined) {
-            sequentialNumber = 1000 + countData.result
+            sequentialNumber = 1001 + countData.result
             console.log("[v0] Existing applicants count:", countData.result)
           }
         }
@@ -775,6 +785,40 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const screeningPercentage = applicationData.formData.screeningPercentage || 0
+    const shouldSubmitToOdoo = screeningPercentage >= 50
+
+    console.log(
+      `[v0] Screening check: ${screeningPercentage}% - ${shouldSubmitToOdoo ? "WILL SUBMIT TO ODOO" : "WILL NOT SUBMIT TO ODOO (Below 50%)"}`,
+    )
+
+    if (!shouldSubmitToOdoo) {
+      console.log("[v0] Application score below 50% threshold - showing success page without Odoo submission")
+
+      // Generate a reference number even though we're not submitting to Odoo
+      const mockReferenceNumber = `RCC${Math.floor(Math.random() * 9000) + 1000}`
+
+      return NextResponse.json(
+        {
+          success: true,
+          message: "Application received (not submitted to Odoo - score below threshold)",
+          applicantId: 0,
+          referenceNumber: mockReferenceNumber,
+          submittedToOdoo: false,
+          timestamp: new Date().toISOString(),
+        },
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        },
+      )
+    }
+
     const odooService = new OdooService()
 
     // Authenticate with Odoo
@@ -813,6 +857,7 @@ export async function POST(request: NextRequest) {
         message: "Qualified application submitted successfully to Odoo",
         applicantId: result.applicantId,
         referenceNumber: result.referenceNumber,
+        submittedToOdoo: true,
         timestamp: new Date().toISOString(),
       },
       {

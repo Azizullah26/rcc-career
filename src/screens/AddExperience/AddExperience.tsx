@@ -179,12 +179,11 @@ export const AddExperience = (): JSX.Element => {
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] relative min-h-screen">
-        {/* Header/Navigation */}
-        <header className="fixed top-0 left-0 w-full h-[85px] md:h-[110px] bg-white/90 backdrop-blur-sm z-50">
+        <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
             <Link
               href="/"
-              className="absolute left-[85px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden"
+              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[35px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -193,8 +192,7 @@ export const AddExperience = (): JSX.Element => {
               />
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-[42px] mr-[60px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
@@ -206,7 +204,6 @@ export const AddExperience = (): JSX.Element => {
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               className="lg:hidden p-2 ml-auto"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -220,9 +217,8 @@ export const AddExperience = (): JSX.Element => {
             </button>
           </div>
 
-          {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-[85px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
+            <div className="lg:hidden fixed top-[90px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
               <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
@@ -238,8 +234,6 @@ export const AddExperience = (): JSX.Element => {
             </div>
           )}
         </header>
-
-        {/* Main Content */}
         <main className="pt-[105px] md:pt-[140px] px-4 md:px-[85px] pb-10">
           {/* Back Button */}
           <div className="mb-6 hidden">
@@ -335,67 +329,67 @@ export const AddExperience = (): JSX.Element => {
                 </CardContent>
               </Card>
             ))}
-
-            {/* Add More Button */}
-            <Button
-              onClick={addExperienceCard}
-              variant="outline"
-              className="flex flex-col w-[50px] md:w-[70px] items-center p-0 border-none bg-transparent hover:bg-transparent"
-            >
-              <div className="w-[35px] md:w-[50px] h-[35px] md:h-[50px] bg-white rounded-full border border-solid border-black flex items-center justify-center hover:bg-gray-50 transition-colors">
-                <PlusIcon className="text-[#151d61] w-[20px] md:w-[30px] h-[20px] md:h-[30px]" />
-              </div>
-            </Button>
-
-            {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
           </div>
 
-          {/* Error Display */}
-          {submitError && (
-            <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{submitError}</p>
+          {/* Add More Button */}
+          <Button
+            onClick={addExperienceCard}
+            variant="outline"
+            className="flex flex-col w-[50px] md:w-[70px] items-center p-0 border-none bg-transparent hover:bg-transparent"
+          >
+            <div className="w-[35px] md:w-[50px] h-[35px] md:h-[50px] bg-white rounded-full border border-solid border-black flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <PlusIcon className="text-[#151d61] w-[20px] md:w-[30px] h-[20px] md:h-[30px]" />
             </div>
-          )}
+          </Button>
 
-          {/* Screening Status */}
-          {isScreening && (
-            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <div className="flex items-center gap-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                <p className="text-blue-600 text-sm font-medium">
-                  🔍 Screening your application against job requirements...
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation Buttons */}
-          <div className="flex flex-col gap-3 md:gap-[90px] my-6 md:flex-row justify-center items-center md:my-10 mx-80 py-0 px-20">
-            <Button
-              type="button"
-              onClick={() => router.back()}
-              variant="outline"
-              disabled={isSubmitting}
-              className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
-            >
-              Back
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              disabled={isSubmitting || isScreening}
-              className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border-none hover:bg-[#1a2570] transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {isSubmitting || isScreening ? (
-                <>
-                  <Loader2 className="w-3 h-3 md:w-4 md:h-4 animate-spin" />
-                  <span className="text-[10px] md:text-[14px]">Submit</span>
-                </>
-              ) : (
-                "Apply"
-              )}
-            </Button>
-          </div>
+          {submitError && <div className="text-red-600 text-sm mt-2 text-center">{submitError}</div>}
         </main>
+
+        {/* Error Display */}
+        {submitError && (
+          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 text-sm">{submitError}</p>
+          </div>
+        )}
+
+        {/* Screening Status */}
+        {isScreening && (
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              <p className="text-blue-600 text-sm font-medium">
+                🔍 Screening your application against job requirements...
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Buttons */}
+        <div className="flex flex-col gap-3 md:gap-[90px] my-6 md:flex-row justify-center items-center md:my-10 mx-80 py-0 px-20">
+          <Button
+            type="button"
+            onClick={() => router.back()}
+            variant="outline"
+            disabled={isSubmitting}
+            className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#d9d9d9] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-black text-[14px] md:text-[20px] border-none hover:bg-gray-300 transition-colors order-2 md:order-1"
+          >
+            Back
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={isSubmitting || isScreening}
+            className="w-full md:w-[80px] h-[28px] md:h-[35px] bg-[#151d61] rounded-[38px] [font-family:'Inter',Helvetica] font-medium text-white text-[14px] md:text-[20px] border-none hover:bg-[#1a2570] transition-colors order-1 md:order-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isSubmitting || isScreening ? (
+              <>
+                <Loader2 className="w-3 h-3 md:w-4 md:h-4 animate-spin" />
+                <span className="text-[10px] md:text-[14px]">Submit</span>
+              </>
+            ) : (
+              "Apply"
+            )}
+          </Button>
+        </div>
 
         {/* Footer */}
         <footer className="bg-[#151d61] text-white py-8 px-4 md:px-[68px]">
