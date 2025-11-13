@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, Clock, FileText, Award, Menu, X } from "lucide-react"
+import { CheckCircle, Clock, Award, Menu, X } from "lucide-react"
 
 interface ScreeningResult {
   score: number
@@ -21,10 +21,15 @@ function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
   const resultParam = searchParams.get("result")
   const applicantReferenceNumberParam = searchParams.get("referenceNumber")
+  const qualifiedParam = searchParams.get("qualified")
+  const storedInOdooParam = searchParams.get("storedInOdoo")
+
   const [screeningResult, setScreeningResult] = useState<ScreeningResult | null>(null)
   const [applicantReferenceNumber, setApplicantReferenceNumber] = useState<string>("")
   const [loading, setLoading] = useState(true)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isQualified, setIsQualified] = useState(false)
+  const [isStoredInOdoo, setIsStoredInOdoo] = useState(false)
 
   const navItems = [
     { name: "HOME", href: "https://elrace.com/" },
@@ -45,8 +50,10 @@ function ApplicationSuccessContent() {
     if (applicantReferenceNumberParam) {
       setApplicantReferenceNumber(applicantReferenceNumberParam)
     }
+    setIsQualified(qualifiedParam === "true")
+    setIsStoredInOdoo(storedInOdooParam === "true")
     setLoading(false)
-  }, [resultParam, applicantReferenceNumberParam])
+  }, [resultParam, applicantReferenceNumberParam, qualifiedParam, storedInOdooParam])
 
   if (loading) {
     return (
@@ -120,7 +127,7 @@ function ApplicationSuccessContent() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-[115px] md:pt-[140px]">
-        {applicantReferenceNumber && (
+        {isStoredInOdoo && applicantReferenceNumber && applicantReferenceNumber !== "PENDING" && (
           <div className="mb-8">
             <Card className="bg-linear-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
               <CardContent className="p-6 text-center">
@@ -135,19 +142,20 @@ function ApplicationSuccessContent() {
         )}
 
         <div className="text-center mb-8">
-          {screeningResult?.qualified ? (
-            <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-          ) : (
-            <FileText className="h-16 w-16 text-blue-600 mx-auto mb-4" />
-          )}
+          <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
 
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Application Submitted Successfully</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {isStoredInOdoo ? "Application Submitted Successfully" : "Application Received"}
+          </h1>
 
-          <p className="text-lg text-gray-600">Thank you for your interest in joining our team at RCC Career Portal</p>
+          <p className="text-lg text-gray-600">
+            {isStoredInOdoo
+              ? "Thank you for your interest in joining our team at RCC Career Portal"
+              : "Thank you for your application. Our HR team will review it and contact you soon."}
+          </p>
         </div>
 
-        {/* Screening Results */}
-        {screeningResult && (
+        {isStoredInOdoo && screeningResult && (
           <div className="space-y-6">
             {/* Overall Score */}
             <Card>
@@ -190,6 +198,18 @@ function ApplicationSuccessContent() {
               </CardContent>
             </Card>
           </div>
+        )}
+
+        {!isStoredInOdoo && (
+          <Card className="mt-8">
+            <CardContent className="p-6 text-center">
+              <p className="text-lg text-gray-700 mb-4">Thank you for your interest in joining our team!</p>
+              <p className="text-gray-600">
+                Our HR department will carefully review your application and contact you if your profile matches our
+                current requirements.
+              </p>
+            </CardContent>
+          </Card>
         )}
 
         {/* Next Steps */}

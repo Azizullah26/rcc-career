@@ -137,10 +137,11 @@ export const AddExperience = (): JSX.Element => {
 
     const result = await submitApplication(jobId, combinedFormData, uploadedFile, jobTitle, jobName)
 
-    if (result.success && result.screeningResult) {
-      console.log("Application submitted successfully with screening results!")
-      const applicantReferenceNumber = result.referenceNumber || ""
+    if (result.success) {
+      console.log("Navigating to success page...")
+      const applicantReferenceNumber = result.referenceNumber || "PENDING"
 
+      // Clear localStorage
       localStorage.removeItem("personalInfo")
       localStorage.removeItem("extendedQuestions")
       localStorage.removeItem("jobTitle")
@@ -151,15 +152,19 @@ export const AddExperience = (): JSX.Element => {
       localStorage.removeItem("cvFileType")
       localStorage.removeItem("jobReferenceNumber")
 
+      // Navigate to success page with result data
       const params = new URLSearchParams({
-        result: encodeURIComponent(JSON.stringify(result.screeningResult)),
+        result: result.screeningResult ? encodeURIComponent(JSON.stringify(result.screeningResult)) : "",
         referenceNumber: applicantReferenceNumber,
+        qualified: result.qualified ? "true" : "false",
+        storedInOdoo: result.storedInOdoo ? "true" : "false",
       })
       router.push(`/application-success?${params.toString()}`)
     } else {
-      // Error occurred
-      console.error("Application submission failed:", result.error)
-      alert(result.error || "An error occurred while submitting your application. Please try again.")
+      // Only show error if actual failure occurred
+      console.error("Application submission failed:", result.error || result.message)
+      const errorMessage = result.error || result.message || "An unexpected error occurred. Please try again."
+      alert(errorMessage)
     }
   }
 

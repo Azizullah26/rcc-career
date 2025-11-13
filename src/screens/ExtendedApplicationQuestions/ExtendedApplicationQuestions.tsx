@@ -129,16 +129,22 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
             <div className="flex gap-[12px] md:gap-[20px]">
               <Button
-                variant={previousWork === "yes" ? "default" : "outline"}
+                variant="outline"
                 onClick={() => setPreviousWork("yes")}
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
+                className={cn(
+                  "w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6 border-none",
+                  previousWork === "yes" && "bg-[#151d61] text-white hover:bg-[#1a2470]",
+                )}
               >
                 Yes
               </Button>
               <Button
-                variant={previousWork === "no" ? "default" : "outline"}
+                variant="outline"
                 onClick={() => setPreviousWork("no")}
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
+                className={cn(
+                  "w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6 border-none",
+                  previousWork === "no" && "bg-[#151d61] text-white hover:bg-[#1a2470]",
+                )}
               >
                 No
               </Button>
@@ -168,16 +174,22 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
 
             <div className="flex gap-[12px] md:gap-[20px]">
               <Button
-                variant={relativesOrFriends === "yes" ? "default" : "outline"}
+                variant="outline"
                 onClick={() => setRelativesOrFriends("yes")}
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
+                className={cn(
+                  "w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.66px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6 border-none",
+                  relativesOrFriends === "yes" && "bg-[#151d61] text-white hover:bg-[#1a2470]",
+                )}
               >
                 Yes
               </Button>
               <Button
-                variant={relativesOrFriends === "no" ? "default" : "outline"}
+                variant="outline"
                 onClick={() => setRelativesOrFriends("no")}
-                className="w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6"
+                className={cn(
+                  "w-[60px] md:w-[80px] h-[28px] md:h-[38px] bg-[#d9d9d9] rounded-[35.68px] [font-family:'Inter',Helvetica] font-semibold text-black text-[12px] md:text-[18px] hover:bg-[#c9c9c9] transition-colors px-3 md:px-6 border-none",
+                  relativesOrFriends === "no" && "bg-[#151d61] text-white hover:bg-[#1a2470]",
+                )}
               >
                 No
               </Button>

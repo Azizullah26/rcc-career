@@ -60,6 +60,7 @@ export interface ApplicationSubmissionResult {
   referenceNumber?: string // Add reference number to result interface
   error?: string
   message?: string
+  storedInOdoo?: boolean
 }
 
 export function useJobApplication() {
@@ -97,7 +98,13 @@ export function useJobApplication() {
 
       // Validate required data
       if (!jobId || !applicationData) {
-        throw new Error("Missing required data: jobId and applicationData are required")
+        const errorMsg = "Missing required data: jobId and applicationData are required"
+        setError(errorMsg)
+        return {
+          success: false,
+          qualified: false,
+          error: errorMsg,
+        }
       }
 
       const jobReferenceNumber = localStorage.getItem("jobReferenceNumber") || ""
@@ -107,8 +114,13 @@ export function useJobApplication() {
       let cvContent = ""
       if (cvFile) {
         console.log("📄 Extracting CV content...")
-        cvContent = await screeningService.extractCVContent(cvFile)
-        console.log("[v0] CV content extracted, length:", cvContent.length)
+        try {
+          cvContent = await screeningService.extractCVContent(cvFile)
+          console.log("[v0] CV content extracted, length:", cvContent.length)
+        } catch (cvError) {
+          console.error("[v0] Error extracting CV content:", cvError)
+          // Continue without CV content
+        }
       }
 
       // Step 2: Screen the application
@@ -126,12 +138,14 @@ export function useJobApplication() {
 
       // Step 3: Decide whether to submit to Odoo or reject
       if (!screening.qualified) {
-        console.log("❌ Application does not meet minimum requirements")
+        console.log("❌ Application does not meet minimum requirements (below 50%)")
         return {
-          success: false,
+          success: true, // Changed from false to true
           qualified: false,
+          storedInOdoo: false,
           screeningResult: screening,
-          message: screening.feedback,
+          referenceNumber: "PENDING", // No reference number yet
+          message: "Thank you for your application. Our HR team will review it and contact you soon.",
         }
       }
 
@@ -179,19 +193,24 @@ export function useJobApplication() {
       if (!response.ok) {
         const errorText = await response.text()
         console.error("❌ Odoo API error:", errorText)
-        throw new Error(`HTTP ${response.status}: ${errorText}`)
+        const errorMsg = `Failed to submit application (HTTP ${response.status})`
+        setError(errorMsg)
+        throw new Error(errorMsg)
       }
 
       const result = await response.json()
       console.log("✅ Odoo submission successful:", result)
 
       if (!result.success) {
-        throw new Error(result.error || "Application submission failed")
+        const errorMsg = result.error || result.details || "Application submission failed"
+        setError(errorMsg)
+        throw new Error(errorMsg)
       }
 
       return {
         success: true,
         qualified: true,
+        storedInOdoo: true, // Indicate stored in Odoo
         screeningResult: screening,
         applicantId: result.applicantId,
         referenceNumber: result.referenceNumber,
@@ -199,12 +218,13 @@ export function useJobApplication() {
       }
     } catch (error) {
       console.error("❌ Error in application submission:", error)
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred during submission"
       setError(errorMessage)
 
       return {
         success: false,
         qualified: screeningResult?.qualified,
+        storedInOdoo: screeningResult?.qualified ? true : false,
         screeningResult: screeningResult || undefined,
         error: errorMessage,
       }
