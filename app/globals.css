@@ -10,8 +10,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  /* Updated primary to Sapphire Blue #070d1f (HSL 234 61% 13%) */
-  --primary: 234 61% 13%;
+  /* Converted primary to OKLCH format for Sapphire Blue */
+  --primary: oklch(0.20 0.08 270);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -19,8 +19,8 @@
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  /* Updated destructive to Crimson Red #d73643 (HSL 358 61% 51%) */
-  --destructive: 358 61% 51%;
+  /* Converted destructive to OKLCH format for Crimson Red */
+  --destructive: oklch(0.58 0.20 15);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -33,8 +33,8 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  /* Updated sidebar-primary to Sapphire Blue */
-  --sidebar-primary: 234 61% 13%;
+  /* Converted sidebar-primary to OKLCH format */
+  --sidebar-primary: oklch(0.20 0.08 270);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -49,17 +49,17 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  /* Updated primary to lighter version for dark mode */
-  --primary: 234 61% 85%;
-  --primary-foreground: 234 61% 13%;
+  /* Converted primary for dark mode to OKLCH format (lighter blue) */
+  --primary: oklch(0.85 0.08 270);
+  --primary-foreground: oklch(0.20 0.08 270);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  /* Updated destructive to darker version for dark mode */
-  --destructive: 358 61% 40%;
+  /* Converted destructive for dark mode to OKLCH format (darker red) */
+  --destructive: oklch(0.50 0.18 15);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
@@ -71,8 +71,8 @@
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  /* Updated sidebar-primary for dark mode */
-  --sidebar-primary: 234 61% 65%;
+  /* Converted sidebar-primary for dark mode to OKLCH format (medium blue) */
+  --sidebar-primary: oklch(0.65 0.08 270);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);

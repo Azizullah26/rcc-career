@@ -1,10 +1,10 @@
 "use client"
 
-import { ArrowRightIcon, Menu, X } from "lucide-react"
+import { ArrowRightIcon, Menu, X } from 'lucide-react'
 import React, { useEffect, useRef } from "react"
 import type { JSX } from "react/jsx-runtime"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation'
 import { Button } from "../../components/ui/button"
 
 export const Careers = (): JSX.Element => {
@@ -127,7 +127,7 @@ export const Careers = (): JSX.Element => {
           <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
               <img
-                className="w-[120px] h-[80px] md:w-[160px] md:h-[107px] mb-3 md:mb-4 object-contain brightness-[1.3] saturate-[1.1]"
+                className="w-[80px] h-[36px] md:w-[120px] md:h-[54px] mb-3 md:mb-4 brightness-0 invert"
                 alt="EL RACE Logo"
                 src="/images/design-mode/Logonew.gif"
               />
@@ -193,7 +193,8 @@ export const Careers = (): JSX.Element => {
       <div
         className="absolute inset-0 bg-[length:70%_auto] bg-center z-[3] animate-float"
         style={{
-          backgroundImage: "url('/images/bannerart.png')",
+          backgroundImage:
+            "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/BannerArt-7BiVtqHdVQetHktkR4UVKLB16X6r32.png')",
           clipPath: "polygon(0 0, 56% 0, 0 100%)",
           opacity: 0.1,
         }}
