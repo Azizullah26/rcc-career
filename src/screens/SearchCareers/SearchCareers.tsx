@@ -1,10 +1,10 @@
 "use client"
 
-import { SearchIcon, Menu, X, ArrowLeft } from "lucide-react"
+import { SearchIcon, Menu, X, ArrowLeft } from 'lucide-react'
 import React from "react"
 import type { JSX } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation'
 import { Button } from "../../components/ui/button"
 import { Separator } from "../../components/ui/separator"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
@@ -284,11 +284,6 @@ export const SearchCareers = (): JSX.Element => {
         <footer className="bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
-              <img
-                className="w-[80px] h-[36px] md:w-[120px] md:h-[54px] mb-3 md:mb-4 brightness-0 invert"
-                alt="EL RACE Logo"
-                src="/pre-comp-2-1.svg"
-              />
               <p className="[font-family:'Tajawal',Helvetica] text-[11px] md:text-[14px] text-gray-300 leading-relaxed">
                 Building UAE's future with over 40 years of excellence in construction and infrastructure development.
               </p>

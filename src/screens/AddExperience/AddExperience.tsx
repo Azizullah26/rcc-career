@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { useRouter, useParams } from "next/navigation"
-import { Menu, X, PlusIcon, Loader2 } from "lucide-react"
+import { useRouter, useParams } from 'next/navigation'
+import { Menu, X, PlusIcon, Loader2 } from 'lucide-react'
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -402,11 +402,6 @@ export const AddExperience = (): JSX.Element => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {/* Company Info */}
               <div className="col-span-1 md:col-span-2">
-                <img
-                  className="w-[140px] h-[65px] md:w-[200px] md:h-[90px] mb-4 object-contain"
-                  alt="EL RACE Logo"
-                  src="/images/design-mode/Logonew.gif"
-                />
                 <p className="text-sm text-gray-300 leading-relaxed">
                   Leading construction and contracting company in the UAE, delivering excellence in every project.
                 </p>

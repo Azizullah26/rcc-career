@@ -1,11 +1,11 @@
 "use client"
 
 import { Suspense, useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams } from 'next/navigation'
 import Link from "next/link"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, Clock, Award, Menu, X } from "lucide-react"
+import { CheckCircle, Clock, Award, Menu, X } from 'lucide-react'
 
 interface ScreeningResult {
   score: number
@@ -205,8 +205,7 @@ function ApplicationSuccessContent() {
             <CardContent className="p-6 text-center">
               <p className="text-lg text-gray-700 mb-4">Thank you for your interest in joining our team!</p>
               <p className="text-gray-600">
-                Our HR department will carefully review your application and contact you if your profile matches our
-                current requirements.
+                Our HR department will carefully review your application and supporting documents.
               </p>
             </CardContent>
           </Card>
@@ -282,11 +281,6 @@ function ApplicationSuccessContent() {
       <footer className="w-full bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12 mt-auto">
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
-            <img
-              className="w-[80px] h-[36px] md:w-[120px] md:h-[54px] mb-3 md:mb-4 brightness-0 invert"
-              alt="EL RACE Logo"
-              src="/pre-comp-2-1.svg"
-            />
             <p className="text-[11px] md:text-[14px] text-gray-300 leading-relaxed">
               Building UAE's future with over 40 years of excellence in construction and infrastructure development.
             </p>
