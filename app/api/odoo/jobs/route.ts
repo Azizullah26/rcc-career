@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "@as123451odoo"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "12345@AsOdoo"
 
 console.log("[v0] Environment variables check:")
 console.log("[v0] ODOO_URL:", ODOO_URL)
@@ -74,6 +74,8 @@ class OdooJobService {
 
       const authData = await authResponse.json()
 
+      console.log("[v0] Full auth response:", JSON.stringify(authData, null, 2))
+
       console.log("[v0] Auth response received:", {
         hasResult: !!authData.result,
         hasUid: !!(authData.result && authData.result.uid),
@@ -92,7 +94,7 @@ class OdooJobService {
         return true
       }
 
-      console.error("[v0] Authentication response missing uid")
+      console.error("[v0] Authentication response missing uid. Result contents:", authData.result)
       return false
     } catch (error) {
       console.error("[v0] Authentication error:", error)
