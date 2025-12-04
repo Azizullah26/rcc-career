@@ -136,6 +136,10 @@ export function useJobApplication() {
       console.log(`📊 Screening completed: ${screening.percentage}% match`)
       console.log(`✅ Qualified: ${screening.qualified}`)
 
+      if (screening.percentage === 100 && screening.score === 100) {
+        console.log("🎯 This application bypassed assessment due to meeting all basic requirements")
+      }
+
       // Step 3: Decide whether to submit to Odoo or reject
       if (!screening.qualified) {
         console.log("❌ Application does not meet minimum requirements (below 50%)")

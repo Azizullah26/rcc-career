@@ -1,9 +1,9 @@
 "use client"
 
-import { SearchIcon, Menu, X, Loader2 } from 'lucide-react'
+import { SearchIcon, Menu, X, Loader2 } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 import { Card } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -116,10 +116,10 @@ export const ExploreOpportunities = (): JSX.Element => {
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-full max-w-[1280px] flex flex-col">
         <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
-          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
+          <div className="max-w-[1920px] mx-auto flex items-center justify-between px-4 md:px-[103px] xl:px-[200px] 2xl:px-[300px] h-full">
             <Link
               href="/"
-              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[35px]"
+              className="absolute left-[65px] xl:left-[200px] 2xl:left-[300px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[33px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -127,12 +127,12 @@ export const ExploreOpportunities = (): JSX.Element => {
                 src="/images/design-mode/Logonew.gif"
               />
             </Link>
-            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] xl:mr-[280px] 2xl:mr-[380px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
+                  className="font-medium text-[#484848] text-[18.7px] xl:text-[16px] 2xl:text-[15px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.name}
                 </Link>

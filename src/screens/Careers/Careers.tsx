@@ -1,10 +1,10 @@
 "use client"
 
-import { ArrowRightIcon, Menu, X } from 'lucide-react'
+import { ArrowRightIcon, Menu, X } from "lucide-react"
 import React, { useEffect, useRef } from "react"
 import type { JSX } from "react/jsx-runtime"
 import Link from "next/link"
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { Button } from "../../components/ui/button"
 
 export const Careers = (): JSX.Element => {
@@ -44,10 +44,10 @@ export const Careers = (): JSX.Element => {
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Header */}
         <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
-          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
+          <div className="max-w-[1920px] mx-auto flex items-center justify-between px-4 md:px-[103px] xl:px-[200px] 2xl:px-[300px] h-full">
             <Link
               href="/"
-              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[33px]"
+              className="absolute left-[65px] xl:left-[200px] 2xl:left-[300px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[33px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -55,12 +55,12 @@ export const Careers = (): JSX.Element => {
                 src="/images/design-mode/Logonew.gif"
               />
             </Link>
-            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] ml-auto">
+            <div className="hidden lg:flex items-center gap-[42px] mr-[180px] xl:mr-[280px] 2xl:mr-[380px] ml-auto">
               {navItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
+                  className="font-medium text-[#484848] text-[18.7px] xl:text-[16px] 2xl:text-[15px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.name}
                 </Link>
@@ -99,12 +99,12 @@ export const Careers = (): JSX.Element => {
 
         {/* Hero */}
         <main className="flex-grow flex flex-col pt-[90px] md:pt-[115px]">
-          <section className="h-[300px] md:h-[500px] w-full flex items-center justify-center px-4">
-            <div className="text-center max-w-[800px]">
-              <h1 className="font-normal text-white text-[24px] md:text-[48px] mb-4 md:mb-6">
+          <section className="h-[300px] md:h-[500px] xl:h-[600px] w-full flex items-center justify-center px-4">
+            <div className="text-center max-w-[800px] xl:max-w-[1000px] 2xl:max-w-[1200px]">
+              <h1 className="font-normal text-white text-[24px] md:text-[48px] xl:text-[42px] 2xl:text-[40px] mb-4 md:mb-6">
                 <span className="font-bold tracking-wider">EL RACE CAREERS</span>
               </h1>
-              <p className="font-normal text-white text-[12px] md:text-[18px] mb-6 md:mb-8">
+              <p className="font-normal text-white text-[12px] md:text-[18px] xl:text-[16px] 2xl:text-[15px] mb-6 md:mb-8">
                 EL RACE is a well-established local company with over 40 years of experience, known for delivering major
                 government projects with excellence and reliability. We take pride in our talented and dedicated team,
                 and we're always looking for passionate individuals to join our growing family. At EL RACE, you'll find
@@ -123,8 +123,8 @@ export const Careers = (): JSX.Element => {
         </main>
 
         {/* Footer */}
-        <footer className="w-full bg-[#151d61] text-white px-4 md:px-[103px] py-6 md:py-12 mt-auto">
-          <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <footer className="w-full bg-[#151d61] text-white px-4 md:px-[103px] xl:px-[200px] 2xl:px-[300px] py-6 md:py-12 mt-auto">
+          <div className="max-w-[1920px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
               <p className="text-[11px] md:text-[14px] text-gray-300 leading-relaxed">
                 Building UAE's future with over 40 years of excellence in construction and infrastructure development.
@@ -172,7 +172,7 @@ export const Careers = (): JSX.Element => {
               </div>
             </div>
           </div>
-          <div className="max-w-[1280px] mx-auto border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
+          <div className="max-w-[1920px] mx-auto border-t border-gray-600 mt-4 md:mt-8 pt-4 md:pt-8 text-center">
             <p className="text-[10px] md:text-[14px] text-gray-300">© 2025 EL RACE. All rights reserved.</p>
           </div>
         </footer>
@@ -188,8 +188,7 @@ export const Careers = (): JSX.Element => {
       <div
         className="absolute inset-0 bg-[length:70%_auto] bg-center z-[3] animate-float"
         style={{
-          backgroundImage:
-            "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/BannerArt-7BiVtqHdVQetHktkR4UVKLB16X6r32.png')",
+          backgroundImage: "url('/images/bannerart.png')",
           clipPath: "polygon(0 0, 56% 0, 0 100%)",
           opacity: 0.1,
         }}

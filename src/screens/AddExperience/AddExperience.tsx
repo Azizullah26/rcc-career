@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react"
-import { useRouter, useParams } from 'next/navigation'
-import { Menu, X, PlusIcon, Loader2 } from 'lucide-react'
+import { useRouter, useParams } from "next/navigation"
+import { Menu, X, PlusIcon, Loader2 } from "lucide-react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -183,12 +183,12 @@ export const AddExperience = (): JSX.Element => {
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
-      <div className="bg-white w-full max-w-[1280px] relative min-h-screen">
+      <div className="bg-white w-full max-w-[1920px] relative min-h-screen">
         <header className="fixed top-0 left-0 w-full h-[90px] md:h-[115px] bg-white/90 backdrop-blur-sm z-50">
-          <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 md:px-[103px] h-full">
+          <div className="max-w-[1920px] mx-auto flex items-center justify-between px-4 md:px-[103px] xl:px-[200px] 2xl:px-[300px] h-full">
             <Link
               href="/"
-              className="absolute left-[65px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[35px]"
+              className="absolute left-[65px] xl:left-[200px] 2xl:left-[300px] top-[5px] md:top-[8px] flex items-center justify-center overflow-hidden -ml-[33px]"
             >
               <img
                 className="w-[140px] h-[92px] object-contain md:w-[200px] md:h-[130px] scale-[1.6] brightness-[1.21] saturate-[0.8]"
@@ -202,7 +202,7 @@ export const AddExperience = (): JSX.Element => {
                 <Link
                   key={index}
                   href={item.href}
-                  className="font-medium text-[#484848] text-[18.7px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
+                  className="font-medium text-[#484848] text-[18.7px] xl:text-[16px] 2xl:text-[15px] hover:text-[#ce363a] hover:scale-[1.2] transition-all duration-200"
                 >
                   {item.name}
                 </Link>
@@ -224,7 +224,7 @@ export const AddExperience = (): JSX.Element => {
 
           {isMobileMenuOpen && (
             <div className="lg:hidden fixed top-[90px] left-0 right-0 bg-white border-t border-gray-200 z-40 shadow-lg">
-              <nav className="max-w-[1280px] mx-auto flex flex-col p-4">
+              <nav className="max-w-[1920px] mx-auto flex flex-col p-4">
                 {navItems.map((item, index) => (
                   <Link
                     key={index}
@@ -398,7 +398,7 @@ export const AddExperience = (): JSX.Element => {
 
         {/* Footer */}
         <footer className="bg-[#151d61] text-white py-8 px-4 md:px-[68px]">
-          <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[1920px] mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {/* Company Info */}
               <div className="col-span-1 md:col-span-2">

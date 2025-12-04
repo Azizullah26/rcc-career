@@ -244,8 +244,68 @@ export class ApplicationScreeningService {
 
   private qualificationThreshold = 50 // Changed from 0 to 50 - only submit to Odoo if >= 50%
 
+  private meetsBasicRequirements(applicationData: any): boolean {
+    console.log("🔍 Checking if applicant meets basic requirements for direct submission...")
+
+    // Check required fields from application data
+    const nationality = applicationData?.nationality || applicationData?.formData?.nationality
+    const totalExperience = applicationData?.totalExperience || applicationData?.formData?.totalExperience
+    const currentLocation = applicationData?.currentLocation || applicationData?.formData?.currentLocation
+    const uaeDrivingLicense = applicationData?.uaeDrivingLicense || applicationData?.formData?.uaeDrivingLicense
+
+    console.log("📋 Basic requirements check:", {
+      nationality,
+      totalExperience,
+      currentLocation,
+      uaeDrivingLicense,
+    })
+
+    // Check if all required fields are present and valid
+    const hasNationality = !!nationality && nationality.trim().length > 0
+    const hasExperience = !!totalExperience && this.extractNumericValue(totalExperience.toString()) >= 5
+    const hasLocation = !!currentLocation && currentLocation.trim().length > 0
+    const hasLicense = uaeDrivingLicense === true || uaeDrivingLicense === "yes" || uaeDrivingLicense === "Yes"
+
+    const meetsAll = hasNationality && hasExperience && hasLocation && hasLicense
+
+    console.log("✅ Basic requirements result:", {
+      hasNationality,
+      hasExperience,
+      hasLocation,
+      hasLicense,
+      meetsAll,
+    })
+
+    return meetsAll
+  }
+
   async screenApplication(applicationData: any, cvContent?: string): Promise<ScreeningResult> {
     console.log("🔍 Starting application screening...")
+
+    const meetsBasicReqs = this.meetsBasicRequirements(applicationData)
+
+    if (meetsBasicReqs) {
+      console.log("🎯 Applicant meets all basic requirements - bypassing assessment and submitting directly to Odoo")
+
+      // Return a perfect score result to ensure direct submission
+      return {
+        score: 100,
+        maxScore: 100,
+        percentage: 100,
+        qualified: true,
+        matchedRequirements: [
+          "Nationality provided",
+          "Total experience ≥ 5 years",
+          "Current location provided",
+          "UAE Driving License: Yes",
+        ],
+        missedRequirements: [],
+        feedback:
+          "Congratulations! Your profile meets all our basic requirements. Your application has been submitted directly to our HR team for review. You will be contacted if your profile is selected for the next round.",
+      }
+    }
+
+    console.log("📊 Running detailed assessment...")
 
     let totalScore = 0
     let maxScore = 0
