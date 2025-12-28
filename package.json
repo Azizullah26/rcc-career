@@ -52,7 +52,7 @@
     "path": "latest",
     "react": "latest",
     "react-day-picker": "latest",
-    "react-dom": "19.2.0",
+    "react-dom": "latest",
     "react-hook-form": "latest",
     "react-resizable-panels": "latest",
     "recharts": "latest",
