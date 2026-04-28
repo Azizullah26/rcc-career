@@ -329,6 +329,46 @@ export const JobApplication = (): JSX.Element => {
   }
 
   const handleNext = () => {
+    // Validate all required fields
+    const requiredFields = {
+      fullName: "Full Name",
+      email: "Email Address",
+      phone: "Phone Number",
+      dob: "Date of Birth",
+      nationality: "Nationality",
+      gender: "Gender",
+      maritalStatus: "Marital Status",
+      totalExperience: "Total Experience",
+      currentLocation: "Current Location",
+      expectedSalary: "Expected Salary",
+      joiningPossibility: "Joining Possibility",
+    }
+
+    const missingFields: string[] = []
+    for (const [key, label] of Object.entries(requiredFields)) {
+      if (!formData[key as keyof typeof formData]) {
+        missingFields.push(label)
+      }
+    }
+
+    // Check if CV is uploaded
+    if (!uploadedFile) {
+      missingFields.push("CV/Resume")
+    }
+
+    // Check if all languages have both language and proficiency selected
+    for (let i = 0; i < formData.languages.length; i++) {
+      const lang = formData.languages[i]
+      if (!lang.language || !lang.proficiency) {
+        missingFields.push(`Language ${i + 1} (language and proficiency)`)
+      }
+    }
+
+    if (missingFields.length > 0) {
+      alert(`Please fill in all required fields:\n\n• ${missingFields.join("\n• ")}`)
+      return
+    }
+
     if (isProcessing) {
       console.log("[v0] Already processing, ignoring click")
       return

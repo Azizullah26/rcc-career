@@ -30,6 +30,17 @@ export const ApplicationQuestions = (): JSX.Element => {
   ]
 
   const handleSubmit = () => {
+    // Validate that both questions are answered
+    if (!previouslyWorked) {
+      alert("Please answer: Have you previously worked with EL RACE?")
+      return
+    }
+
+    if (!relativesOrFriends) {
+      alert("Please answer: Do you have any Relatives/Friends working with EL RACE?")
+      return
+    }
+
     // Store application questions in localStorage
     localStorage.setItem("applicationQuestions", JSON.stringify({ previouslyWorked, relativesOrFriends }))
     console.log("Application questions submitted:", { previouslyWorked, relativesOrFriends })

@@ -37,6 +37,32 @@ export const ExtendedApplicationQuestions = (): JSX.Element => {
   }
 
   const handleSubmit = () => {
+    // Validate required fields
+    if (!previousWork) {
+      alert("Please answer: Did you previously work with EL RACE?")
+      return
+    }
+
+    if (previousWork === "yes" && !workDetails) {
+      alert("Please provide details about your previous work with EL RACE")
+      return
+    }
+
+    if (!relativesOrFriends) {
+      alert("Please answer: Do you have relatives/friends working with EL RACE?")
+      return
+    }
+
+    if (relativesOrFriends === "yes" && !names) {
+      alert("Please provide names of your relatives/friends working with EL RACE")
+      return
+    }
+
+    if (relativesOrFriends === "yes" && !selectedRelationship) {
+      alert("Please select the relationship of your relatives/friends")
+      return
+    }
+
     const formData = {
       previousWork,
       workDetails,

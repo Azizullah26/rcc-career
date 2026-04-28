@@ -39,6 +39,24 @@ export const AddExperience = (): JSX.Element => {
   }
 
   const handleSubmit = async () => {
+    // Validate at least one experience entry
+    const hasValidExperience = experienceCards.some((cardNumber) => {
+      const companyName = experienceData[`company-name-${cardNumber}`]
+      const jobTitle = experienceData[`job-title-${cardNumber}`]
+      const startDate = experienceData[`start-date-${cardNumber}`]
+      const endDate = experienceData[`end-date-${cardNumber}`]
+      const isCurrentlyWorking = currentlyWorkingStatus[cardNumber]
+
+      return companyName && jobTitle && startDate && (isCurrentlyWorking || endDate)
+    })
+
+    if (!hasValidExperience) {
+      alert(
+        "Please fill in at least one complete experience entry with:\n• Company Name\n• Job Title\n• Start Date\n• End Date (or check 'Currently Working')",
+      )
+      return
+    }
+
     if (!jobId) {
       alert("Job ID is missing")
       return
