@@ -9,12 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  optimizeFonts: false,
   trailingSlash: true,
-  // Remove output: 'export' to enable API routes
-  experimental: {
-    serverComponentsExternalPackages: ["sharp"],
-  },
+  serverExternalPackages: ["sharp"],
 }
 
 module.exports = nextConfig
