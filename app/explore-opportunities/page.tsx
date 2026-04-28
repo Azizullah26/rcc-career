@@ -1,5 +1,9 @@
 import { ExploreOpportunities } from "../../src/screens/ExploreOpportunities/ExploreOpportunities"
 
 export default function ExploreOpportunitiesPage() {
-  return <ExploreOpportunities />
+  return (
+    <div>
+      <ExploreOpportunities />
+    </div>
+  )
 }

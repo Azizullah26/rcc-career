@@ -47,17 +47,35 @@ export const ExploreOpportunities = (): JSX.Element => {
       try {
         setIsLoading(true)
         setError(null)
+        console.log("[v0] Fetching jobs from /api/odoo/jobs...")
 
-        const response = await fetch("/api/odoo/jobs")
+        const response = await fetch("/api/odoo/jobs", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+
+        console.log("[v0] Jobs API response status:", response.status)
+
+        if (!response.ok) {
+          throw new Error(`API returned status ${response.status}`)
+        }
+
         const data = await response.json()
+        console.log("[v0] Jobs data received:", data)
 
-        if (data.success && data.jobs) {
+        if (data.success && data.jobs && Array.isArray(data.jobs)) {
           setJobListings(data.jobs)
+          console.log("[v0] Jobs loaded successfully:", data.jobs.length, "jobs")
         } else {
-          setError(data.error || "Failed to load jobs")
+          console.warn("[v0] No jobs in response or success=false:", data)
+          setJobListings([])
         }
       } catch (err) {
-        setError("Failed to connect to server")
+        console.error("[v0] Error fetching jobs:", err)
+        setError("Failed to load jobs. Please try refreshing the page.")
+        setJobListings([])
       } finally {
         setIsLoading(false)
       }
