@@ -74,11 +74,7 @@ class OdooService {
 
   async authenticate(): Promise<boolean> {
     try {
-      console.log("[v0] === Starting Odoo Authentication ===")
       console.log("[v0] Authenticating with Odoo at:", ODOO_URL)
-      console.log("[v0] Database:", ODOO_DB)
-      console.log("[v0] Username:", ODOO_USERNAME)
-      console.log("[v0] Password configured:", ODOO_PASSWORD ? "YES" : "NO")
 
       const authResponse = await fetch(`${ODOO_URL}/web/session/authenticate`, {
         method: "POST",

@@ -9,10 +9,6 @@ const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
 const ODOO_USERNAME = process.env.ODOO_USERNAME || "aziz@elrace.com"
 const ODOO_PASSWORD = process.env.ODOO_PASSWORD
 
-if (!ODOO_PASSWORD) {
-  console.error("[v0] ERROR: ODOO_PASSWORD environment variable is not set. Jobs API will fail.")
-}
-
 function sanitizeText(text: string | null | undefined): string {
   if (!text) return ""
 
