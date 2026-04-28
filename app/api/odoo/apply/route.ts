@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
-const ODOO_USERNAME = process.env.ODOO_USERNAME || "odoobot@example.com"
+const ODOO_USERNAME = process.env.ODOO_USERNAME || "aziz@elrace.com"
 const ODOO_PASSWORD = process.env.ODOO_PASSWORD || ""
 
 interface JobApplicationData {
