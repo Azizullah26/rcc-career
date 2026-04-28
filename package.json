@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "eslint .",
     "start": "next start"
   },
   "dependencies": {
@@ -36,12 +36,16 @@
     "@radix-ui/react-toggle": "latest",
     "@radix-ui/react-toggle-group": "latest",
     "@radix-ui/react-tooltip": "latest",
+    "@rolldown/plugin-babel": "latest",
+    "@vitejs/devtools": "latest",
     "@vitejs/plugin-react": "latest",
+    "babel-plugin-react-compiler": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "latest",
     "critters": "0.0.16",
     "embla-carousel-react": "latest",
+    "esbuild": "latest",
     "input-otp": "latest",
     "jiti": "latest",
     "less": "latest",

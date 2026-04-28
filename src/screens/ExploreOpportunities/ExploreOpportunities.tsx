@@ -47,22 +47,16 @@ export const ExploreOpportunities = (): JSX.Element => {
       try {
         setIsLoading(true)
         setError(null)
-        console.log("[v0] Fetching jobs from API...")
 
         const response = await fetch("/api/odoo/jobs")
         const data = await response.json()
 
-        console.log("[v0] Jobs API response:", data)
-
         if (data.success && data.jobs) {
           setJobListings(data.jobs)
-          console.log(`[v0] Loaded ${data.jobs.length} jobs from Odoo`)
         } else {
           setError(data.error || "Failed to load jobs")
-          console.error("[v0] Failed to load jobs:", data.error)
         }
       } catch (err) {
-        console.error("[v0] Error fetching jobs:", err)
         setError("Failed to connect to server")
       } finally {
         setIsLoading(false)
@@ -76,7 +70,6 @@ export const ExploreOpportunities = (): JSX.Element => {
     const selectedJob = jobListings.find((job) => job.id === jobId)
     if (selectedJob) {
       localStorage.setItem("selectedJobData", JSON.stringify(selectedJob))
-      console.log("[v0] Stored job data in localStorage:", selectedJob)
     }
     router.push(`/job-details/${jobId}`)
   }
@@ -204,10 +197,8 @@ export const ExploreOpportunities = (): JSX.Element => {
                     />
                   </div>
                   <Button
-                    onClick={() => {
-                      console.log("Search triggered with:", { searchTerm, selectedLocation })
-                    }}
-                    className="w-full h-[50px] rounded-none bg-[#e6e6e6] hover:bg-[#d9d9d9] border-t-2 border-[#6b6b6b]"
+                  onClick={() => {}}
+                  className="w-full h-[50px] rounded-none bg-[#e6e6e6] hover:bg-[#d9d9d9] border-t-2 border-[#6b6b6b]"
                     variant="ghost"
                   >
                     <SearchIcon className="w-[28px] h-[28px] text-black" />
@@ -229,9 +220,7 @@ export const ExploreOpportunities = (): JSX.Element => {
                   />
                 </div>
                 <Button
-                  onClick={() => {
-                    console.log("Search triggered with:", { searchTerm, selectedLocation })
-                  }}
+                  onClick={() => {}}
                   className="w-[130px] h-full rounded-none rounded-r-[9px] bg-[#e6e6e6] hover:bg-[#d9d9d9] border-l-2 border-[#6b6b6b]"
                   variant="ghost"
                 >

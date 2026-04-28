@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic"
 
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
-const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "12345@AsOdoo"
+const ODOO_USERNAME = process.env.ODOO_USERNAME || "odoobot@example.com"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD || ""
 
 interface JobApplicationData {
   jobId: string
@@ -220,7 +220,6 @@ class OdooService {
       let sequentialNumber = 1001 // Default starting number - starts from RCC1001
 
       try {
-        // Query Odoo to get the count of existing applicants
         const countPayload = {
           jsonrpc: "2.0",
           method: "call",
@@ -377,7 +376,6 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
 
       console.log("Applicant data prepared with job_id:", applicantData.job_id)
 
-      // Use the JSON-RPC execute_kw method with proper authentication
       const createPayload = {
         jsonrpc: "2.0",
         method: "call",
@@ -387,7 +385,7 @@ ${JSON.stringify(formData.currentlyWorkingStatus || {})}
           args: [
             ODOO_DB, // database
             this.uid, // user id
-            ODOO_PASSWORD, // password
+            ODOO_PASSWORD, // Use actual password instead of empty string
             "hr.applicant", // model
             "create", // method
             [applicantData], // record data

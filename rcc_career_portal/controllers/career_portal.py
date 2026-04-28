@@ -118,8 +118,21 @@ class CareerPortalController(http.Controller):
                 'source_id': self._get_or_create_source(),
             }
             
-            # Create the applicant
-            applicant = request.env['hr.applicant'].sudo().create(applicant_data)
+            bot_user = request.env['res.users'].sudo().search([
+                ('login', '=', 'odoobot@example.com')
+            ], limit=1)
+            
+            if not bot_user:
+                _logger.warning("Bot user odoobot@example.com not found, using sudo context instead")
+                bot_user = None
+            
+            # Create the applicant with bot user context
+            if bot_user:
+                # Create as bot user specifically
+                applicant = request.env['hr.applicant'].sudo().with_user(bot_user).create(applicant_data)
+            else:
+                # Fallback to regular sudo if bot user not found
+                applicant = request.env['hr.applicant'].sudo().create(applicant_data)
             
             _logger.info(f"Created job application with ID: {applicant.id} for job: {job.name}")
             

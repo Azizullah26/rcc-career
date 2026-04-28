@@ -6,15 +6,12 @@ export const dynamic = "force-dynamic"
 
 const ODOO_URL = process.env.ODOO_URL || "https://erp.elrace.com"
 const ODOO_DB = process.env.ODOO_DB || "odoo.elrace.com"
-const ODOO_USERNAME = process.env.ODOO_USERNAME || "jawad"
-const ODOO_PASSWORD = process.env.ODOO_PASSWORD || "12345@AsOdoo"
+const ODOO_USERNAME = process.env.ODOO_USERNAME || "odoobot@example.com"
+const ODOO_PASSWORD = process.env.ODOO_PASSWORD
 
-console.log("[v0] Environment variables check:")
-console.log("[v0] ODOO_URL:", ODOO_URL)
-console.log("[v0] ODOO_DB:", ODOO_DB)
-console.log("[v0] ODOO_USERNAME:", ODOO_USERNAME)
-console.log("[v0] ODOO_PASSWORD exists:", !!process.env.ODOO_PASSWORD)
-console.log("[v0] Using password:", ODOO_PASSWORD ? "***configured***" : "missing")
+if (!ODOO_PASSWORD) {
+  console.error("[v0] ERROR: ODOO_PASSWORD environment variable is not set. Jobs API will fail.")
+}
 
 function sanitizeText(text: string | null | undefined): string {
   if (!text) return ""
